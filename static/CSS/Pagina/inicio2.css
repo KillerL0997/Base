@@ -1,0 +1,28 @@
+h1{
+    font-size: 26px;
+    font-family: 'Lato', sans-serif;;
+}
+.msj{
+    font-size: 24px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.boton_1 {
+    margin: 1% !important;
+    height: 20px !important;
+    font-family: 'Poppins', sans-serif !important;
+}
+.asunto{
+font-size: 17px;
+font-family: 'Radio Canada', sans-serif;
+}
+.notificacion{
+font-size: 15px;
+font-family: 'Montserrat', sans-serif;
+}
+
+.contenedor {
+    margin-right: 8% !important;
+    margin-left: 8% !important;
+     margin-top: 0 !important;
+}

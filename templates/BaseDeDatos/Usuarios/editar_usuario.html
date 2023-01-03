@@ -1,0 +1,34 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %} {% block content %}
+<body>
+  <div class="body_formu">
+    <form action="" method="post" class="formularios">
+      {{forma.csrf_token}}
+      <label for="nombre_usuario">Nombre del usuario</label>
+      {{forma.nombre_usuario(size = 30)}}
+      <label for="apellido_usuario">Apellido del usuario</label>
+      {{forma.apellido_usuario(size = 30)}}
+      <label for="documento_usuario">Documento del usuario</label>
+      {{forma.documento_usuario}}
+      <label for="categoria">Categoria:</label>
+      {{forma.categoria}}
+      <label id="cabeza" for="cabeza_de_grupo">Cabeza de grupo: </label>
+      {{forma.cabeza_de_grupo}}
+      <label id="Nombre_cabeza" for="Nombre_cabeza">Nombre de la cabeza de grupo</label>
+      {{cabezas.dato}}
+      <label for="cargo_usuario">Cargo del usuario</label>
+      {{forma.cargo_usuario}}
+      <label for="email_usuario">Email del usuario</label>
+      {{forma.email_usuario}}
+      <div class="dosBotones">
+        <button type="submit">Guardar cambios</button>
+        {% if msj == 'inicio' %}
+        <button type="button" onclick="location.href='/Base'">Regresar</button>
+        {% else %}
+        <button type="button" onclick="location.href='/ver_usuarios/todo'">Regresar</button>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+  <script type="text/javascript" src="/static/BaseJS/editarYagregar.js"></script>
+</body>
+{% endblock %}

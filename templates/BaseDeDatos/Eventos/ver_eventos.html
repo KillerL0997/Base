@@ -1,0 +1,112 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+    <body>    
+        <nav class="filtros">
+            <section class="filtrosCol">
+                <section class="filtrosFil">
+                    <form action="" method="post">
+                        <section class="filtrosFil">
+                            <p>Desde:</p>
+                            <input type="date" name="fDesde" id="">
+                        </section>
+                        <section class="filtrosFil">
+                            <p>Hasta:</p>
+                            <input type="date" name="fHasta" id="">
+                        </section>
+                        <button type="submit">Aceptar</button>
+                    </form>
+                </section>
+                <section class="filtrosFil">
+                    <button onclick="location.href='/ver_eventos/examen'">Ver examenes</button>
+                    <button onclick="location.href='/ver_eventos/torneos'">Ver torneos</button>
+                    <button onclick="location.href='/ver_eventos/otros'">Ver otros eventos</button>
+                    <button onclick="location.href='/ver_eventos/todo'">Ver todo</button>
+                    <button onclick="location.href='/Base'">Regresar</button>
+            </section>
+            </section>
+        </nav>
+        <div class="body_formu">
+            <div class="tabla">
+                {% if examenes %}
+                    <h2>Examenes</h2>
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th>Fecha examen</th>
+                                    {% if msj == 'Administrador'%}
+                                        <th></th>
+                                    {% endif %}
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for examen in examenes %}
+                                    <tr>
+                                        <td>{{examen.fecha_evento}}</td>
+                                        {% if msj == 'Administrador'%}
+                                            <td><a href="{{url_for('editar_evento', id = examen.id_evento)}}"><img src="../../../static/CSS/escritura.png" alt="Editar"></a></td>
+                                        {% endif %}
+                                        <td><a href="{{url_for('mostrar_datos_evento', id = examen.id_evento)}}"><img src="../../../static/CSS/icons8-detalles-50.png" alt="Detalles"></a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                {% endif %}
+                {% if torneos %}
+                    <h2>Torneos</h2>
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th>Fecha torneos</th>
+                                {% if msj == 'Administrador'%}
+                                    <th></th>
+                                    <th></th>
+                                {% endif %}
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for torneo in torneos %}
+                                <tr>
+                                    <td>{{torneo.fecha_evento}}</td>
+                                    {% if msj == 'Administrador'%}
+                                        <td><a href="{{url_for('eliminar_evento', id = torneo.id_evento)}}"><img src="../../../static/CSS/icons8-eliminar-50.png" alt="Eliminar"></a></td>
+                                        <td><a href="{{url_for('editar_evento', id = torneo.id_evento)}}"><img src="../../../static/CSS/escritura.png" alt="Editar"></a></td>
+                                    {% endif %} 
+                                    <td><a href="{{url_for('mostrar_datos_evento', id = torneo.id_evento)}}"><img src="../../../static/CSS/icons8-detalles-50.png" alt="Detalles"></a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+                {% if otros %}
+                <h2>Otros eventos</h2>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Fecha torneos</th>
+                            {% if msj == 'Administrador'%}
+                                <th></th>
+                                <th></th>
+                            {% endif %}
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for otro in otros %}
+                            <tr>
+                                <td>{{otro.fecha_evento}}</td>
+                                {% if msj == 'Administrador'%}
+                                    <td><a href="{{url_for('eliminar_evento', id = otro.id_evento)}}"><img src="../../../static/CSS/icons8-eliminar-50.png" alt="Eliminar"></a></td>
+                                    <td><a href="{{url_for('editar_evento', id = otro.id_evento)}}"><img src="../../../static/CSS/escritura.png" alt="Editar"></a></td>
+                                {% endif %} 
+                                <td><a href="{{url_for('mostrar_datos_evento', id = otro.id_evento)}}"><img src="../../../static/CSS/icons8-detalles-50.png" alt="Detalles"></a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+            </div>
+        </div>    
+    </body>
+    {% endblock %}

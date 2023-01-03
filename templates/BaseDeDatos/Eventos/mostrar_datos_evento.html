@@ -1,0 +1,27 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+    <body>        
+        <div class="mostrarDatos">
+            {% if evento.tipo_de_evento == 'Torneo' %}
+                <h2>Mostrar datos torneo</h2>
+            {% else %}
+                <h2>Mostrar datos examen</h2>
+            {% endif %}
+            <section class="filtrosCol">Fecha de realizacion: {{evento.fecha_evento}}</section>
+            {% if evento.lugar_evento != None %}
+                <section class="filtrosCol">Lugar de realizacion: {{evento.lugar_evento}}</section>
+            {% else %}
+                <section class="filtrosCol">{{evento.descripcion}}</section>
+            {% endif %}
+            {% if alumnos %}
+                <h4>Alumnos registrados:</h4>
+                {% for alumno in alumnos %}
+                    <section class="filtrosCol">{{alumno.nombre_alumno}} {{alumno.apellido_alumno}}</section>
+                {% endfor %}
+            {% else %}
+                <section class="filtrosCol">Sin alumnos registrados</section>
+            {% endif %}
+            <input type="button" value="Regresar" class="unBoton" onclick="location.href='/ver_eventos/todo'">
+        </div>
+    </body>
+    {% endblock %}

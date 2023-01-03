@@ -1,0 +1,61 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+        <body>
+            <div class="tabla">
+                <form action="" method="post">
+                    <h2>Alumnos a habilitar</h2>
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th></th>
+                                {% if msj %}
+                                    <th></th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if msj %}
+                                {% for i in range(cant) %}
+                                <tr>
+                                    <!-- <input type="hidden" name="seleccion" value="{{listaAlusNums[i]}}"> -->
+                                    <td>{{listaAlus[i].nombre_alumno}} {{listaAlus[i].apellido_alumno}}</td>
+                                    <td>{{listaGims[i].gimnasio}}</td>
+                                    <td>{{usuarios.usuario}}</td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                {% for i in range(cant) %}
+                                <tr>
+                                    <td>{{listaAlus[i].nombre_alumno}} {{listaAlus[i].apellido_alumno}}</td>
+                                    <td><input type="hidden" name="seleccion" value="{{listaAlusNums[i]}}">{{listaGims[i].gimnasio}}</td>
+                                </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                    <div class="dosBotones">
+                        <button type="submit">Aceptar</button>
+                        <button type="button" onclick="location.href='/ver_alumnos/todo'">Regresar</button>
+                    </div>
+                </form>
+            </div>
+            <script>
+                let lugar = document.getElementById('gimnasio');
+                let usu = document.getElementById('usuario')
+                lugar.onchange = function() {
+                    nuevo = lugar.value;
+                    fetch('/cambioUsuario/' + nuevo).then(function(response) {
+                        response.json().then(function(data) {
+                            let opcHTML = '';
+                            opcHTML += '<option value= "Nada"></option>';
+                            for (let i of data.lista){
+                                opcHTML += '<option value="' + i.id + '"">' + i.Nombre + ' '+ i.Apellido + '</option>';
+                            }
+                            usu.innerHTML = opcHTML;
+                        })
+                    });
+                }
+            </script>
+        </body>
+    {% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+    <body>        
+        <div class="formularioFlex">
+            <form action="" method="post" class="contenedor">
+                {% if opc != "desa" %}
+                    <h2>Seleccione un registro para deshabilitar</h2>
+                {% else %}
+                    <h2>Seleccione un registro para eliminar</h2>
+                {% endif %}
+                {% for i in range(cant) %}
+                    <h3>{{listaNomsGims[i]}}</h3>
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Nombre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for j in range(usuariosGim[i])%}
+                                <tr>
+                                    <td><input type="checkbox" name="seleccion" value="{{listaNumRegis[i + j]}}"></td>
+                                    <td>{{listaUsuarios[i + j]}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+                <br>
+                <div class="dosBotones">
+                    <button type="submit">Aceptar</button>
+                    <button type="button" onclick="location.href='/ver_gimnasios/todo'">Regresar</button>
+                </div>
+            </form>
+        </div>
+    </body>
+    {% endblock %}

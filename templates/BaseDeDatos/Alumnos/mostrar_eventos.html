@@ -1,0 +1,36 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+    <body>   
+        <div class="formularioFlex">
+            <div class="formularios">
+                <h2>Mostrar examenes/torneos</h2>
+                <p>Examenes</p>
+                {% if examenes %}
+                    {% for examen in examenes %}
+                        <p>{{examen.tipo_de_evento}}: {{examen.fecha_evento}}</p>
+                    {% endfor %}
+                {% else %}
+                    <p>No tiene examenes</p>
+                {% endif %}
+                <p>Torneos</p>
+                {% if torneos %}
+                    {% for Torneo in torneos %}
+                        <p>{{Torneo.tipo_de_evento}}: {{Torneo.fecha_evento}}</p>
+                    {% endfor %}
+                {% else %}
+                    <p>No tiene Torneos</p>
+                {% endif %}
+                <p>Otros eventos</p>
+                {% if otros %}
+                    {% for otro in otros %}
+                        <p>{{otro.tipo_de_evento}}: {{otro.fecha_evento}}</p>
+                    {% endfor %}
+                {% else %}
+                    <p>No posee otros eventos</p>
+                {% endif %}
+                <br>
+                <button class="unBoton" onclick="location.href='/mostrar_datos_alumno/{{alumno.id_alumno}}'">Regresar</button>
+            </div>
+        </div>     
+    </body>
+    {% endblock %}

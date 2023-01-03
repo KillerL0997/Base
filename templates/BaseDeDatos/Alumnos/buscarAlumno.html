@@ -1,0 +1,68 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+        <form action="" method="post" class="buscarAlumFlex">
+            <nav class="filtros">
+                <section id="nomAlum">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" name="nombre" id="">
+                </section>
+                <section id="apeAlum">
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" name="apellido" id="">
+                </section>
+                <br>
+                <div class="filtrosFil">
+                    <button type="submit">Aceptar</button>
+                    <button type="button" onclick="location.href='/Base'">Regresar</button>
+                </div>
+            </nav>
+            <div class="mostrarBuscados">
+                <h2>Alumnos habilitados</h2>
+                {% if alumnosHabi%}
+                    <table border="1">
+                        <thead>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Categoria</th>
+                            <th>Gimnasio</th>
+                            <th>Instructor</th>
+                        </thead>
+                        <tbody>
+                            {% for i in alumnosHabi %}
+                                <tr>
+                                    <td>{{i.nombre}}</td>
+                                    <td>{{i.apellido}}</td>
+                                    <td>{{i.categoria}}</td>
+                                    <td>{{i.gimnasio}}</td>
+                                    <td>{{i.instructor}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+                <h2>Alumnos desabilitados</h2>
+                {% if alumnosDesa %}
+                    <table border="1">
+                        <thead>
+                            <th>Fecha desa</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Localidad</th>
+                            <th>Categoria</th>
+                        </thead>
+                        <tbody>
+                            {% for i in alumnosDesa %}
+                                <tr>
+                                    <td>{{i.fecha}}</td>
+                                    <td>{{i.nombre}}</td>
+                                    <td>{{i.apellido}}</td>
+                                    <td>{{i.localidad}}</td>
+                                    <td>{{i.categoria}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </form>
+    {% endblock %}

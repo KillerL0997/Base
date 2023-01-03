@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TEORIA</title>
+	<meta name="description" content="somos una escuela de taekwondo argentina asociada a la ITF. estamos en buenos aires, argentina.">
+	<meta charset="utf-8">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='CSS/Pagina/normalize.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='CSS/Pagina/teoria.css')}}">
+	<link rel="icon" href="{{url_for('static',filename='Imagenes/ENAT.png')}}">
+	<style>
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
+</style>
+	<script src="https://kit.fontawesome.com/6fc2b5cb5b.js" crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<meta name="keywords" content="taekwondo, ENAT, ITF">
+</head>
+<body>
+<header>
+	<span class="nav-bar" id="btnmenu"><i class="fas fa-bars"></i></span> 
+<nav class="main-nav">
+  <ul class="menu" id="menu">
+     <li class="menu__item container-submenu">
+      <a  class="menu__link submenu-btn" href="#">PLANILLAS</a>
+        <ul class="submenu">
+               <li class="menu__item"> <a  class="menu__link" href="https://docs.google.com/forms/d/1K5ZomUqI6f1GoRv2lIFK7I5mdhY0M--J1qgIrI008LA/prefill"> PLANILLA DE INSCRIPCION</a> </li>
+               <li class="menu__item"  i> <a class="menu__link" href="https://forms.gle/UfWaNT2AnrWb4uug6">PLANILLA DE EXAMEN </a> </li> 
+        </ul>
+       </li> 
+     <li class="menu__item container-submenu">
+      <a  class="menu__link submenu-btn" href="#">NOSOTROS</a>
+        <ul class="submenu">
+            <li  class="menu_item"> <a  class="menu__link" href="{{url_for('base')}}">INICIO</a></li>
+            <li class="menu__item "> <a  class="menu__link "href="{{url_for('informacion')}}">ACERCA DE NOSOTROS </i> </a> </li>
+            <li class="menu__item"> <a  class="menu__link"href="{{url_for('gimnasios')}}">GIMNASIOS</a></li> 
+                     <li class="menu__item"> <a  class="menu__link"href="{{url_for('inicio')}}">BASE DE DATOS</a> </li>
+        </ul>
+       </li> 
+            <li class="menu_item"> <a  class="menu__link" href="#">EQUIPOS</a> </li> 
+        </ul>
+</nav>
+		<nav class="titulocentral">
+			<div id="carouselId" class="carousel slide" data-bs-ride="carousel">
+				<div class="carousel-inner" role="listbox">
+					<div class="carousel-item img active">
+						<div class="">
+							<img src="{{url_for('static',filename='Imagenes/ENAT.png')}}" class="enat img">	
+						</div>
+					</div>
+					<div class="carousel-item img">
+						<div class="">
+							<img src="{{url_for('static',filename='Imagenes/examen/2.jpg')}}" class="enat img">
+						</div>
+					</div>
+				</div>
+			</div>
+		<h1 id="tituloescuelanacional"> Escuela Nacional De Taekwondo</h1>
+		<h2 id="pasionporlaexcelencia" class="subtitulo"> PASION POR LA EXPERIENCIA
+		</h2>  
+	    </nav>
+		<div id="carouselId" class="carousel slide" data-bs-ride="carousel">
+			<div class="carousel-inner" role="listbox">
+				<div class="carousel-item text active">
+					<div class="">
+						<h2 class="noticias font"> PROXIMO EXAMEN: XX/03/2022 </h2>
+					</div>
+				</div>
+				<div class="carousel-item text">
+					<div class="">
+						<h2 class="noticias font"> PROXIMO TORNEO: XX/03/2022 </h2>
+					</div>
+				</div>
+				<div class="carousel-item text">
+					<div class="">
+						<h2 class="noticias font"> PROXIMO EVENTO: XX/03/2022 </h2>
+					</div>
+				</div>
+			</div>
+		</div>
+</header>
+	<section>
+		<ul class="teoria">Teoria
+			<li class="teo"> <a href="#fun">Fundador del taekwon-do </a> </li>
+			<li class="teo"><a href="#sig">Significado de la palabra taekwon-do</a> </li>	
+			<li class="teo"><a href="#rangos">Rangos del Taekwon-Do  </a> </li>
+			<li class="teo"><a href="#dir">Direccion de la ENAT </a> </li>
+			<li class="teo"><a href="#cinturones"> Significados de los cinturones </a> </li>
+			<li class="teo"><a href="#preceptos"> Preceptos del taekwon-do </a></li>
+			<li class="teo"><a href="#formas">Formas </a> </li>
+			<li class="teo"><a href="#posiciones">Posiciones </a> </li>
+			<li class="teo"><a href="#comportamiento">Comportamiento dentro del Dojang </a> </li>
+			<li class="teo"><a href="#deberes">Deberes del practicante </a> </li>
+			<li class="teo"><a href="#">Ciclo de composicion del taekwon-do  </a> </li>
+			<li class="teo"><a href="#"> Juramento del practicante</a> </li>
+			<li class="teo"><a href="#"> Preceptos del Taekwon-Do</a> </li>
+			
+		</ul>
+	</section>
+<section>
+	<div id="fun" class="divsteo"> 
+		<h2> Fundador del taekwon-do</h2>
+		<p class="texto"> el fundador del taekwondo fue el general coreano Choi Hong Hi
+		</p>
+	</div>
+<div id="sig"  class="divsteo"> 
+	<h2> Significado de la palabra taekwon-do</h2>
+	<p class="texto"> tae: accion de pie 
+		kwon: accion de manos
+		do: camino a seguir
+	</p>
+</div>
+<div id="rangos" class="divsteo"> 
+	<h2> Rangos del taekwon-do</h2>
+	<p class="texto"> 
+		<ul>
+			<li>Blanco(10mo gup)</li>
+			<li>Blanco punta amarilla(9no gup)</li>
+			<li>Amarillo(8vo gup)</li>
+			<li>Amarillo punta verde(7mo gup)</li>
+			<li>Verde(6to gup)</li>
+			<li>Verde punta azul(5to gup)</li>
+			<li>Azul(4to gup)</li>
+			<li>Azul punta roja(3er gup)</li>
+			<li>Rojo(2do gup)</li>
+			<li>Rojo punta negra(1er gup)</li>
+			<li>Sabon (I A III DAN)</li>
+			<li>Sabun Nim (IV A VI DAN)</li>
+			<li>Sajium Nim (VII A VIII DAN): Maestro</li>
+			<li>Sasong Nim (IX DAN): Gran Maestro</li>
+		</ul>
+	</p>
+</div>
+<div id="dir" class="divsteo">
+	<h2>Direccion de la ENAT</h2>
+	<p class="texto"> Master Roberto Fernandez 8° DAN.
+</p>
+</div>
+<div id="cinturones" class="divsteo">
+	<h2>Significado de los cinturones</h2>
+	<p class="texto"> <ul>
+		<li>Blanco: simboliza la inocencia, es decir la falta de conocimientos y habiliades del practicante que recien inicia en el taekwon-do./li>
+		<li>Amarillo: simboliza la tierra en la que una planta brota y echa raices. significa que los fundamentos del taekwon-do se estan estableciendo.</li>
+		<li>Verde: significa el crecimiento de la planta, ejemplificando que la destreza en el taekwon-do comienza a desarrollarse.</li>
+		<li>Azul: significa el cielo hacia el cual la planta crece transformandose en un arbol de gran altura, ejemplificando el progreso alcanzado por el entrenamiento en taekwon-do.</li>
+		<li>Rojo: significa peligro y advierte al estudiante a ejercer control, asi como al oponente a mantenerse a distancia.</li>
+		<li>Negro:  Opuesto al blanco, por lo tanto significa madurez y la eficiencia en el Taekwondo del practicante.</li>
+	</ul></p>
+</div>
+<div id="preceptos" class="divsteo">
+	<h2>Preceptos del taekwon-do </h2>
+	<p class="texto"> <ul>
+		<li>Seguire los preceptos del taekwon-do.</li>
+		<li>Respetare al instructor y a los Seniors.</li>
+		<li>Jamas hare mal uso del taekwon-do.</li>
+		<li>Sere un campeón de la libertad y la justicia.</li>
+		<li>Construire un mundo mejor.</li>
+	</ul></p>
+</div>
+<div id="formas" class="divsteo">
+	<h2>Significado de las formas </h2>
+	<p class="texto"> <ul>
+		<li>Chon-Ji(19 movimientos): Significa "el Cielo y la Tierra".Su diagrama esta dividido en 2 partes similares, donde una parte representa al cielo y otra a la tierra.</li>
+		<li>Dan-Gun(21 movimientos):Fue el santo fundador de Corea en el año 2.333 A.C.</li>
+		<li>Do-San(24 movimientos):Significa "el Patriota" o "el Erudito". Los 24 movimientos representan su vida, dedicada a la educacion y al movimiento de independencia de corea.</li>
+		<li>Won-Hyo(28 movimientos): Fue el monje que introdujo el budismo en la dinastia Silla, en el año 686 D.C.</li>
+		<li>Yul-Gok(38 movimientos): Seudónimo del gran filosofo y erudito de Corea YIL llamado el "confucio de Corea". Los 38 movimientos de este Tul se refieren a su lugar de nacimiento sobre el paralelo 38 y el diagrama representa "erudito".</li>
+		<li>Joong-Gun(32 movimientos): Es el nombre del patriota Joong-Gun, que asesino al primer gobernador general japonés de Corea. Los 32 movimientos representan la edad en que fue ejecutado en el año 1910.</li>
+		<li>Toi-Gye(37 movimientos): Significa "el rio replegado". Nombre de pila del notable académico YI HWANG, autoridad del Neo-confucionismo. Los 37 movimientos representan los 37° de latitud de su aldea natal.</li>
+		<li>Hwa-Rang(29 movimientos): proviene de un grupo de jovenes guerreros, un grupo de combate de elite denominados los HWA RANG. Originarios de la dinastia Silla en el siglo VII. Los 29 movimientos de este tul son por la 29° division de la infanteria donde el Taekwon-Do se desarrolló y maduró.<li>
+		<li>Choong-Moo.</li>
+	</ul></p>
+</div>
+<div id="posiciones" class="divsteo">
+	<h2>Posiciones</h2>
+	<p class="texto"> <ul>
+		<li>Posicion Junbi: es la posicion preparatoria</li>
+		<li>Posicion Charyot: posicion de atencion</li>
+		<li>Posicion Kyong Ye: posicion para saludar</li>
+		<li>Posicion Caminante:Tiene un ancho y medio de hombros de separacion entre la punta de los dedos gordos de cada pie a lo largo y a una distancia lateral de ancho de hobros formada desde el centro del empeine de cada pie. La rodilla de atrás va extendida y la de adelante va flexionada formando una linea perpendicular con el talón. El peso del cuerpo se distribuye la mitad en cada pierna. El pie de atras tiene una inclinacion de 25° hacia afuera. Se utiliza con frente toal o semi frontal. La posicion sera derecha o izquierda, según el pie de adelante.</li>
+		<li>Posicion L: Tiene un ancho y medio de hombros de separación de largo entre el canto externo del pie de atrás hasta la punta del dedo gordo del pie de adelante, que a su vez debe estar en línea recta con el talón del pie de atrás. La rodilla del pie de atrás cae perpendicularmente sobre le dedo gordo, mientras que la del pie de adelante cae sobre el talón. Siempre se la utiliza en posición semi frontal. Los pies van 15° hacia adentro. El peso del cuerpo se distribuye en un 70% sobre la pierna de atrás y un 30% sobre la de adelante.</li>
+		<li>Posicion Jinete: Tiene un ancho y medio de hombros de separación entre el canto interno de cada pie, los que a su vez van paralelos. Se utiliza con frente total o lateral. Las rodillas caen perpendicularmente sobre el dedo gordo de cada pie. La espalda debe estar erguida y la cintura curvada. El peso del cuerpo se distribuye mitad en cada pierna.		</li>
+		<li>Posicion L repartida: Tiene un ancho y medio de hombros de separación en largo entre el dedo gordo del pie de atrás hasta la punta del dedo gordo del pie de adelante. Siempre se la utiliza en posición semi frontal. El peso del cuerpo se distribuye mitad en cada pierna.</li>
+		<li>Posicion en X/Cruz: El pie semi apoyado cruza por detrás cuando se salta cayendo en esta posición o desplaza con patadas laterales. El pie semi apoyado cruza por adelante cuando se la utiliza con los ejercicios fundamentales de brazos o patadas. Las rodillas van flexionadas y los pies paralelos en diagonal. Se la utiliza con frente total o semi frontal.</li>
+		<li>Posicion caminante baja/larga: Medidas similares a la posición de caminar, sólo que el largo corresponde a un ancho y medio de hombro MÁS UN PIE.</li>
+		<li>Posicion L corta: Tiene un ancho de hombros de separación entre el canto externo del pie de atrás hasta la punta de dedo gordo del pie de adelante. La rodilla del pie de atrás cae perpendicularmente flexionada sobre el dedo gordo, mientras que el de adealnte apoya el metatarso levemente. El pie de adelante tiene una inclinación de 25°, mientras que el de atras lleva solamente 15°, ambos hacia adentro. Siempre se utiliza en posición semi frontal. El peso del cuerpo se distribuye 90% sobre la pierna de atras y 10% en la pierna de adelante.</li>
+		<li>Posicion L vertical/parada: Tiene un ancho de hombros de separación entre el canto interno del pie de atrás hasta la punta del dedo gordo del pie de adelante. Las rodillas van extendidas, y los pies 15° hacia adentro. Siempre se utiliza en posición semi frontal. El peso del cuerpo se distribuye, 60% en la oierna de atrás y 40% en la de adelante.</li>
+	</ul></p>
+</div>
+<div id="comportamiento" class="divsteo">
+	<h2>Comportamientos dentro del dojang</h2>
+	<p class="texto"> <ul>
+		<li>Cuando se llega al Dojang se debe pedir permiso para ingresar al instructor si se encuentra, de lo contrario a la graduacion mas alta que se encuentre en ese momento.</li>
+		<li>Por respeto a sus compañeros y al profesor, respetar el hoario de entrada a las clases. Si algun estudiante llega tarde debe pedir permio al instructor antes de unirse a la clase.</li>
+		<li>Antes y al finalizar la clase, se debe formar ordenadamente hacia el instructor, con el cinturon mayor hacia la derecha y a la izquierda de este los de menor.</li>
+		<li>En el comienzo y al final de la clase, el estudiante de mayor grado da la llamada de atencion a la clase con la instruccion "Charyot", acompañada por el saludo correspondiente a la graducacion apropiada.Este le da la reverencia al instructor y todos los estudiantes gritan "Taekwon", inclinando levemente el torso hacia delante.</li>
+		<li>Quitarse relojes, anillos, aros u otras joyas antes de practicar ya que pueden causar daño y heridas a usted mismo o a un compañero. Las uñas deben estar cortas y limpias. No pisar con cualquier calzado en el Do Jang, a menos que sea el permitido para tal caso o lo autorice su instructor.</li>
+		<li>El Dobok debe estar limpio, en buen estado y completo (casaca, pantalón, cinturón y distintivos) y es de uso obligatorio en el Do Jang. Cuando se arregla el Dobok o el cinturón, no hacerlo frente al instructor.</li>
+		<li>No hacer payasadas, chiflar, o hablar alto en el Do Jang, como tampoco mascar chicles o llevar comida.</li>
+		<li>La entrada y salida del recinto. Debe ser en silencio y con la autorización de su instructor; para ello pídale permiso o solicítelo desde la salida del mismo.</li>
+		<li>Dentro del Do Jang, dirigirse al instructor siempre por la graduación que posea (Sabón, Sabun-Nim, Sajium-Nim).</li>
+		<li>Si el instructor solicita a la clase sentarse con las piernas cruzadas; nunca hacerlo dándole la espalda, como tampoco apoyarse en las paredes ni con las piernas estiradas.</li>
+		<li>Si hay una conversación, debe ser en voz natural o baja evitando gritos o expresiones inadecuadas. Mantenerse siempre en silencio mientras el instructor esta explicando algo o dirigiéndose a la clase. Si desea intervenir hágalo levantando su mano y espere que su instructor lo autorice para hablar previo saludo al mismo. Si esta sentado, levántese primero y salude a su instructor antes de hablar.</li>
+		<li>Las palabrotas no deben usarse en el Do Jang.</li>
+		<li>Respetar a todos los miembros de grado superior y a todos sus compañeros.</li>
+		<li>Si tiene problemas con alguna técnica, no grite pidiendo ayuda. Primero trate de realizarla mirando a otros. Si aun tiene dificultades, llame respetuosamente al instructor con la seña adecuada y espere a que este lo vea y se acerque.</li>
+		<li>Recuerde que esta en clase para aprender y no para gratificar su ego. Por lo tanto, sea receptivo y actúe con humildad.</li>
+		<li>Se considera una regla de cortesía, inclinarse al recibir una corrección del instructor, dándole las gracias.</li>
+		<li>Durante la clase si el instructor esta asistiendo a un alumno contiguo a Ud. Suspender su propia practica para que aquel tenga el espacio adecuado para mostrar la técnica.</li>
+		<li>Se deben apagar os celular durante la clase, si por alguna razón de urgencia debe dejarlo encendido, será únicamente con autorización del instructor. De atender una llamada telefónica, pida permiso y salga del Do Jang, nunca hable dentro del recinto de práctica.</li>
+		<li>Recuerde que, aunque el instructor sea conocido, amigo o aun familiar suyo, dentro del Do Jang debe dirigirse a el con respeto y acorde a la graduación que ostenta. Por lo tanto, trate de no tutearlo y dirigirse a él como “Sabón”, “Sabonnim” o “Maestro”, nunca lo haga usando su nombre de pila.</li>
+	</ul></p>
+</div>
+<div id="deberes" class="divsteo">
+	<h2>Deberes del practicante</h2>
+	<p class="texto"> <ul>
+		<li>Nunca te canses de aprender; un buen estudiante puede aprender en cualquier lugar y en cualquier momento.</li>
+		<li>Siempre estar dispuesto a sacrificarse por el arte y su instructor.</li>
+		<li>Ser siempre un ejemplo para los compañeros de menor graduación ya que es habitual que intenten imitar a los de mayor graduación.</li>
+		<li>Ser siempre leal al Taekwon-Do, a su instructor y a la enseñanza.</li>
+		<li>Comportarse adecuadamente dentro y fuera del Do Jang (lugar de practica), ya que reflejara lo aprendido del Taekwon-Do y de su instructor.</li>
+		<li>Si un estudiante aprende una técnica y su instructor la desaprueba, el practicante debe descartarla inmediatamente.</li>
+		<li>Nunca seas irrespetuoso con tu instructor si en algo estas en desacuerdo, hazlo saber, pero en el momento y lugar adecuado.</li>
+		<li>Un estudiante debe estar siempre ansioso por aprender y hacer preguntas.</li>
+		<li>Estar siempre del lado de la justicia y la verdad.</li>
+		
+	</ul></p>
+</div>
+</section>
+<footer>  
+	<div class="contacto">
+    <ul class="mediodecontacto"> <p class="contactanos">contactanos <p> 
+    	<br>
+    <li> <ion-icon name="logo-instagram"></ion-icon> <a class="mediodecontacto" href="https://www.instagram.com/tkdenat/" class="iconos"> instagram </a> </li>
+    <li>  <ion-icon name="logo-facebook"></ion-icon>  <a  class="mediodecontacto" href="https://www.facebook.com/taekwondofederacioncaballito" class="iconos"> facebook</a> </li>
+    <li>  <b> MAIL:</b> <a href="mailto:lautarovallejos14@gmail.com?Subject=Taekwon-Do">lautarovallejos14@gmail.com </a> </li> 
+    <li class="copy">© Enat-Escuela nacional de taekwondo - lautaro vallejos</li> 
+</ul>
+
+	</div>
+
+	<div class="logoescueladiv"> 
+<img  class="logodiv" src="{{url_for('static',filename='Imagenes/ENAT.png')}}">
+	</div>
+
+	<div class="logsitf">
+ <ul class="logoitf">
+    <li> <img  class="itf" src="{{url_for('static',filename='Imagenes/itf (2).png')}}"> </li>
+    <li>  <img class="itf" id= "aate" src="{{url_for('static',filename='Imagenes/aate.png')}}">  </li>
+    </ul> 
+	</div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="{{url_for('static',filename='JS/teoria.js')}}"></script>
+</body>
+</html>

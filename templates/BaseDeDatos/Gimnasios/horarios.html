@@ -1,0 +1,38 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+    <body>
+        <div class="formularioFlex">
+            <nav class="links">
+                <button type="button" id="Restar" disabled="disabled">Quitar</button>
+                <button type="button" id="Sumar">Agregar</button>
+                <button type="button" onclick="location.href='/editar_gimnasio/{{id}}'">Regresar</button>
+            </nav>
+            <div class="formularios">
+                <form action="" method="post">
+                    <label for="horarios_gimnasio">Horarios</label>
+                    {% if horarios %}
+                        <table border="1" class="tabla">
+                            <thead>
+                                <th>Eliminar</th>
+                                <th>Horario</th>
+                                <th>Instructor</th>
+                            </thead>
+                            <tbody>
+                                {% for i in range(cont) %}
+                                    <tr>
+                                        <td><input type="checkbox" name="checkbox" value="{{horarios[i].id}}"></td>
+                                        <td>{{horarios[i].desc}}</td>
+                                        <td>{{horarios[i].instructor}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                    <input type="hidden" name="oculto" value="{{id}}">
+                    <button class="unBoton" type="submit">Aceptar</button>
+                </form>
+            </div>
+        </div>
+        <script src="/static/BaseJS/editarYagregarGim.js"></script>
+    </body>
+    {% endblock %}

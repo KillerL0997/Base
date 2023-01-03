@@ -1,0 +1,35 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+    <nav class="filtros">
+        <section class="filtrosFil">
+            <button type="button" onclick="agregar('AATEE')">Agregar AATEE</button>
+            <button type="button" onclick="quitar('AATEE')">Quitar AATEE</button>
+        </section>
+        <section class="filtrosFil">
+            <button type="button" onclick="agregar('ENAT')">Agregar ENAT</button>
+            <button type="button" onclick="quitar('ENAT')">Quitar ENAT</button>
+        </section>
+        <section class="filtrosFil">
+            <button type="button" onclick="agregar('Fetra')">Agregar Fetra</button>
+            <button type="button" onclick="quitar('Fetra')">Quitar Fetra</button>
+        </section>
+        <section class="filtrosFil">
+            <button type="button" onclick="location.href='/Editar_matriculas/{{id}}/editar'">Regresar</button>
+        </section>
+    </nav>
+    <div class="formularioFlex">
+        <form action="" method="post" class="formularios">
+            <div id="AATEE">
+                <h4>AATEE</h4>
+            </div>
+            <div id="ENAT">
+                <h4>ENAT</h4>
+            </div>
+            <div id="Fetra">
+                <h4>Fetra</h4>
+            </div>
+            <button type="submit" class="unBoton">Registrar</button>
+        </form>
+        <script src="/static/BaseJS/Matris.js"></script>
+    </div>
+    {% endblock %}

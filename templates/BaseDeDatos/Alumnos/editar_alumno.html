@@ -1,0 +1,46 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+{% block content %}
+
+<body>
+    <div class="body_formu">
+        <form action="" method="post" class="formularios">
+            <h2>Editar alumno</h2>
+            {{forma.csrf_token}}
+            <label for="nombre_alumno">Nombre del alumno</label>
+            {{forma.nombre_alumno(size= 50)}}
+            <label for="apellido_alumno">Apellido del alumno</label>
+            {{forma.apellido_alumno(size= 50)}}
+            <label for="localidad_alumno">Localidad del alumno</label>
+            {{forma.localidad_alumno(size= 50)}}
+            <label for="fecha_nacimiento_alumno">Fecha de nacimiento</label>
+            {{forma.fecha_nacimiento_alumno}}
+            <label for="nacionalidad_alumno">Nacionalidad del alumno</label>
+            {{forma.nacionalidad_alumno(size= 50)}}
+            <label for="documento_alumno">Documento del alumno</label>
+            {{forma.documento_alumno}}
+            <label for="telefono_alumno">Telefono del alumno</label>
+            {{forma.telefono_alumno}}
+            <label for="nombre_cabeza">Cabeza de grupo</label>
+            {{cabezas.dato}}
+            <label for="graduacion_alumno">Graduacion del alumno</label>
+            {{forma.graduacion_alumno}}
+            <label for="fecha_inscripcion_alumno">Fecha de inscripcion</label>
+            {{forma.fecha_inscripcion_alumno}}
+            <label for="observaciones_alumno">Observaciones</label>
+            {{forma.observaciones_alumno(size= 50)}}
+            <label for="email_alumno">Email del alumno</label>
+            {{forma.email_alumno(size= 50)}}
+            <label for="gimnasio">Gimnasio: </label>
+            {{gimnasios.gimnasio}}
+            <div class="dosBotones">
+                <button type="submit">Guardar cambios</button>
+                <button type="button" onclick="location.href='/ver_alumnos/todo'">Regresar</button>
+            </div>
+            <div class="dosBotones">
+                <button type="button" onclick="location.href='/agregar_evento_existente/{{id}}'">Agregar a examen/torneo</button>
+                <button type="button" onclick="location.href='/quitar_evento_existente/{{id}}'">Quitar de examen/torneo</button>
+            </div>
+        </form>
+    </div>
+</body>
+{% endblock %}

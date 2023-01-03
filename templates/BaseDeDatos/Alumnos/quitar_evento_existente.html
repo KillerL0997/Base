@@ -1,0 +1,20 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+    <body>        
+        <div class="body_formu">
+            <form action="" method="post" class="formularios">
+                <h2>Quitar evento</h2>
+                {% for evento in registros %}
+                <div class="agreQuitExaTor">
+                    <label for="">{{evento.tipo_de_evento}}: {{evento.fecha_evento}}</label>
+                    <input type="checkbox" name="checkbox" id="checkbox" value="{{evento.id_evento}}">
+                </div>
+                {% endfor %}
+                <div class="dosBotones">
+                    <button type="submit">Aceptar</button>
+                    <button type="button" onclick="location.href='/editar_alumno/{{alumno.id_alumno}}'">Regresar</button>
+                </div>
+            </form>
+        </div>
+    </body>
+    {% endblock %}

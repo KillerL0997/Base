@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>INFORMACION ENAT</title>
+	<meta name="description"
+		content="somos una escuela de taekwondo argentina asociada a la ITF. estamos en buenos aires, argentina.">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='CSS/Pagina/normalize.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='CSS/Pagina/glider.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='CSS/Pagina/informacion.css')}}">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<link rel="icon" href="{{url_for('static',filename='Imagenes/ENAT.png')}}">
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,800&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital@1&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Radio+Canada&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,500&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,500&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Lato:ital@1&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Koulen&display=swap');
+	</style>
+	<script src="https://kit.fontawesome.com/6fc2b5cb5b.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+	<span class="nav-bar" id="btnmenu"><i class="fas fa-bars"></i>MENU</span>
+	<nav class="main-nav">
+		<ul class="menu" id="menu">
+			<li class="menu__item container-submenu">
+				<a class="menu__link submenu-btn" href="#">PLANILLAS</a>
+				<ul class="submenu">
+					<li class="menu__item"> <a class="menu__link"
+							href="https://docs.google.com/forms/d/1K5ZomUqI6f1GoRv2lIFK7I5mdhY0M--J1qgIrI008LA/prefill">
+							PLANILLA DE INSCRIPCION </a> </li>
+					<li class="menu__item" i> <a class="menu__link" href="https://forms.gle/UfWaNT2AnrWb4uug6">PLANILLA
+							DE EXAMEN</a> </li>
+				</ul>
+			</li>
+			<li class="menu__item container-submenu">
+				<a class="menu__link submenu-btn" href="#">NOSOTROS</a>
+				<ul class="submenu">
+					<li class="menu_item"> <a class="menu__link" href="{{url_for('base')}}">INICIO </a></li>
+					<li class="menu__item"> <a class="menu__link" href="{{url_for('gimnasios')}}">GIMNASIOS</a></li>
+					<li class="menu__item"> <a class="menu__link" href="{{url_for('inicio')}}">BASE DE DATOS</a> </li>
+				</ul>
+			</li>
+			<li class="menu_item"> <a class="menu__link" href="#">EQUIPOS</a> </li>
+			<li class="menu_item"> <a class="menu__link" href="{{url_for('teoria')}}">TEORIA</a> </li>
+		</ul>
+		</li>
+		</ul>
+	</nav>
+	<main>
+		<header>
+			<nav class="titulocentral font">
+				<h1 id="tituloescuelanacional" class="font"> Escuela Nacional De Taekwondo</h1>
+				<div id="carouselId" class="carousel slide" data-bs-ride="carousel">
+					<div class="carousel-inner" role="listbox">
+						<div class="carousel-item img active">
+							<div class="">
+								<img src="{{url_for('static',filename='Imagenes/ENAT.png')}}" class="enat">
+							</div>
+						</div>
+						<div class="carousel-item img">
+							<div class="">
+								<img src="{{url_for('static',filename='Imagenes/examen/2.jpg')}}" class="enat">
+							</div>
+						</div>
+					</div>
+				</div>
+				<h1 class="font"> ACERCA DE NOSOTROS</h1>
+
+				<div id="carouselId" class="carousel slide" data-bs-ride="carousel">
+					<div class="carousel-inner" role="listbox">
+						<div class="carousel-item text active">
+							<div class="">
+								<h2 class="noticias font"> PROXIMO EXAMEN: XX/03/2022 </h2>
+							</div>
+						</div>
+						<div class="carousel-item text">
+							<div class="">
+								<h2 class="noticias font"> PROXIMO TORNEO: XX/03/2022 </h2>
+							</div>
+						</div>
+						<div class="carousel-item text">
+							<div class="">
+								<h2 class="noticias font"> PROXIMO EVENTO: XX/03/2022 </h2>
+							</div>
+						</div>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<section>
+			<nav class="indice" data-aos="fade-down-left">
+				<ul class="font indicetitulo">INDICE
+					<li> <a href="#historia" class="indicebtn">Historia de taekwondo
+						</a></li>
+					<li><a href="#imagenes" class="indicebtn">imagenes de la clase de danes</a> </li>
+					<li><a href="#publicaciones" class="indicebtn">publicaciones</a> </li>
+					<li><a href="#teoria" class="indicebtn">Teoria</a> </li>
+				</ul>
+			</nav>
+		</section>
+		<section>
+			<header>
+				<div class="historiaenat">
+					<h2 class="titulohistoria" id="historia"> HISTORIA DE NUESTRA ESCUELA </h2>
+					<p class="historia" data-aos="fade-right">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+						sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+						nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+						dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+						sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+						laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+						incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+						ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
+						in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit,Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+						minim veniam.
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit,Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+						minim veniam.
+					</p>
+				</div>
+		</section>
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+						<div class="carousel-inner">
+							<div class="carousel-item active">
+								<img src="{{url_for('static',filename='Imagenes/clasdanes/1.jpg')}}"
+									class="d-block w-100 img-fluid" alt="...">
+							</div>
+							<div class="carousel-item">
+								<img src="{{url_for('static',filename='Imagenes/clasdanes/2.jpg')}}"
+									class="d-block w-100 img-fluid" alt="...">
+							</div>
+							<div class="carousel-item">
+								<img src="{{url_for('static',filename='Imagenes/clasdanes/3.jpg')}}"
+									class="d-block w-100" alt="...">
+							</div>
+							<div class="carousel-item">
+								<img src="{{url_for('static',filename='Imagenes/clasdanes/4.jpg')}}"
+									class="d-block w-100" alt="...">
+							</div>
+							<div class="carousel-item">
+								<img src="{{url_for('static',filename='Imagenes/clasdanes/5.jpg')}}"
+									class="d-block w-100" alt="...">
+							</div>
+							<!-- El for -->
+							{% for foto in fotoTor %}
+								<div class="carousel-item">
+									<img src="{{url_for('static',filename=foto.direccion)}}"
+										class="d-block w-100 img-fluid" alt="...">
+								</div>
+							{% endfor %}
+
+							<button class="carousel-control-prev" type="button"
+								data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							</button>
+							<button class="carousel-control-next" type="button"
+								data-bs-target="#carouselExampleControls" data-bs-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- Comienza el carrucel -->
+		<div class="modal fade" id="example" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+						<div class="carousel-inner">
+							<div class="carousel-item active">
+								<img src="{{url_for('static',filename='Imagenes/examen/1.jpg')}}" class="d-block w-100"
+									alt="...">
+							</div>
+							<div class="carousel-item">
+								<img src="{{url_for('static',filename='Imagenes/examen/2.jpg')}}" class="d-block w-100"
+									alt="...">
+							</div>
+							<div class="carousel-item">
+								<img src="{{url_for('static',filename='Imagenes/examen/3.jpg')}}" class="d-block w-100"
+									alt="...">
+							</div>
+							<div class="carousel-item">
+								<img src="{{url_for('static',filename='Imagenes/examen/4.jpg')}}" class="d-block w-100"
+									alt="...">
+							</div>
+							<div class="carousel-item">
+								<img src="{{url_for('static',filename='Imagenes/examen/5.jpg')}}" class="d-block w-100"
+									alt="...">
+							</div>
+							<div class="carousel-item">
+								<img src="{{url_for('static',filename='Imagenes/examen/6.jpg')}}"
+									class="d-block w-100 h-100" alt="...">
+							</div>
+							<!-- El for -->
+							{% for foto in fotoExa %}
+								<div class="carousel-item">
+									<img src="{{url_for('static',filename=foto.direccion)}}"
+										class="d-block w-100 img-fluid" alt="...">
+								</div>
+							{% endfor %}
+							<button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+								data-bs-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Previous</span>
+							</button>
+							<button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+								data-bs-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Next</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- Fin del carrucel -->
+		<div class="modal fade" id="torneo" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div id="torneos" class="carousel slide" data-bs-ride="carousel">
+						<div class="carousel-inner">
+							<div class="carousel-item active">
+								<img src="{{url_for('static',filename='Imagenes/examen/1.jpg')}}"
+									class="d-block w-100 h-100">
+							</div>
+							<div class="carousel-item">
+								<img src="{{url_for('static',filename='Imagenes/examen/2.jpg')}}"
+									class="d-block w-100 h-100">
+							</div>
+							<div class="carousel-item">
+								<img src="{{url_for('static',filename='Imagenes/examen/3.jpg')}}"
+									class="d-block w-100 h-100">
+							</div>
+							<div class="carousel-item">
+								<img src="{{url_for('static',filename='Imagenes/examen/4.jpg')}}"
+									class="d-block w-100 h-100">
+							</div>
+							<div class="carousel-item">
+								<img src="{{url_for('static',filename='Imagenes/examen/5.jpg')}}"
+									class="d-block w-100 h-100">
+							</div>
+							<div class="carousel-item">
+								<img src="{{url_for('static',filename='Imagenes/examen/6.jpg')}}"
+									class="d-block w-100 ">
+							</div>
+							<!-- El for -->
+							{% for foto in fotoAct %}
+								<div class="carousel-item">
+									<img src="{{url_for('static',filename=foto.direccion)}}"
+										class="d-block w-100 img-fluid" alt="...">
+								</div>
+							{% endfor %}
+							<button class="carousel-control-prev" type="button" data-bs-target="#torneos"
+								data-bs-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							</button>
+							<button class="carousel-control-next" type="button" data-bs-target="#torneos"
+								data-bs-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div>
+			<br>
+			<p class="tituloimagenes" id="imagenes"> <u>CLASE DE DANES</u> </p>
+
+			<div class="carrousel">
+				<div class="carrousel__contenedor">
+					<div class="carrousel__lista" data-bs-toggle="modal" data-bs-target="#exampleModal">
+						<div class="carrousel__elemento"><img class="imagen"
+								src="{{url_for('static',filename='Imagenes/clasdanes/1.jpg')}}"></div>
+						<div class="carrousel__elemento"><img class="imagen"
+								src="{{url_for('static',filename='Imagenes/clasdanes/2.jpg')}}"></div>
+						<div class="carrousel__elemento"><img class="imagen"
+								src="{{url_for('static',filename='Imagenes/clasdanes/3.jpg')}}"></div>
+						<div class="carrousel__elemento"><img class="imagen"
+								src="{{url_for('static',filename='Imagenes/clasdanes/4.jpg')}}"></div>
+						<div class="carrousel__elemento"><img class="imagen"
+								src="{{url_for('static',filename='Imagenes/clasdanes/5.jpg')}}"></div>
+						<div class="carrousel__elemento"> <img class="imagen"
+								src="{{url_for('static',filename='Imagenes/clasdanes/1.jpg')}}"></div>
+						<!-- El for -->
+						{% for foto in fotoAct %}
+							<div class="carrousel__elemento"> <img class="imagen"
+								src="{{url_for('static',filename=foto.direccion)}}">
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div role="tablist" class="carrousel__indicadores"></div>
+			</div>
+			<div>
+				<p class="tituloimagenes"> <u>EXAMENES</u> </p>
+				<div class="carrousel">
+					<div class="carrousel__contenedor">
+						<div id="glider2" class="carrousel__lista" data-bs-toggle="modal" data-bs-target="#example">
+							<div class="carrousel__elemento"><img class="imagen"
+									src="{{url_for('static',filename='Imagenes/examen/1.jpg')}}"></div>
+							<div class="carrousel__elemento"><img class="imagen"
+									src="{{url_for('static',filename='Imagenes/examen/2.jpg')}}"></div>
+							<div class="carrousel__elemento"><img class="imagen"
+									src="{{url_for('static',filename='Imagenes/examen/3.jpg')}}"></div>
+							<div class="carrousel__elemento"><img class="imagen"
+									src="{{url_for('static',filename='Imagenes/examen/4.jpg')}}"></div>
+							<div class="carrousel__elemento"><img class="imagen"
+									src="{{url_for('static',filename='Imagenes/examen/5.jpg')}}"></div>
+							<div class="carrousel__elemento"> <img class="imagen"
+									src="{{url_for('static',filename='Imagenes/examen/6.jpg')}}"></div>
+							<!-- El for -->
+							{% for foto in fotoExa %}
+								<div class="carrousel__elemento"> <img class="imagen"
+									src="{{url_for('static',filename=foto.direccion)}}">
+								</div>
+							{% endfor %}
+						</div>
+						<div role="tablist" id="dots2" class="carrousel__indicadores"></div>
+					</div>
+				</div>
+			</div>
+			<div>
+				<p class="tituloimagenes"> <u>EXAMEN AATEE/TORNEOS</u> </p>
+				<div class="carrousel">
+					<div class="carrousel__contenedor">
+						<div id="glider3" class="carrousel__lista" data-bs-toggle="modal" data-bs-target="#torneo">
+							<div class="carrousel__elemento"><img class="imagen"
+									src="{{url_for('static',filename='Imagenes/examen/2.jpg')}}"></div>
+							<div class="carrousel__elemento"><img class="imagen"
+									src="{{url_for('static',filename='Imagenes/examen/1.jpg')}}"></div>
+							<div class="carrousel__elemento"><img class="imagen"
+									src="{{url_for('static',filename='Imagenes/examen/3.jpg')}}"></div>
+							<div class="carrousel__elemento"><img class="imagen"
+									src="{{url_for('static',filename='Imagenes/examen/4.jpg')}}"></div>
+							<div class="carrousel__elemento"><img class="imagen"
+									src="{{url_for('static',filename='Imagenes/examen/5.jpg')}}"></div>
+							<div class="carrousel__elemento"> <img class="imagen"
+									src="{{url_for('static',filename='Imagenes/examen/2.jpg')}}"></div>
+							<!-- El for -->
+							{% for foto in fotoTor %}
+								<div class="carrousel__elemento"> <img class="imagen"
+									src="{{url_for('static',filename=foto.direccion)}}">
+								</div>
+							{% endfor %}
+						</div>
+						<div role="tablist" id="dots3" class="carrousel__indicadores"></div>
+					</div>
+				</div>
+			</div>
+
+
+			<section>
+				<header>
+					<div class="comentarios">
+						<h2 class="font"> Entrevistas a padres y alumnos luego del ultimo examen </h2>
+				</header>
+
+				<div class="comentario">
+					<img src="{{url_for('static',filename='Imagenes/ENAT.png')}}" class="imgcomen">
+					<h3 class="entrevistado entre"> padre..... </h3> <br>
+					<p class="pregunta entre"> <b>aca va la primera pregunta</b> </p>
+					<p class="respuesta entre"> aca iria la respuesta Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit,Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+						incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+					</p>
+					<p class="pregunta entre"><b> aca va la segunda pregunta</b> </p>
+					<p class="respuesta entre"> aca iria la respuesta Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit,Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+						incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+				</div>
+				<div class="comentario"> <img src="{{url_for('static',filename='Imagenes/ENAT.png')}}" class="imgcomen">
+					<h3 class="entrevistado entre"> Alumno </h3> <br>
+					<p class="pregunta entre"> <b>aca va la primera pregunta</b> </p>
+					<p class="respuesta entre"> aca iria la respuesta Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit,Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+						incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+					<p class="pregunta entre"> <b>aca va la segunda pregunta</b> </p>
+					<p class="respuesta entre"> aca iria la respuesta Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit,Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+						incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+				</div>
+				<div class="comentario"> <img src="{{url_for('static',filename='Imagenes/ENAT.png')}}" class="imgcomen">
+					<h3 class="entrevistado entre"> padre..... </h3> <br>
+					<p class="pregunta entre"><b> aca va la primera pregunta</b> </p>
+					<p class="respuesta entre"> aca iria la respuesta Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit,Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+						incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+					<p class="pregunta entre"><b> aca va la segunda pregunta</b> </p>
+					<p class="respuesta entre"> aca iria la respuesta Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit,Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+						incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+				</div>
+				<div class="comentario">
+					<img src="{{url_for('static',filename='Imagenes/ENAT.png')}}" class="imgcomen">
+					<h3 class="entrevistado entre"> padre..... </h3> <br>
+					<p class="pregunta entre"><b> aca va la primera pregunta</b> </p>
+					<p class="respuesta entre"> aca iria la respuesta Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit,Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+						incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+					<p class="pregunta entre"><b> aca va la segunda pregunta</b> </p>
+					<p class="respuesta entre"> aca iria la respuesta Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit,Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+						incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+				</div>
+		</div>
+		</section>
+		<section>
+			<header>
+				<h1 id="publicaciones" class="font">PUBLICACIONES </h1>
+			</header>
+			<div class="container">
+				<div class="card">
+					<figure>
+						<img src="{{url_for('static',filename='Imagenes/examen/1.jpg')}}">
+					</figure>
+					<div class="contenido instagram">
+						<h3 class="titulopub"> publicacion de instagram</h3>
+						<p class="textpub">Fotos de los examenes del dia 11/06. Felicitaciones a todos los chicos🥋</p>
+						<a href="https://www.instagram.com/p/Cey-qQnJ4Es/?utm_source=ig_web_copy_link" class="btnpubl">
+							ir a la publicacion</a>
+					</div>
+				</div>
+
+				<div class="card">
+					<figure>
+						<img src="{{url_for('static',filename='Imagenes/examen/4.jpg')}}">
+					</figure>
+					<div class="contenido facebook">
+						<h3> publicacion de Facebook</h3>
+						<p>Examen en Villa Luro, Felicitaciones a los Alumnos de Federacion Caballito y del Instituto
+							Huergo🥋🥋🥋🥋🥋🥋</p>
+						<a
+							href="https://www.facebook.com/taekwondofederacioncaballito/photos/pcb.2030537293783828/2030536780450546/">
+							ir a la publicacion</a>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+	<footer>
+		<div class="contacto">
+			<ul class="mediodecontacto">
+				<p class="contactanos">contactanos
+				<p>
+					<br>
+					<li> <b>
+							<ion-icon name="logo-instagram"></ion-icon> <a class="mediodecontacto"
+								href="https://www.instagram.com/tkdenat/" class="iconos"> instagram </a>
+						</b> </li>
+					<li>
+						<ion-icon name="logo-facebook"></ion-icon> <a class="mediodecontacto"
+							href="https://www.facebook.com/taekwondofederacioncaballito" class="iconos"> facebook</a>
+					</li>
+					<li> <b> MAIL:</b> <a
+							href="mailto:lautarovallejos14@gmail.com?Subject=Taekwon-Do">lautarovallejos14@gmail.com
+						</a></li>
+					<li class="copy">© Enat-Escuela nacional de taekwondo - lautaro vallejos</li>
+			</ul>
+
+		</div>
+		<div class="logoescueladiv">
+			<img class="logodiv" src="{{url_for('static',filename='Imagenes/ENAT.png')}}">
+		</div>
+		<div class="logsitf">
+			<ul class="logoitf">
+				<li class="itf"> <img class="itf" src="{{url_for('static',filename='Imagenes/itf (2).png')}}"> </li>
+				<li class="itf"> <img class="itf" src="{{url_for('static',filename='Imagenes/aate.png')}}"> </li>
+			</ul>
+		</div>
+	</footer>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+		crossorigin="anonymous"></script>
+
+	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+	<script>
+		AOS.init({
+			duration: 1000
+		});
+	</script>
+	<script type="text/javascript" src="{{url_for('static',filename='JS/glider.min.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static',filename='JS/informacion.js')}}"></script>
+</body>
+
+</html>

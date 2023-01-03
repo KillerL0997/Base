@@ -1,0 +1,19 @@
+.boton_1{
+    font: 20px !important;
+}
+.tabla{
+background-color: rgb(128, 130, 248) !important;
+}
+h1{
+    font: 22px !important;
+    font-family: 'Roboto', sans-serif;
+}
+th{
+font: 20px !important;
+font-family: 'Roboto Flex', sans-serif;
+}
+
+td{
+    font: 18px !important;
+    font-family: 'Lato', sans-serif;
+}

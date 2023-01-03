@@ -1,0 +1,30 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+    <body>        
+        <div class="tabla">
+            <h2>Quitar usuarios</h2>
+            <form action="" method="post">
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Nombre y apellido</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for usuario in usuarios %}
+                            <tr>
+                                <td>{{usuario.nombre_usuario}} {{usuario.apellido_usuario}}</td>
+                                <td><input type="checkbox" name="checkbox" id="checkbox" value="{{usuario.id_usuario}}"></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="dosBotones">
+                    <button type="submit">Aceptar</button>
+                    <button type="button" onclick="location.href='/editar_gimnasio/{{gimnasio.id_gimnsio}}'">Regresar</button>
+                </div>
+            </form>
+        </div>
+    </body>
+    {% endblock %}

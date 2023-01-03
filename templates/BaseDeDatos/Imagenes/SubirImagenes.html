@@ -1,0 +1,12 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+    <div class="body_formu">
+        <form class="contenedor" method="post" enctype=multipart/form-data>
+            <input type="file" id="foto" name="foto" multiple>
+            <div class="dosBotones">
+                <button type="submit">Subir</button>
+                <button type="button" onclick="location.href='/ver_imagenes/todo'">Regresar</button>
+            </div>
+        </form>
+    </div>
+    {% endblock %}

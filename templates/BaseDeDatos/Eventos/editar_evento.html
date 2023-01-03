@@ -1,0 +1,23 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+    <body>        
+        <div class="body_formu">
+            <form action="" method="post" class="formularios">
+                <h2>Editar examen</h2>
+                {{forma.csrf_token}}
+                <label for="fecha_evento">Fecha evento</label>
+                {{forma.fecha_evento}}
+                <label for="tipo_de_evento">Tipo de evento</label>
+                {{forma.tipo_de_evento}}
+                <form action="" method="post">
+                    <p>Gimnasio donde se realizo: </p>
+                    {{formaGim.gimnasio}}
+                    <div class="dosBotones">
+                        <button type="submit">Guardar cambios</button>
+                        <button type="button" onclick="location.href='/ver_eventos/todo'">Regresar</button>
+                    </div>
+                </form>
+            </form>
+        </div  class="contenedor">
+    </body>
+    {% endblock %}

@@ -1,0 +1,18 @@
+
+.formularios{
+    background-color:rgb(143, 149, 236) !important;
+}
+
+.titulo{
+font-size: 24px;
+font-family: 'Roboto', sans-serif;
+
+}
+.label{
+font-size: 22px;
+font-family: 'Open Sans', sans-serif;
+}
+.boton_2{
+font: 20px;
+font-family: 'Radio Canada', sans-serif;
+}

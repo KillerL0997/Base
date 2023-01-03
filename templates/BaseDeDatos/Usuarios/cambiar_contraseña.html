@@ -1,0 +1,20 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+    <body>        
+        <div class="body_formu">
+            <form action="" method="post" class="formularios">
+                {% if msj != 'nada' %}
+                    <p>{{msj}}</p>
+                {% endif %}
+                <label>Contraseña nueva</label>
+                <input type="password" name="contra_1" id="contra_1" class="input">
+                <label>Vuelva a introducir la contraseña</label>
+                <input type="password" name="contra_2" id="contra_2" class="Input">
+                <div class="dosBotones">
+                    <button type="button" onclick="location.href='/Base'">Regresar</button>
+                    <button type="submit">Aceptar</button>
+                </div>
+            </form>
+        </div>
+    </body>
+    {% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+{% block content %}
+
+<body>
+    <nav class="filtros">
+        <section class="filtrosCol">
+            <form action="" method="post">
+                <section class="filtrosFil">
+                    <p>Nombre</p>
+                    <input type="text" name="Nombre" id="Nombre">
+                </section>
+                <section class="filtrosFil">
+                    <p>Apellido</p>
+                    <input type="text" name="Apellido" id="Apellido">
+                </section>
+                <section class="filtrosFil">
+                    <p>Categoria</p>
+                    {{opciones.usuario}}
+                </section>
+                {% if opc == 'todo' or opc == 'habilitado' %}
+                    <section class="filtrosFil">
+                        <p>Gimnasio</p>
+                        {{gimnasios.gimnasio}}
+                    </section>
+                {% endif %}
+                {% if msj == 'Administrador' and opc != 'deshabilitado' %}
+                <section class="filtrosFil">
+                    <p>Instructor</p>
+                    {{usuarios.dato}}
+                </section>
+                {% endif %}
+                <section class="filtrosCol">
+                    <button type="submit">Aceptar</button>
+                </section>
+            </form>
+        </section>
+        {% if modo %}
+            <section class="filtrosFil">
+                <button onclick="llenar('Alumnos','Desa','','')">Deshabilitar alumnos</button>
+                <button onclick="llenar('Alumnos','Examen','','')">Alumnos a examen</button>
+                <button onclick="llenar('Alumnos','Torneo','','')">Alumnos a torneo</button>
+            </section>
+        {% else %}
+            <section class="filtrosFil">
+                <button onclick="llenar('Alumnos','Habi','','')">Habilitar alumnos</button>
+                <button onclick="llenar('Alumnos','Elim','','')">Eliminar alumnos</button>
+            </section>
+        {% endif %}
+        <section class="filtrosFil">
+            <button type="button" onclick="location.href='/ver_alumnos/todo'">Ver todo</button>
+            {% if modo %}
+                <button type="button" onclick="location.href='/ver_alumnos/deshabilitado'">Ver deshabilitados</button>
+            {% else %}
+                <button type="button" onclick="location.href='/ver_alumnos/habilitado'">Ver habilitados</button>
+            {% endif %}
+            <button type="button" onclick="location.href='/Base'">Regresar</button>
+        </section>
+    </nav>
+    <div class="tablaListado">
+        {% if alumnos %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th></th>
+                    {% if modo %}
+                    <th>U. examen</th>
+                    {% else %}
+                    <th>Desa. en</th>
+                    {% endif %}
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Graduacion</th>
+                    {% if modo %}
+                    <th></th>
+                    <th></th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for alumno in alumnos %}
+                <tr>
+                    <td><input type="checkbox" name="checkbox" value="{{alumno.id_alumno}}"></td>
+                    {% if alumno.fecha_Exa_Desa %}
+                    <td>{{alumno.fecha_Exa_Desa}}</td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+                    <td>{{alumno.nombre_alumno}}</td>
+                    <td>{{alumno.apellido_alumno}}</td>
+                    <td>{{alumno.graduacion_alumno}}</td>
+                    {% if modo %}
+                    <td><a href="{{url_for('editar_alumno', id = alumno.id_alumno)}}"><img src="../../../static/CSS/escritura.png" alt="Editar"></a></td>
+                    <td><a href="{{url_for('mostrar_datos_alumno', id = alumno.id_alumno)}}"><img src="../../../static/CSS/icons8-detalles-50.png" alt="Detalles"></a></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        {% else %}
+        <h2>Sin alumnos registrados</h2>
+        {% endif %}
+    </div>
+    <script type="text/javascript" src="/static/BaseJS/verAlumnos.js"></script>
+    <script type="text/javascript" src="/static/BaseJS/llenarYrecargar.js"></script>
+</body>
+{% endblock %}

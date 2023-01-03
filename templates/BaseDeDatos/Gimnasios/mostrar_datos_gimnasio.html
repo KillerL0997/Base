@@ -1,0 +1,28 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+    <body>        
+        <div class="mostrarDatos">
+            <h2>Mostrar datos del gimnasio</h2>
+            <section class="filtrosCol">Nombre: {{gimnasio.nombre_gimnasio}}</section>
+            <section class="filtrosCol">Direccion: {{gimnasio.direccion_gimnasio}}</section>
+            {% if usuarios %}
+                <section class="filtrosCol">Intructor/es:</section>
+            {% for usuario in usuarios %}
+                <section class="filtrosCol">{{usuario.nombre_usuario}} {{usuario.apellido_usuario}}</section>
+            {% endfor %}
+            {% else %}
+                <section class="filtrosCol">Gimnasio sin instructor</section>
+            {% endif %}
+            {% if alumnos %}
+                <section class="filtrosCol">Alumnos:</section>
+            {% for alumno in alumnos %}
+                <section class="filtrosCol">{{alumno.nombre_alumno}} {{alumno.apellido_alumno}}</section>
+            {% endfor %}
+            {% else %}
+                <section class="filtrosCol">Sin alumnos</section>
+            {% endif %}
+            <section class="filtrosCol"></section>
+            <input type="button" value="Regresar" class="unBoton" onclick="location.href='/ver_gimnasios/todo'">
+        </div>
+    </body>
+    {% endblock %}

@@ -1,0 +1,407 @@
+*{
+    margin: 0%;
+    padding: 0%;
+    word-break: break-word;
+    font-size: 1.1rem;
+}
+body{
+    background-color: rgb(242, 244, 244);
+}
+h1{
+    text-align: center;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+button{
+    height: 2rem;
+    font-size: .8rem;
+    font-weight: bold;
+    width: 100%;
+}
+input, select, label{
+    width: 100%;
+}
+.contenedor{
+    margin-top: 10%;
+    width: 60%;
+    background-image: url("../Imagenes/ArbolTKD.jpg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    text-align: center;
+}
+.contenedor h1{
+    font-size: 1.5em;
+    display: flex;
+    justify-content: space-around;
+}
+.contenedor form table, .contenedor table{
+    width: 70%;
+    margin-left: 15%;
+}
+h1 img{
+    width: 2em;
+    height: 2em;
+}
+.formulario{
+    width: 100%;
+}
+.formulario label{
+    display: block;
+    margin-left: 25%;
+    width: 50%;
+    text-align: center;
+}
+.formulario input{
+    width: 50%;
+    margin-left: auto;
+}
+#horariosGimnasio,#usuarios{
+    width: 40%;
+    margin: 0 2.5% 0 2.5%;
+}
+.unBoton{
+    width: 40%;
+}
+.dosBotones{
+    width: 60%;
+    margin: 1em auto 0 auto;
+}
+.dosBotones button{
+    width: 49%;
+}
+header h1,p{
+    text-align: center;
+}
+.links, .filtros{
+    display: block;
+    width: 15%;
+    float: left;
+    margin: 1em;
+}
+.filtrosCol{
+    margin: 0 0 .5rem 0;
+}
+.filtrosFil button, .filtrosFil input, .filtrosFil select,
+.filtrosCol button, .filtrosCol input, .filtrosCol select{
+    width: 100%;
+}
+#boton40{
+    width: 40%;
+}
+.links ul, .filtros ul{
+    list-style: none;
+}
+.links ul li #primero, .filtros ul li #primero{
+    display: none;
+}
+.links .submenu, .filtros .submenu{
+    display: block;
+}
+.botonLinks{
+    display: none;
+}
+.marcador input{
+    width: 10%;
+}
+.inicio_base{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.sinNotis{
+    width: 70%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.contenedor_notis{
+    width: 60%;
+    margin-right: 10%;
+    font-size: 1.5rem;
+}
+.notificacion{
+    display: block;
+    text-align: center;
+    background-color: rgb(169, 204, 227);
+    margin-top: 15px;
+    border-radius: 15px;
+}
+.tablaListado{
+    width: 70%;
+    margin-right: 5%;
+    float: right;
+}
+.tabla{
+    width: 70%;
+    margin: 5% 15% 0 auto;
+    float: right;
+    text-align: center;
+}
+.tabla h1, h2{
+    text-align: center;
+}
+.tabla table, .tabla form table ,.tablaListado table, .tablaListado form table{
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5%;
+}
+.mostrarDatos{
+    width: 70%;
+    margin: 5% auto 0 auto;
+    background-color: rgb(230 230 231);
+    text-align: center;
+}
+.mostrarDatos table{
+    width: 100%;
+}
+.mostrarDatos table button{
+    width: 80%;
+}
+.body_formu{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.formularios{
+    width: 60%;
+    margin-top: 5%;
+    background-color: rgb(235, 237, 239);
+    text-align: center;
+    border-radius: 20px;
+    border: 1px solid black;
+}
+.formularios label{
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+.formularios select{
+    display: inline;
+}
+.formularios select,.formularios input{
+    width: 50%;
+    height: 1.5rem;
+    font-size: inherit;
+}
+.formularioFlex{
+    display: flex;
+    justify-content: space-around;
+}
+textarea{
+    width: 70%;
+    height: 70px;
+}
+.imagenes{
+    width: 70%;
+    margin: 0 10% 0 20%;
+}
+.imagen{
+    width: 22%;
+    display: inline-block;
+    margin: 5% 10% 5% auto;
+}
+.imagen img{
+    width: 100%;
+    height: 100%;
+}
+.imagen input{
+    margin: 0;
+}
+.elimNotis{
+    width: 70%;
+    margin-top: 5%;
+}
+.elimNotis table{
+    width: 100%;
+    text-align: center;
+}
+td img{
+    width: 30px;
+}
+.agreQuitExaTor{
+    display: flex;
+    align-items: center;
+    margin-top: .5rem;
+}
+.agreQuitExaTor input{
+    height: 1rem;
+}
+.buscarAlumFlex{
+    display: flex;
+    justify-content: space-between;
+}
+.mostrarBuscados{
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.mostrarBuscados table{
+    width: 80%;
+}
+
+@media screen and (max-width: 768px) {
+    .inicio_base{
+        display: block;
+    }
+    .sinNotis{
+        width: 100%;
+    }
+    .botonLinks{
+        display: block;
+        width: 100%;
+        height: 50px;
+        background-color: rgb(176, 190, 197);
+    }
+    .botonLinks img{
+        height: 100%;
+    }
+    .contenedor{
+        width: 100%;
+    }
+    .contenedor h1{
+        font-size: 1rem;
+    }
+    .dosBotones{
+        width: 100%;
+    }
+    .links{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        float: none;
+        margin: 0;
+        width: 40%;
+        position: absolute;
+        left: -40%;
+    }
+    .links button, .links input, .links select{
+        width: 100%;
+    }
+    .links form{
+        width: 100%;
+    }
+    .links ul{
+        list-style: none;
+    }
+    .filtros ul{
+        list-style: none;
+        width: 25%;
+    }
+    .links ul li button, .filtros ul li button{
+        display: block;
+        text-decoration: none;
+        transition: all 500ms ease;
+    }
+    .links .submenu{
+        display: none;
+    }
+    .filtros .submenu{
+        display: none;
+        position: absolute;
+        width: 25%;
+    }
+    .links ul li .botonInicio + ul{
+        position: absolute;
+        left: calc(100% - 1px);
+        top: 0;
+        width: 100%;
+    }
+    .links ul li #primero, .filtros ul li #primero{
+        display: block;
+        height: 2.5rem;
+    }
+    .links #primero img{
+        height: 50%;
+    }
+    .botonInicio{
+        display: flex !important;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin: 0;
+        float: none;
+    }
+    .filtros{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 0 0 5% 0;
+        float: none;
+    }
+    .filtrosFil{
+        display: flex;
+        width: 100%;
+        margin: 0 0 .5rem 0;
+        float: none;
+    }
+    .filtrosFil button{
+        width: 100%;
+        height: 3rem;
+    }
+    .filtrosFil input, .filtrosFil select, .filtrosFil p{
+        width: 47%;
+    }
+    .filtrosCol{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        float: none;
+    }
+    .filtrosCol form{
+        width: 100%;
+    }
+    .filtrosCol form select, .filtrosCol form button{
+        width: 49%;
+        height: 2rem;
+    }
+    .filtrosCol button{
+        width: 100% !important;
+    }
+    .formulario input{
+        width: 90%;
+    }
+    .contenedor_notis{
+        width: 100%;
+        margin: 5% 0 5% 0;
+    }
+    .formularios{
+        width: 100%;
+    }
+    .formularios input, .formularios select{
+        width: 90%;
+    }
+    .tablaListado{
+        width: 100%;
+        float: none;
+        margin: 0;
+    }
+    .elimNotis{
+        width: 100%;
+    }
+    .tabla{
+        width: 100%;
+        margin: 5% 0 0 0;
+    }
+    .imagenes{
+        width: 90%;
+        margin: 0 5% 0 5%;
+    }
+    .mostrarDatos{
+        width: 100%;
+    }
+    .buscarAlumFlex{
+        display: flex;
+        flex-direction: column;
+    }
+    .mostrarBuscados{
+        width: 100%;
+    }
+    .mostrarBuscados table{
+        width: 100%;
+    }
+}

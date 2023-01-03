@@ -1,0 +1,56 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+    <body>        
+        <div class="mostrarDatos">
+            <h2>Datos del alumno: {{alumno.nombre_alumno}}  {{alumno.apellido_alumno}}</h2>
+            <section class="filtrosCol"></section>
+            <section class="filtrosCol">Fecha de nacimiento: {{alumno.fecha_nacimiento_alumno}}</section>
+            <section class="filtrosCol">Documento: {{alumno.documento_alumno}}</section>
+            <section class="filtrosCol">Localidad: {{alumno.localidad_alumno}}</section>
+            <section class="filtrosCol">Nacionalidad: {{alumno.nacionalidad_alumno}}</section>
+            {% if alumno.telefono_alumno and alumno.email_alumno %}
+                <section class="filtrosCol">Telefono: {{alumno.telefono_alumno}}</section>
+                <section class="filtrosCol">Email: {{alumno.email_alumno}}</section>
+            {% elif not alumno.telefono_alumno and not alumno.email_alumno %}
+                <section class="filtrosCol">Sin telefono registrado</section>
+                <section class="filtrosCol">No posee un Email asociado</section>
+            {% elif not alumno.telefono_alumno and alumno.email_alumno%}
+                <section class="filtrosCol">Sin telefono registrado</section>
+                <section class="filtrosCol">Email: {{alumno.email_alumno}}</section>
+            {% else %}
+                <td>Telefono: {{alumno.telefono_alumno}}</section>
+                <td>No posee un Email asociado</section>
+            {% endif %}
+            {% if alumno.fecha_inscripcion_alumno %}
+                <section class="filtrosCol">Graduacion: {{alumno.graduacion_alumno}}</section>
+                <section class="filtrosCol">Fecha de inscripcion: {{alumno.fecha_inscripcion_alumno}}</section>
+            {% else %}
+                <section class="filtrosCol">Graduacion: {{alumno.graduacion_alumno}}</section>
+                <section class="filtrosCol">No se ingreso fecha de inscripcion del alumno</section>
+            {% endif %}
+            <section class="filtrosCol">Cabeza de grupo: {{cabeza}}</section>
+            {% if alumno.observaciones_alumno %}
+                <p>Observaciones: {{alumno.observaciones_alumno}}</p>
+            {% else %}
+                <p>Este alumno no posee observaciones</p>
+            {% endif %}
+            {% if gimnasio %}
+                <section class="filtrosCol">Lugar de practica: {{gimnasio.nombre_gimnasio}}</section>
+            {% else %}
+                <section class="filtrosCol">No hay registro del lugar de practica</section>
+            {% endif %}
+            {% if usuario %}
+                <section class="filtrosCol">Intructor: {{usuario.nombre_usuario}} {{usuario.apellido_usuario}}</section>
+            {% else %}
+                <section class="filtrosCol">No se encontro el instructor</section>
+            {% endif %}
+            {% if alumno.fecha_Exa_Desa %}
+                <section class="filtrosCol">Fecha del ultimo examen: {{alumno.fecha_Exa_Desa}}</section>
+                <section class="filtrosCol"><button id="boton40" onclick="location.href='/mostrar_eventos/{{alumno.id_alumno}}'">Mostrar examenes/torneos</button></section>
+            {% else %}
+                <section class="filtrosCol">Sin examenes previos</section>
+            {% endif %}
+            <button class="unBoton" onclick="location.href = '/ver_alumnos/todo'">Regresar</button>
+        </div>
+    </body>
+    {% endblock %}

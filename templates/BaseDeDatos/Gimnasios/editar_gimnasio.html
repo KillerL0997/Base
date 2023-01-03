@@ -1,0 +1,37 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+    <body>        
+        <div class="body_formu">
+            <form action="" method="post" class="formularios">
+                <h2>Editar gimnasio</h2>
+                {{forma.csrf_token}}
+                <label for="nombre_gimnasio">Nombre gimnasio</label>
+                {{forma.nombre_gimnasio(size = 30)}} 
+                <label for="direccion_gimnasio">Direccion gimnasio</label>
+                {{forma.direccion_gimnasio(size = 30)}} 
+                <label for="ubicacion_gimnasio">Ubicacion</label>
+                {{forma.ubicacion_gimnasio(size = 30)}} 
+                <label for="instagram_gimnasio">Instagram</label>
+                {{forma.instagram_gimnasio(size = 30)}} 
+                <label for="face_gimnasio">Facebook</label>
+                {{forma.face_gimnasio(size = 30)}}
+                <label for="whats_gimnasio">Whatsapp</label>
+                {{forma.whats_gimnasio(size = 30)}} 
+                <label for="logo_gimnasio">Logo</label>
+                <input type="file" name="foto" id="">
+                <br><br>
+                <input type="button" value="Horarios" onclick="location.href='/horarios/{{gimnasio}}'">
+                <div class="dosBotones">
+                    <button type="submit">Guardar cambios</button>
+                    <button type="button" onclick="location.href='/ver_gimnasios/todo'">Regresar</button>
+                </div>
+                {% if msj == 'Administrador' %}
+                    <div class="dosBotones">
+                        <button type="button" onclick="location.href='/agregar_usuarios/{{gimnasio}}'">Agregar usuarios</button>
+                        <button type="button" onclick="location.href='/quitar_usuarios/{{gimnasio}}'">Quitar usuarios</button>
+                    </div>
+                {% endif %}
+            </form>
+        </div>
+    </body>
+    {% endblock %}

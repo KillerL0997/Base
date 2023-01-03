@@ -1,0 +1,28 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+    <body>        
+        <div class="mostrarDatos">
+            <h2>Mostrar datos usuario</h2>
+            <section class="filtrosCol">Nombre: {{usuario.nombre_usuario}}</section>
+            <section class="filtrosCol">Apellido: {{usuario.apellido_usuario}}</section>
+            <section class="filtrosCol">Documento: {{usuario.documento_usuario}}</section>
+            <section class="filtrosCol">Email : {{usuario.email_usuario}}</section>
+            <section class="filtrosCol">Cargo: {{usuario.cargo_usuario}}</section>
+            <section class="filtrosCol">Categoria: {{usuario.categoria}}</section>
+            <section class="filtrosCol">Cabeza de grupo: {{cabeza}}</section>
+            <section class="filtrosCol">Gimnasios a cargo:</section>
+            {% if gimnasios %}
+                {% for i in gimnasios %}
+                    <section class="filtrosCol">{{i.nombre_gimnasio}} {{i.direccion_gimnasio}}</section>
+                {% endfor %}
+            {% else %}
+                <section class="filtrosCol">Sin gimnasios asociados</section>
+            {% endif %}
+            <div class="dosBotones">
+                <button type="button" onclick="location.href='/ver_usuarios/todo'">Regresar</button>
+                <button type="button" id="Contra" value="{{usuario.id_usuario}}">Ver Contraseña</button>
+            </div>
+        </div>
+        <script type="text/javascript" src="/static/BaseJS/mostrarContra.js"></script>
+    </body>
+    {% endblock %}

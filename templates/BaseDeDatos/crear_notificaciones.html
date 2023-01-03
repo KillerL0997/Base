@@ -1,0 +1,21 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+    <body>        
+        <div class="body_formu">
+            <form action="" method="post" class="formularios">
+                <h2>Crear notificacion</h2>
+                {{forma.csrf_token}}
+                <label for="destino">Entregar a:</label>
+                {{usuarios.usuario}}
+                <label for="asunto">Asunto</label>
+                {{forma.asunto}}
+                <label for="notificacion">Escriba la notificacion para todos los usuarios</label>
+                {{forma.notificacion}} 
+                <div class="dosBotones">
+                    <button type="submit">Aceptar</button>
+                    <button type="button" onclick="location.href='/Base'">Regresar</button>
+                </div>
+            </form>
+        </div>
+    </body>
+    {% endblock %}

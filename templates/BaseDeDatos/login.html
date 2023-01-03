@@ -1,0 +1,24 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+    {% block content %}
+    <body>  
+        <div class="body_formu">
+            <div class="contenedor">
+                <form action="" method="post" class="formulario">
+                    <h1>
+                        <!-- <img src="{{url_for('static', filename = 'Imagenes/ENAT.png')}}" > -->
+                        BIENVENIDO A LA BASE DE DATOS
+                    </h1>
+                    <h4>{{msj}}</h4>
+                    <label for="E-Mail" class="label">E-mail usuario</label>
+                    <input type="email" name="E-Mail"class="input">
+                    <label for="password" class="label">Contraseña</label>
+                    <input type="password" name="password" class="input">
+                    <div class="dosBotones">
+                        <button type="submit">Ingresar</button>
+                        <button name="reto" value="reto">Regresar</button>
+                    </div>
+                </form>
+            </div>
+        </div>     
+    </body>
+    {% endblock %}

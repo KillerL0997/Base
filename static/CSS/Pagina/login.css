@@ -1,0 +1,46 @@
+.contenedor{
+    background-color: rgb(230, 227, 227);
+    align-items:  center;
+    justify-content: center;
+    animation-name: mover;
+    animation-duration: 2s;
+}
+@keyframes mover{
+    0%{
+        transform: translateX(-40%);
+    
+    }
+    100%{
+        transform: translateX(0%);
+    }
+    }
+.ingreso{
+    font: 26px;
+    font-family: 'Open Sans', sans-serif;;
+}
+.img{
+    margin-top:2%;
+    height: 50px;
+    width: 50px;
+}
+.msj{
+    font: 24px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.formulario{
+    align-items:  center;
+    justify-content: center;
+}
+.label{
+    margin-top: 2%;
+    font-family: 'Montserrat', sans-serif;
+    font: 22spx;
+}
+.input{
+    margin: 2%;
+font: 22px;
+height: 20px;
+width: 250px;
+}
+

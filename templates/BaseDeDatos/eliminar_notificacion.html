@@ -1,0 +1,42 @@
+{% extends 'BaseDeDatos/PlantillaPadre.html' %}
+{% block content %}
+
+<body>
+    <div class="body_formu">
+        {% if notificaciones %}
+        <div class="elimNotis">
+            <form action="" method="post">
+                <h2>Eliminar notificacion</h2>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Seleccione las notificaciones a eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for notificacion in notificaciones %}
+                        <tr>
+                            <td>{{notificacion.notificacion}}</td>
+                            <td><input type="checkbox" name="checkbox" id="checkbox"
+                                    value="{{notificacion.id_notificacion}}"></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <br>
+                <div class="dosBotones">
+                    <button type="submit">Aceptar</button>
+                    <button type="button" onclick="location.href='/Base'">Regresar</button>
+                </div>
+            </form>
+        </div>
+        {% else%}
+        <section style="margin-top: 10%;">
+            <h2>Eliminar notificacion</h2>
+            <h3>Sin notificaciones a eliminar</h3> 
+            <button class="unBoton" onclick="location.href='/Base'">Regresar</button>
+        </section>
+        {% endif %}
+    </div>
+</body>
+{% endblock %}
