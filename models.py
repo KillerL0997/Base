@@ -24,7 +24,7 @@ class Usuario(db.Model):
 
 class Gimnasio(db.Model):
     __tablename__= 'gimnasio'
-    id_gimnsio = db.Column(db.Integer, primary_key = True)
+    id_gimnasio = db.Column(db.Integer, primary_key = True)
     nombre_gimnasio = db.Column(db.String(255), nullable= True)
     direccion_gimnasio = db.Column(db.String(255), nullable= True)
     habilitado = db.Column(db.Boolean)
@@ -36,7 +36,7 @@ class Gimnasio(db.Model):
 
     def __str__(self):
         return f'''
-        id_gimnsio: {self.id_gimnsio}
+        id_gimnasio: {self.id_gimnasio}
         nombre: {self.nombre_gimnasio}
         direccion: {self.direccion_gimnasio}
         horarios: {self.horarios_gimnasio}
@@ -103,7 +103,7 @@ class usuGim(db.Model):
     __tablename__ = 'usugim'
     id_UsuGim = db.Column(db.Integer, primary_key = True)
     id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario'))
-    id_gimnsio = db.Column(db.Integer, db.ForeignKey('gimnasio.id_gimnsio'))
+    id_gimnasio = db.Column(db.Integer, db.ForeignKey('gimnasio.id_gimnasio'))
     id_cabeza = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario'))
 
 class usuNoti(db.Model):

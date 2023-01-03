@@ -57,7 +57,7 @@ def gimnasios():
     contHorarios = []
     contHorarios.append(0)
     for i in listaGims:
-        registros = usuGim.query.filter_by(id_gimnsio = i.id_gimnsio).all()
+        registros = usuGim.query.filter_by(id_gimnasio = i.id_gimnasio).all()
         for j in registros:
             usu = Usuario.query.get(j.id_usuario)
             listaUsu.append(f'{usu.nombre_usuario} {usu.apellido_usuario}')
@@ -208,11 +208,11 @@ def eliminar_usuario(id):
         db.session.commit()
     registroGims = usuGim.query.filter_by(id_usuario = id).all()
     for i in registroGims:
-        regisGim = usuGim.query.filter_by(id_gimnsio = i.id_gimnsio).all()
+        regisGim = usuGim.query.filter_by(id_gimnasio = i.id_gimnasio).all()
         if len(regisGim) == 1:
-            (Gimnasio.query.get(regisGim[0].id_gimnsio)).habilitado = False
+            (Gimnasio.query.get(regisGim[0].id_gimnasio)).habilitado = False
             db.session.commit()
-        regisGim = usuGim.query.filter_by(id_usuario = id, id_gimnsio = i.id_gimnsio).first()
+        regisGim = usuGim.query.filter_by(id_usuario = id, id_gimnasio = i.id_gimnasio).first()
         temp = Alumno.query.filter_by(id_UsuGim = regisGim.id_UsuGim).all()
         for j in temp:
             j.habilitado = False
@@ -278,7 +278,7 @@ def mostrar_datos_usuario(id):
         else:
             datoCabeza = "Es cabeza de grupo"
     for i in registro_gimnasios:
-        gimnasios.append(Gimnasio.query.get(i.id_gimnsio))
+        gimnasios.append(Gimnasio.query.get(i.id_gimnasio))
     return render_template("BaseDeDatos/Usuarios/mostrar_datos_usuario.html",
     usuario= Usuario.query.get_or_404(id), gimnasios = gimnasios, cabeza = datoCabeza)
 
@@ -335,7 +335,7 @@ def editar_evento(id):
     gimnasios = Usuario_Gimnasio()
     gimnasio = Gimnasio.query.all()
     for i in gimnasio:
-        gimnasios.gimnasio.choices.append((f'{i.id_gimnsio}',f'{i.nombre_gimnasio} {i.direccion_gimnasio}'))
+        gimnasios.gimnasio.choices.append((f'{i.id_gimnasio}',f'{i.nombre_gimnasio} {i.direccion_gimnasio}'))
     if request.method == 'POST' and eventoForma.validate_on_submit():
         eventoForma.populate_obj(evento)
         evento.lugar_evento = (Gimnasio.query.get(gimnasios.gimnasio.data)).nombre_gimnasio
@@ -360,7 +360,7 @@ def agregar_evento():
     registro_gimnasio = Usuario_Gimnasio()
     gimnasios = Gimnasio.query.all()
     for i in gimnasios:
-        registro_gimnasio.gimnasio.choices.append((f'{i.id_gimnsio}',f'{i.nombre_gimnasio} {i.direccion_gimnasio}'))
+        registro_gimnasio.gimnasio.choices.append((f'{i.id_gimnasio}',f'{i.nombre_gimnasio} {i.direccion_gimnasio}'))
     registro_gimnasio.gimnasio.choices.append(('otro','Otro lugar'))
     if request.method == 'POST' and eventoForma.validate_on_submit():
         eventoForma.populate_obj(evento)
@@ -448,14 +448,14 @@ def quitar_usuarios(id):
     registros = []
     usuarios = []
     if session["Cargo"] == "Administrador":
-        registros = usuGim.query.filter_by(id_gimnsio = id).all()
+        registros = usuGim.query.filter_by(id_gimnasio = id).all()
     elif (Usuario.query.get(session["id"])).cabeza_de_grupo:
-        usuario = usuGim.query.filter_by(id_usuario = session["id"], id_gimnsio = id).first()
+        usuario = usuGim.query.filter_by(id_usuario = session["id"], id_gimnasio = id).first()
         if usuario:
             registros.append(usuario)
         usuario = Usuario.query.filter_by(id_cabeza = session["id"]).all()
         for i in usuario:
-            dato = usuGim.query.filter_by(id_usuario = i.id_usuario, id_gimnsio = id).first()
+            dato = usuGim.query.filter_by(id_usuario = i.id_usuario, id_gimnasio = id).first()
             if dato and perteneceAlRegistro(dato,registros,compararUsuGim):
                 registros.append(dato)
     for i in registros:
@@ -463,7 +463,7 @@ def quitar_usuarios(id):
     if request.method == 'POST':
         seleccionados = request.form.getlist("checkbox")
         for i in seleccionados:
-            regis = usuGim.query.filter_by(id_usuario = i, id_gimnsio = id).first()
+            regis = usuGim.query.filter_by(id_usuario = i, id_gimnasio = id).first()
             if regis:
                 dato = Alumno.query.filter_by(id_UsuGim = regis.id_UsuGim).all()
                 for j in dato:
@@ -472,7 +472,7 @@ def quitar_usuarios(id):
                     db.session.commit()
                 db.session.delete(regis)
                 db.session.commit()
-        regis = usuGim.query.filter_by(id_gimnsio = id).all()
+        regis = usuGim.query.filter_by(id_gimnasio = id).all()
         if not regis:
             (Gimnasio.query.get(id)).habilitado = False
             db.session.commit()
@@ -486,7 +486,7 @@ def agregar_usuarios(id):
     usuarioForm = []
     usuarios = Usuario.query.all()
     for i in usuarios:
-        regis = usuGim.query.filter_by(id_usuario = i.id_usuario, id_gimnsio = id).first()
+        regis = usuGim.query.filter_by(id_usuario = i.id_usuario, id_gimnasio = id).first()
         usuario = Usuario.query.get(i.id_usuario)
         if session["Cargo"] == "Administrador":
             if not regis:
@@ -499,7 +499,7 @@ def agregar_usuarios(id):
         seleccion = request.form.getlist("checkbox")
         if seleccion:
             for i in seleccion:
-                regis = usuGim.query.filter_by(id_usuario = i, id_gimnsio = id).first()
+                regis = usuGim.query.filter_by(id_usuario = i, id_gimnasio = id).first()
                 if not regis:
                     armarUsuGim(i,id,(Usuario.query.get(i)).id_cabeza)
         return redirect(url_for('ver_gimnasios', opc = "todo"))
@@ -521,7 +521,7 @@ def editar_gimnasio(id):
 
 @app.route("/horarios/<int:id>", methods= {'GET','POST'})
 def horarios(id):
-    usugim = usuGim.query.filter_by(id_gimnsio = id).all()
+    usugim = usuGim.query.filter_by(id_gimnasio = id).all()
     horarios = []
     cont = 0
     for i in usugim:
@@ -545,7 +545,7 @@ def horarios(id):
             if usuarios[i] and horariosGim[i]:
                 hora = horarioGim()
                 hora.descripcion = horariosGim[i]
-                hora.id_UsuGim = (usuGim.query.filter_by(id_gimnsio = id, id_usuario = usuarios[i]).first()).id_UsuGim
+                hora.id_UsuGim = (usuGim.query.filter_by(id_gimnasio = id, id_usuario = usuarios[i]).first()).id_UsuGim
                 db.session.add(hora)
                 db.session.commit()
         return redirect(url_for("ver_gimnasios", opc = "todo"))
@@ -574,7 +574,7 @@ def agregar_gimnasio():
         idUsu = registro_usuarios.usuario.data
         gim = Gimnasio.query.filter_by(nombre_gimnasio = gimnasio.nombre_gimnasio, direccion_gimnasio = gimnasio.direccion_gimnasio).first()
         if gim:
-            armarUsuGim(idUsu,gim.id_gimnsio,(Usuario.query.get(idUsu)).id_cabeza)
+            armarUsuGim(idUsu,gim.id_gimnasio,(Usuario.query.get(idUsu)).id_cabeza)
             return redirect(url_for('inicio'))
         nombre = photos.save(request.files['foto'])
         gimnasio.logo_gimnasio = "static/Imagenes/" + (url_for('obtener_nombre', filename = nombre)[9:])
@@ -582,9 +582,9 @@ def agregar_gimnasio():
         db.session.add(gimnasio)
         db.session.commit()
         if session["Cargo"] == "Administrador" or usu.cabeza_de_grupo:
-            armarUsuGim(idUsu,gimnasio.id_gimnsio,(Usuario.query.get(idUsu)).id_cabeza)
+            armarUsuGim(idUsu,gimnasio.id_gimnasio,(Usuario.query.get(idUsu)).id_cabeza)
         else:
-            armarUsuGim(session["id"],gim.id_gimnsio,(usuarios.query.get(session["id"])).id_cabeza)
+            armarUsuGim(session["id"],gim.id_gimnasio,(usuarios.query.get(session["id"])).id_cabeza)
         return redirect(url_for('inicio'))
     return render_template("BaseDeDatos/Gimnasios/agregar_gimnasio.html",
     forma = gimnasioForm, usuarioForma = registro_usuarios)
@@ -592,13 +592,13 @@ def agregar_gimnasio():
 @app.route("/mostrar_datos_gimnasio/<int:id>")
 def mostrar_datos_gimnasio(id):
     gimnasio = Gimnasio.query.get_or_404(id)
-    registro = usuGim.query.filter_by(id_gimnsio = id).all()
+    registro = usuGim.query.filter_by(id_gimnasio = id).all()
     usuarios = []
     for i in registro:
         usuarios.append(Usuario.query.get(i.id_usuario))
     alumnos = []
     if session["Cargo"] == 'Usuario':
-        registro = usuGim.query.filter_by(id_usuario = session["id"], id_gimnsio = id).all()
+        registro = usuGim.query.filter_by(id_usuario = session["id"], id_gimnasio = id).all()
     for i in registro:
         alus = Alumno.query.filter_by(id_UsuGim = i.id_UsuGim).all()
         alumnos += list(alus)
@@ -616,7 +616,7 @@ def eliminar_gimnasio(numGims, corri, opc):
         listaNumsGims = decodificar(numGims,corri)
         for i in listaNumsGims:
             cont = 0
-            regis = usuGim.query.filter_by(id_gimnsio = i).all()
+            regis = usuGim.query.filter_by(id_gimnasio = i).all()
             for j in regis:
                 gim = Gimnasio.query.get(i)
                 nom = Usuario.query.get(j.id_usuario)
@@ -642,8 +642,8 @@ def eliminar_gimnasio(numGims, corri, opc):
                     j.habilitado = False
                     j.id_UsuGim = None
                     db.session.commit()
-                if len(regis.query.filter_by(id_gimnsio = regis.id_gimnsio).all()) == 1:
-                    (Gimnasio.query.get(regis.id_gimnsio)).habilitado = False
+                if len(regis.query.filter_by(id_gimnasio = regis.id_gimnasio).all()) == 1:
+                    (Gimnasio.query.get(regis.id_gimnasio)).habilitado = False
                     db.session.commit()
                 db.session.delete(regis)
                 db.session.commit()
@@ -673,7 +673,7 @@ def ver_gimnasios(opc):
                 else:
                     registros = usuGim.query.filter_by(id_usuario = session["id"]).all()
                 for i in registros:
-                    gimnasios.append(Gimnasio.query.get(i.id_gimnsio))
+                    gimnasios.append(Gimnasio.query.get(i.id_gimnasio))
             else:
                 gimnasios = Gimnasio.query.filter_by(habilitado = True).all()
         else:
@@ -693,7 +693,7 @@ def ver_gimnasios(opc):
                     gimnasios = Gimnasio.query.filter_by(habilitado = True).all()
             if registro:
                 for i in registro:
-                    gimnasios.append(Gimnasio.query.get(i.id_gimnsio))
+                    gimnasios.append(Gimnasio.query.get(i.id_gimnasio))
         else:
             gimnasios = Gimnasio.query.filter_by(habilitado = False).all()
     return render_template("BaseDeDatos/Gimnasios/ver_gimnasios.html", gimnasios = gimnasios,
@@ -754,14 +754,14 @@ def elimGim(ids,tams):
 def desaGim(ids,tams):
     listaIds = decodificar(ids,tams)
     for i in listaIds:
-        regis = usuGim.query.filter_by(id_usuario = session["id"], id_gimnsio = i).first()
+        regis = usuGim.query.filter_by(id_usuario = session["id"], id_gimnasio = i).first()
         alus = Alumno.query.filter_by(id_UsuGim = regis.id_UsuGim).all()
         for i in alus:
             i.id_UsuGim = None
             i.habilitado = False
             i.fecha_Exa_Desa = datetime.utcnow()
             db.sesion.commit()
-        if len(usuGim.query.filter_by(id_gimnsio = i).all()) == 1:
+        if len(usuGim.query.filter_by(id_gimnasio = i).all()) == 1:
             (Gimnasio.query.get(i)).habilitado = False
             db.session.delete(regis)
             db.session.commit()
@@ -769,7 +769,7 @@ def desaGim(ids,tams):
 
 @app.route("/instructores/<int:id>")
 def instructores(id):
-    usugim = usuGim.query.filter_by(id_gimnsio = id).all()
+    usugim = usuGim.query.filter_by(id_gimnasio = id).all()
     listaUsu = []
     for i in usugim:
         usu = Usuario.query.get(i.id_usuario)
@@ -848,11 +848,11 @@ def editar_alumno(id):
             regis = usuGim.query.filter_by(id_cabeza = session["id"]).all()
         for i in regis:
             usu = Usuario.query.get(i.id_usuario)
-            usuario_gimnasio.gimnasio.choices.append((f'{i.id_UsuGim}',f'{(Gimnasio.query.get(i.id_gimnsio)).nombre_gimnasio} {usu.nombre_usuario} {usu.apellido_usuario}'))
+            usuario_gimnasio.gimnasio.choices.append((f'{i.id_UsuGim}',f'{(Gimnasio.query.get(i.id_gimnasio)).nombre_gimnasio} {usu.nombre_usuario} {usu.apellido_usuario}'))
     else:
         regis = usuGim.query.filter_by(id_usuario = session["id"]).all()
         for i in regis:
-            usuario_gimnasio.gimnasio.choices.append((f'{i.id_UsuGim}',f'{(Gimnasio.query.get(i.id_gimnsio)).nombre_gimnasio}'))
+            usuario_gimnasio.gimnasio.choices.append((f'{i.id_UsuGim}',f'{(Gimnasio.query.get(i.id_gimnasio)).nombre_gimnasio}'))
     if request.method == 'POST' and alumnoForma.validate_on_submit():
         alumnoForma.populate_obj(alumno)
         alumno.id_UsuGim = usuario_gimnasio.gimnasio.data
@@ -868,7 +868,7 @@ def mostrar_datos_alumno(id):
     alumno = Alumno.query.get_or_404(id)
     registro = usuGim.query.get(alumno.id_UsuGim)
     usuario = Usuario.query.get(registro.id_usuario)
-    gimnasio = Gimnasio.query.get(registro.id_gimnsio)
+    gimnasio = Gimnasio.query.get(registro.id_gimnasio)
     if usuario.cabeza_de_grupo:
         cabeza = f'{usuario.nombre_usuario} {usuario.apellido_usuario}'
     else:
@@ -889,21 +889,21 @@ def agregar_alumno():
     if session["Cargo"] == 'Administrador':
         registros = usuGim.query.all()
         for i in registros:
-            j = Gimnasio.query.get(i.id_gimnsio)
+            j = Gimnasio.query.get(i.id_gimnasio)
             k = Usuario.query.get(i.id_usuario)
             usuarios.usuario.choices.append((f'{i.id_UsuGim}',f'{j.nombre_gimnasio} {k.nombre_usuario} {k.apellido_usuario}'))
     else:
         if (Usuario.query.get(session["id"])).cabeza_de_grupo:
             registros = usuGim.query.filter_by(id_cabeza = session["id"]).all()
             for i in registros:
-                j = Gimnasio.query.get(i.id_gimnsio)
+                j = Gimnasio.query.get(i.id_gimnasio)
                 k = Usuario.query.get(i.id_usuario)
                 usuarios.usuario.choices.append((f'{i.id_UsuGim}',f'{j.nombre_gimnasio} {k.nombre_usuario} {k.apellido_usuario}'))
         else:
             registros = usuGim.query.filter_by(id_usuario = session["id"]).all()
             for i in registros:
-                j = Gimnasio.query.get(i.id_gimnsio)
-                usuarios.usuario.choices.append((f'{j.id_gimnsio}',f'{j.nombre_gimnasio} {j.direccion_gimnasio}'))
+                j = Gimnasio.query.get(i.id_gimnasio)
+                usuarios.usuario.choices.append((f'{j.id_gimnasio}',f'{j.nombre_gimnasio} {j.direccion_gimnasio}'))
     if request.method == 'POST':
         alumnoForm.populate_obj(alumno)
         alumno.nombre_alumno = alumno.nombre_alumno.capitalize()
@@ -954,13 +954,13 @@ def ver_alumnos(opc):
         usuario = usuGim.query.filter_by(id_cabeza = session["id"]).all()
         for i in usuario:
             if perteneceAlRegistro(i,gimnasio,compararGim):
-                gimnasio.append(Gimnasio.query.get(i.id_gimnsio))
+                gimnasio.append(Gimnasio.query.get(i.id_gimnasio))
     else:
         registros = usuGim.query.filter_by(id_usuario = session["id"]).all()
         for i in registros:
-            gimnasio.append(Gimnasio.query.get(i.id_gimnsio))
+            gimnasio.append(Gimnasio.query.get(i.id_gimnasio))
     for i in gimnasio:
-        gimnasios.gimnasio.choices.append((f'{i.id_gimnsio}',f'{i.nombre_gimnasio}'))
+        gimnasios.gimnasio.choices.append((f'{i.id_gimnasio}',f'{i.nombre_gimnasio}'))
     ponerPrimero(opciones.usuario.choices,len(opciones.usuario.choices), ((""),("")))
     regis = []
     if request.method != 'POST':
@@ -1002,11 +1002,11 @@ def ver_alumnos(opc):
             alus = Alumno.query.filter(Alumno.habilitado.is_(modo)).all()
         if modo:
             if fUsu and gim:
-                regis = usuGim.query.filter_by(id_usuario = fUsu, id_gimnsio = gim).all()
+                regis = usuGim.query.filter_by(id_usuario = fUsu, id_gimnasio = gim).all()
             elif not fUsu and gim:
-                regis = usuGim.query.filter_by(id_gimnsio = gim).all()
+                regis = usuGim.query.filter_by(id_gimnasio = gim).all()
             elif fUsu and not gim:
-                regis = usuGim.query.filter_by(id_gimnsio = gim).all()
+                regis = usuGim.query.filter_by(id_gimnasio = gim).all()
         final = []
         if regis and alus:
             for i in regis:
@@ -1030,7 +1030,7 @@ def habiAlums(ids,tams):
         gim = request.form.getlist("gimnasio")
         for i in range(len(listaids)):
             if(usu[i]!= "Nada" and gim[i] != "Nada"):
-                regi = usuGim.query.filter_by(id_usuario = usu[i], id_gimnsio = gim[i]).first()
+                regi = usuGim.query.filter_by(id_usuario = usu[i], id_gimnasio = gim[i]).first()
                 alum = Alumno.query.get(listaids[i])
                 alum.habilitado = True
                 alum.id_UsuGim = regi.id_UsuGim
@@ -1049,7 +1049,7 @@ def habiAlums(ids,tams):
     if session["Cargo"] == "Usuario" and not (Usuario.query.get(session["id"])).cabeza_de_grupo:
         regis = usuGim.query.filter_by(id_usuario = session["id"]).all()
         for i in regis:
-            gimnasio.gimnasio.choices.append((f'{i.id_UsuGim}',f'{(Gimnasio.query.get(i.id_gimnsio)).nombre_gimnasio}'))
+            gimnasio.gimnasio.choices.append((f'{i.id_UsuGim}',f'{(Gimnasio.query.get(i.id_gimnasio)).nombre_gimnasio}'))
     else:
         if session["Cargo"] != "Usuario":
             regis = usuGim.query.all()
@@ -1057,9 +1057,9 @@ def habiAlums(ids,tams):
             regis = usuGim.query.filter_by(id_cabeza = session["id"]).all()
         final = []
         for i in regis:
-            gim = Gimnasio.query.get(i.id_gimnsio)
+            gim = Gimnasio.query.get(i.id_gimnasio)
             if perteneceAlRegistro(gim,final,compararGim):
-                gimnasio.gimnasio.choices.append((f'{gim.id_gimnsio}',f'{gim.nombre_gimnasio}'))
+                gimnasio.gimnasio.choices.append((f'{gim.id_gimnasio}',f'{gim.nombre_gimnasio}'))
                 final.append(gim)
         for i in range(len(listaids)):
             listaGims.append(gimnasio)
@@ -1109,7 +1109,7 @@ def cambioUsuario(lugar):
     listaUsuarios = []
     regis = {}
     if lugar != "Nada":
-        regis = usuGim.query.filter_by(id_gimnsio = lugar).all()
+        regis = usuGim.query.filter_by(id_gimnasio = lugar).all()
     else:
         regis = usuGim.query.all()
     for i in regis:
@@ -1145,7 +1145,7 @@ def buscarAlumno():
             objTemp["categoria"] = f'{i.graduacion_alumno}'
             if i.habilitado:
                 usugim = usuGim.query.get(i.id_UsuGim)
-                objTemp["gimnasio"] = (Gimnasio.query.get(usugim.id_gimnsio)).nombre_gimnasio
+                objTemp["gimnasio"] = (Gimnasio.query.get(usugim.id_gimnasio)).nombre_gimnasio
                 usu = Usuario.query.get(usugim.id_usuario)
                 objTemp["instructor"] = f'{usu.nombre_usuario} {usu.apellido_usuario}'
                 alumnosHabi.append(objTemp)
@@ -1374,7 +1374,7 @@ def obtener_nombre(filename):
 def armarUsuGim(usu,gim,cabeza):
     regis = usuGim()
     regis.id_usuario = usu
-    regis.id_gimnsio = gim
+    regis.id_gimnasio = gim
     regis.id_cabeza = cabeza
     db.session.add(regis)
     db.session.commit()
@@ -1399,10 +1399,10 @@ def perteneceAlRegistro(dato, lista, comparar):
     return True
 
 def compararUsuGim(dato1, dato2):
-    return (dato1.id_usuario == dato2.id_usuario and dato1.id_gimnsio == dato2.id_gimnsio)
+    return (dato1.id_usuario == dato2.id_usuario and dato1.id_gimnasio == dato2.id_gimnasio)
 
 def compararGim(dato1,dato2):
-    return dato1.id_gimnsio == dato2.id_gimnsio
+    return dato1.id_gimnasio == dato2.id_gimnasio
 
 def compararUsu(dato1,dato2):
     return dato1.id_usuario == dato2["id"]
