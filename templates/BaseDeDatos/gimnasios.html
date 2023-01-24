@@ -5,12 +5,12 @@
 	<title>GIMNASIOS ENAT</title>
 	<meta name="description"
 		content="somos una escuela de taekwondo argentina asociada a la ITF. estamos en buenos aires, argentina.">
-	<link rel="icon" href="{{url_for('static',filename='Imagenes/ENAT.png')}}">
+	<link rel="icon" href="{{url_for('static',filename='Imagenes/ENAT.PNG')}}">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='CSS/Pagina/normalize.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='CSS/Pagina/gimnasios.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/Pagina/normalize.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/Pagina/gimnasios.css')}}">
 
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,300&display=swap');
@@ -38,15 +38,14 @@
 			<li class="menu__item container-submenu">
 				<a class="menu__link submenu-btn" href="#">NOSOTROS</a>
 				<ul class="submenu">
-					<li class="menu__item "> <a class="menu__link " href="{{url_for('informacion')}}">ACERCA DE NOSOTROS
-							</i> </a> </li>
-					<li class="nav_menu_item "> <a class="menu__link nav_link" href="{{url_for('base')}}">INICIO</a>
+					<li class="nav_menu_item "> <a class="menu__link nav_link"
+							href="http://127.0.0.1:5000/Menu">INICIO</a></li>
+					<li class="menu__item"> <a class="menu__link" href="http://127.0.0.1:5000/login">BASE DE DATOS</a>
 					</li>
-					<li class="menu__item"> <a class="menu__link" href="{{url_for('inicio')}}">BASE DE DATOS</a> </li>
 				</ul>
 			</li>
 			<li class="menu_item"> <a class="menu__link" href="#">EQUIPOS</a> </li>
-			<li class="menu_item"> <a class="menu__link" href="{{url_for('teoria')}}">TEORIA</a> </li>
+			<li class="menu_item"> <a class="menu__link" href="http://127.0.0.1:5000/Teoria">TEORIA</a> </li>
 		</ul>
 		</li>
 		</ul>
@@ -56,12 +55,12 @@
 		<h1 class="fonttitulo"> Escuela Nacional De Taekwondo</h1>
 		<div id="carouselId" class="carousel slide" data-bs-ride="carousel">
 			<div class="carousel-inner" role="listbox">
-				<div class="carousel-item img active">
+				<div class="carousel-item imge active">
 					<div class="">
-						<img src="{{url_for('static',filename='Imagenes/ENAT.png')}}" class="enat">
+						<img src="{{url_for('static',filename='Imagenes/ENAT.PNG')}}" class="enat">
 					</div>
 				</div>
-				<div class="carousel-item img">
+				<div class="carousel-item imge">
 					<div class="">
 						<img src="{{url_for('static',filename='Imagenes/examen/2.jpg')}}" class="enat">
 					</div>
@@ -69,392 +68,74 @@
 			</div>
 		</div>
 		<h1 class="fonttitulo"> GIMNASIOS DE NUESTRA ESCUELA </h1>
-		<div id="carouselId" class="carousel slide" data-bs-ride="carousel">
-			<div class="carousel-inner" role="listbox">
-				<div class="carousel-item text active">
-					<div class="">
-						<h2 class="noticias fonttitulo"> PROXIMO EXAMEN: XX/03/2022 </h2>
-					</div>
+	</nav>
+	<div id="carouselId" class="carousel slide" data-bs-ride="carousel">
+		<div class="carousel-inner" role="listbox">
+			<div class="carousel-item text active">
+				<div class="">
+					{% if fExamen and fExamen >= fActual%}
+                		<h2 class="noticias"> PROXIMO EXAMEN: {{fExamen}} </h2>
+              		{% endif %}
 				</div>
-				<div class="carousel-item text">
-					<div class="">
-						<h2 class="noticias fonttitulo"> PROXIMO TORNEO: XX/03/2022 </h2>
-					</div>
+			</div>
+			<div class="carousel-item text">
+				<div class="">
+					{% if fTorneo and fTorneo >= fActual%}
+						<h2 class="noticias"> PROXIMO TORNEO: {{fTorneo}} </h2>
+					{% endif %}
 				</div>
-				<div class="carousel-item text">
-					<div class="">
-						<h2 class="noticias fonttitulo"> PROXIMO EVENTO: XX/03/2022 </h2>
-					</div>
+			</div>
+			<div class="carousel-item text">
+				<div class="">
+					{% if fOtro and fOtro >= fActual%}
+						<h2 class="noticias"> PROXIMO EVENTO: {{fOtro}} </h2>
+					{% endif %}
 				</div>
 			</div>
 		</div>
-	</nav>
+	</div>
 	</div>
 	<main>
-		<div class="gims" data-aos="fade-right">
-			<h2 class="nombregim"> CABALLITO </h2>
-			<img class="imggims" src="{{url_for('static',filename='Imagenes/gimnasios/federacion.png')}}">
-			<ul class="listas">
-				<p class="ubicacion"> <b> UBICACION</b> </p>
-				<p class="nomubi ubicacion">Av. La Plata 1151,CABA </p>
-			</ul>
-			<ul class="listas"> <b>INSTRUCTORES </b>
-				<li> Carlos Vallejos VI DAN</li>
-				<li> Adriana Filippe III DAN</li>
-				<li> Lautaro Vallejos II DAN</li>
-			</ul>
-			<ul class="listas">
-				<b>DIAS DE CLASES </b>
-				<li>ADULTOS: Lunes y viernes 19 a 20 </li>
-				<li>ADOLESCENTES: Martes y Jueves de: 19 hs a 20 hs. </li>
-				<li>ADOLESCENTES Y CHICOS: lunes y viernes 17hs a 18hs </li>
-				<li> CHICOS (de 6 en adelante): martes y jueves 18hs a 19hs </li>
-				<li> CHICOS (hasta 4 años): martes y jueves 17hs a 16hs </li>
-			</ul>
-			<ul class="redes">
-				<a href="https://www.instagram.com/tkdenat/"> <i class="fab fa-instagram  icono1"> </i> </a>
-				<a
-					href="https://api.whatsapp.com/send?phone=+54 1140556459&text=Hola,quisiera mas informacion de las clases en federacion caballito."><i
-						class="iconos fab fa-whatsapp icono2"></i></a>
-				<a href="https://goo.gl/maps/dF8ZqLNkPbLqnMk57">
-					<ion-icon name="map-outline" class="fab icono4"> </ion-icon>
-				</a>
-				<a href="https://www.facebook.com/taekwondofederacioncaballito"><i
-						class="fab fa-facebook icono3"></i></a>
-			</ul>
-		</div>
-
-		<div class="gims" data-aos="fade-right">
-			<h2 class="nombregim"> VILLA LURO</h2>
-			<img class="imggims" src="{{url_for('static',filename='Imagenes/gimnasios/villaluro.jpg')}}">
-			<ul class="listas">
-				<p class="ubicacion"> <b> UBICACION </b> </p>
-				<p class="nomubi ubicacion">Cnel. Ramón L. Falcón 5176,CABA </p>
-			</ul>
-			<ul class="listas"> <b>INSTRUCTORES </b>
-				<li> Roberto Fernandez VIII Dan </li>
-				<li> Luis apollinio V DAN </li>
-				<li> Daniela Rodriguez VI DAN</li>
-			</ul>
-			<ul class="listas"> <b>DIAS DE CLASES </b>
-				<li>Grupo 4 y 5 años miércoles y viernes 17 hs </li>
-				<li>Grupo 6 a 8 años miércoles 18:00 hs y sabados 10:00 hs</li>
-				<li>Grupo hasta 12 años lunes y jueves 18:30 hs</li>
-				<li>Grupo adolecentes 13 a 17 años miércoles 19:00 hs y sábado 11:00 hs </li>
-				<li>Grupo grupo adultos 18+ miércoles 20:00 hs y sabados 12:00 hs </li>
-			</ul>
-			<ul class="redes">
-				<a href="https://g.page/AmigosDeVillaLuro?share">
-					<ion-icon name="map-outline" class="fab icono4"> </ion-icon>
-				</a>
-			</ul>
-		</div>
-		<div class="gims" data-aos="fade-right">
-			<h2 class="nombregim">FLORES</h2>
-			<img class="imggims" src="{{url_for('static',filename='Imagenes/gimnasios/fermin.jpg')}}">
-			<ul class="listas">
-				<p class="ubicacion"> <b> UBICACION </b> </p>
-				<p class="nomubi ubicacion">culpina 75</p>
-			</ul>
-			<ul class="listas"> <b>INSTRUCTORES </b>
-				<li> Luis apollinio V DAN </li>
-				<li> Pablo Bruno III DAN</li>
-			</ul>
-			<ul class="listas"> <b>DIAS DE CLASES </b>
-				<li> Grupo hasta 12 años martes y viernes 19:00 hs</li>
-				<li>Grupo adolecentes y adultos 13+ martes y viernes 20:00hs</li>
-			</ul>
-			<ul class="redes">
-				<a href="https://goo.gl/maps/RY5XRqPqXyQMZD1RA">
-					<ion-icon name="map-outline" class="fab icono4"> </ion-icon>
-				</a>
-			</ul>
-		</div>
-
-		<div class="gims" data-aos="fade-right">
-			<h2 class="nombregim">GREGORIO DE LAFERRERE</h2>
-			<img class="imggims" src="{{url_for('static',filename='Imagenes/gimnasios/sociedad.jpeg')}}">
-			<ul class="listas">
-				<p class="ubicacion"> <b> UBICACION </b> </p>
-				<p class="nomubi ubicacion">Bonpland 3100</p>
-			</ul>
-
-			<ul class="listas"> <b>INSTRUCTORES </b>
-				<li> Adriana Filippe III DAN </li>
-				<li> Leonel Vallejos II DAN </li>
-			</ul>
-			<ul class="listas"> <b>DIAS DE CLASES </b>
-				<li>jueves de 18hs a 19hs y sabados 9:30hs a 11hs </li>
-			</ul>
-			<ul class="redes">
-				<a href="https://www.instagram.com/tkdenat/"> <i class="fab fa-instagram  icono1"> </i> </a>
-				<a
-					href="https://api.whatsapp.com/send?phone=+54 1140556459&text=Hola,quisiera mas informacion de las clases en la sociedad de fomento."><i
-						class="iconos fab fa-whatsapp icono2"></i></a>
-				<a href="https://goo.gl/maps/QaY5HBdV5JhKAo9w7">
-					<ion-icon name="map-outline" class="fab icono4"> </ion-icon>
-				</a>
-				<a href="https://www.facebook.com/taekwondofederacioncaballito"><i
-						class="fab fa-facebook icono3"></i></a>
-			</ul>
-		</div>
-
-		<div class="gims" data-aos="fade-right">
-			<h2 class="nombregim">LAFERRERE</h2>
-			<img class="imggims" src="{{url_for('static',filename='Imagenes/gimnasios/fortin.jfif')}}">
-			<ul class="listas">
-				<p class="ubicacion"><b> UBICACION </b> </p>
-				<p class="nomubi ubicacion">Sudamérica 3281</p>
-			</ul>
-			<ul class="listas"> <b>INSTRUCTOR</b>
-				<li> Carlos Vallejos VI DAN</li>
-			</ul>
-
-			<ul class="listas"> <b>DIAS DE CLASES </b>
-				<li>Martes: 17 hs a 18 hs</li>
-				<li>Sabado: 10 hs a 11 hs</li>
-			</ul>
-			<ul class="redes">
-				<a href="https://www.instagram.com/tkdenat/"> <i class="fab fa-instagram  icono1"> </i> </a>
-				<a
-					href="https://api.whatsapp.com/send?phone=+54 1140556459&text=Hola,quisiera mas informacion de las clases en el fortin."><i
-						class="iconos fab fa-whatsapp icono2"></i></a>
-				<a href="https://goo.gl/maps/XHPrck23zovpK18J6">
-					<ion-icon name="map-outline" class="fab icono4"> </ion-icon>
-				</a>
-				<a href="https://www.facebook.com/taekwondofederacioncaballito"><i
-						class="fab fa-facebook icono3"></i></a>
-			</ul>
-		</div>
-
-		<div class="gims" data-aos="fade-right">
-			<h2 class="nombregim"> FLORES</h2>
-			<img class="imggims" src="{{url_for('static',filename='Imagenes/gimnasios/calabresa.jfif')}}">
-			<ul class="listas">
-				<p class="ubicacion"> <b> UBICACION </b> </p>
-				<p class="nomubi ubicacion">Yerbal 2636</p>
-			</ul>
-			<ul class="listas"> <b>INSTRUCTOR</b>
-				<li> Carlos Vallejos VI DAN (chicos) </li>
-			</ul>
-			<ul class="listas"> <b>DIAS DE CLASES </b>
-				<li>Miercoles: 17 hs a 18 hs.</li>
-				<li> Viernes: 17 hs a 18 hs. </li>
-			</ul>
-			<ul class="redes">
-				<a href="https://www.instagram.com/tkdenat/"> <i class="fab fa-instagram  icono1"> </i> </a>
-				<a
-					href="https://api.whatsapp.com/send?phone=+54 1140556459&text=Hola,quisiera mas informacion de las clases en asociación calabresa."><i
-						class="iconos fab fa-whatsapp icono2"></i></a>
-				<a href="https://goo.gl/maps/RChcXhPUhasxjrsd6">
-					<ion-icon name="map-outline" class="fab icono4"> </ion-icon>
-				</a>
-				<a href="https://www.facebook.com/taekwondofederacioncaballito"><i
-						class="fab fa-facebook icono3"></i></a>
-			</ul>
-		</div>
-
-		<div class="gims" data-aos="fade-right">
-			<h2 class="nombregim"> FLORES</h2>
-			<img class="imggims" src="{{url_for('static',filename='Imagenes/gimnasios/calabresa.jfif')}}">
-			<ul class="listas">
-				<p class="ubicacion"> <b> UBICACION </b></p>
-				<p class="nomubi ubicacion">Yerbal 2636</p>
-			</ul>
-			<ul class="listas"> <b>INSTRUCTOR</b>
-				<li> Enrique Bullevarcich V DAN</li>
-			</ul>
-			<ul class="listas"> <b>DIAS DE CLASES </b>
-				<li> Martes (principiantes): 17:30 hs a 18:30 hs</li>
-				<li> Martes(principiantes): 17:30 hs a 18:30 hs</li>
-				<li> Jueves(principiantes): 18:30 hs a 19:30 hs</li>
-				<li> Jueves (avanzados): 18:30 a 19:30 hs </li>
-			</ul>
-
-			<ul class="redes">
-				<a href="https://www.instagram.com/vikingo40tkditf/"> <i class="fab fa-instagram  icono1"> </i> </a>
-				<a href="https://goo.gl/maps/RChcXhPUhasxjrsd6">
-					<ion-icon name="map-outline" class="fab icono4"> </ion-icon>
-				</a>
-				<a href="https://www.facebook.com/enrique.tkd.itf/"><i class="fab fa-facebook icono3"></i></a>
-			</ul>
-		</div>
-
-		<div class="gims" data-aos="fade-right">
-			<h2 class="nombregim">BALVANERA</h2>
-			<img class="imggims" src="{{url_for('static',filename='Imagenes/gimnasios/Christian.jpeg')}}">
-			<ul class="listas">
-				<p class="ubicacion"> <b> UBICACION </b> </p>
-				<p class="nomubi ubicacion">Adolfo alsina 2143</p>
-			</ul>
-			<ul class="listas"> <b>INSTRUCTOR</b>
-				<li> Christian Figueroa III dan</li>
-			</ul>
-			<ul class="listas"> <b>DIAS DE CLASES </b>
-				<li>Martes (infantiles): 17:30 hs a 18:30 hs </li>
-				<li> Jueves (infantiles): 17:30 hs a 18:30 hs</li>
-				<li>Martes (adolescentes y adultos): 19:00 hs a 20:00 hs </li>
-				<li> Viernes (adolescentes y adultos): 19:30 hs a 20:30 hs </li>
-				<li>Sábado (adolescentes y adultos): 13:00 hs a 14:00 hs </li>
-			</ul>
-
-			<ul class="redes">
-				<a href="https://g.page/AmigosDeVillaLuro?share">
-					<ion-icon name="map-outline" class="fab icono4"> </ion-icon>
-				</a>
-			</ul>
-		</div>
-
-		<div class="gims" data-aos="fade-right">
-			<h2 class="nombregim">BALVANERA</h2>
-			<img class="imggims" src="{{url_for('static',filename='Imagenes/gimnasios/Christian.jpeg')}}">
-			<ul class="listas">
-				<p class="ubicacion"> <b> UBICACION </b> </p>
-				<p class="nomubi ubicacion">Pichincha 180</p>
-			</ul>
-			<ul class="listas"> <b>INSTRUCTOR</b>
-				<li> Christian Figueroa III dan</li>
-			</ul>
-			<ul class="listas"> <b>DIAS DE CLASES </b>
-				<li>Miércoles (Desde los 6 años): 19:00 hs a 20:00 hs </li>
-				<li> Viernes (Desde los 6 años): 18:00 hs a 19:00 hs </li>
-			</ul>
-			<ul class="redes">
-				<a href="https://g.page/AmigosDeVillaLuro?share">
-					<ion-icon name="map-outline" class="fab icono4"> </ion-icon>
-				</a>
-			</ul>
-		</div>
-
-		<div class="gims" data-aos="fade-right">
-			<h2 class="nombregim"> BARRIO ALBORADA </h2>
-			<img class="imggims" src="{{url_for('static',filename='Imagenes/gimnasios/ideal.jpg')}}">
-			<ul class="listas">
-				<p class="ubicacion"> <b>UBICACION </b> </p>
-				<p class="nomubi ubicacion">Montiel 5142</p>
-			</ul>
-			<ul class="listas"> <b>INSTRUCTOR</b>
-				<li> Luis Apollonio 5° Dan</li>
-				<li> Miguel Racedo 4° Dan</li>
-			</ul>
-
-			<ul class="listas"> <b>DIAS DE CLASES </b>
-				<li>Grupo hasta 12 Años Lunes y jueves 18:30 hs</li>
-				<li> Grupo adolecentes y adultos 13+ lunes y jueves 19:30 hs</li>
-			</ul>
-			<ul class="redes">
-				<a href="https://goo.gl/maps/UEXUcxDAyucXkYzy8">
-					<ion-icon name="map-outline" class="fab icono4"> </ion-icon>
-				</a>
-			</ul>
-		</div>
-		<div class="gims" data-aos="fade-right">
-			<h2 class="nombregim"> MATADEROS</h2>
-			<img class="imggims" src="{{url_for('static',filename='Imagenes/gimnasios/asis.jpg')}}">
-			<ul class="listas">
-				<p class="ubicacion"> <b>UBICACION </b> </p>
-				<p class="nomubi ubicacion">guamini 1728</p>
-			</ul>
-			<ul class="listas"> <b>INSTRUCTOR</b>
-				<li> Luis Apollonio 5° Dan</li>
-			</ul>
-
-			<ul class="listas"> <b>DIAS DE CLASES </b>
-				<li>Grupo hasta 12 años martes y jueves 18:00 hs</li>
-				<li>Grupo adolecente y adultos 13+ martes y jueves 19:45 hs</li>
-			</ul>
-			<ul class="redes">
-				<a href="https://goo.gl/maps/LVxL6dJJDKusxJmS7">
-					<ion-icon name="map-outline" class="fab icono4"> </ion-icon>
-				</a>
-			</ul>
-		</div>
-		<div class="gims" data-aos="fade-right">
-			<h2 class="nombregim"> LINIERS</h2>
-			<img class="imggims" src="{{url_for('static',filename='Imagenes/gimnasios/santojanni.png')}}">
-			<ul class="listas">
-				<p class="ubicacion"> <b>UBICACION </b> </p>
-				<p class="nomubi ubicacion">patrón 6222</p>
-			</ul>
-			<ul class="listas"> <b>INSTRUCTOR</b>
-				<li> Luis Apollonio 5° Dan</li>
-			</ul>
-
-			<ul class="listas"> <b>DIAS DE CLASES </b>
-				<li>Grupo hasta 12 años martes y jueves 14:00 hs</li>
-				<li>Grupo adolecentes y adultos 13+ martes y jueves 16:00 hs</li>
-				<li>Grupo avanzados viernes 14:30 hs</li>
-			</ul>
-			<ul class="redes">
-				<a href="https://goo.gl/maps/Z5AztL441k84WTLV8">
-					<ion-icon name="map-outline" class="fab icono4"> </ion-icon>
-				</a>
-			</ul>
-		</div>
-
-		<div class="gims" data-aos="fade-right">
-			<h2 class="nombregim"> SAN TELMO</h2>
-			<img class="imggims" src="{{url_for('static',filename='Imagenes/gimnasios/huergo.png')}}">
-			<ul class="listas">
-				<p class="ubicacion"><b> UBICACION </b> </p>
-				<p class="nomubi ubicacion">Peru 759</p>
-			</ul>
-			<ul class="listas"> <b>INSTRUCTOR</b>
-				<li> Carlos Vallejos VI DAN</li>
-			</ul>
-
-			<ul class="listas"> <b>DIAS DE CLASES </b>
-				<li>Lunes: 17:30 hs a 18:15 hs</li>
-				<li>Miercoles: 12 hs a 13 hs</li>
-				<li>Viernes: 12 hs a 13 hs </li>
-			</ul>
-
-			<ul class="redes">
-				<a href="https://www.instagram.com/tkdenat/"> <i class="fab fa-instagram  icono1"> </i> </a>
-				<a
-					href="https://api.whatsapp.com/send?phone=+54 1140556459&text=Hola,quisiera mas informacion de las clases en el instituto huergo."><i
-						class="iconos fab fa-whatsapp icono2"></i></a>
-				<a href="https://g.page/AmigosDeVillaLuro?share">
-					<ion-icon name="map-outline" class="fab icono4"> </ion-icon>
-				</a>
-				<a href="https://www.facebook.com/taekwondofederacioncaballito"><i
-						class="fab fa-facebook icono3"></i></a>
-			</ul>
-		</div>
-
-		<!-- A modificar -->
 		{% for i in range(pos) %}
-			{% for j in range(listaCont[i + 1] - listaCont[i])%}
-				<div class="gims" data-aos="fade-right">
-					<h2 class="nombregim"> {{listaGims[i].nombre_gimnasio}}</h2>
-					<img class="imggims" src="{{listaGims[i].logo_gimnasio}}">
-					<ul class="listas">
-						<p class="ubicacion"><b> UBICACION </b> </p>
-						<p class="nomubi ubicacion">{{listaGims[i].ubicacion_gimnasio}}</p>
-					</ul>
-					<ul class="listas"> <b>INSTRUCTOR</b>
-						<li> {{listaUsu[i + j]}}</li>
-					</ul>
-		
-					<ul class="listas"> <b>DIAS DE CLASES </b>
-						{% for k in range(contHorarios[i + j + 1] - contHorarios[i + j])%}
-							<li>{{listaHorarios[i + j + k]}}</li>
-						{% endfor %}
-					</ul>
-		
+			<div class="gims" data-aos="fade-right">
+				<h2 class="nombregim"> {{listaGims[i].nombre_gimnasio}}</h2>
+				<img class="imggims" src="{{listaGims[i].logo_gimnasio}}">
+				<ul class="listas">
+					<p class="ubicacion"><b> UBICACION </b> </p>
+					<p class="nomubi ubicacion">{{listaGims[i].direccion_gimnasio}}</p>
+				</ul>
+				<ul class="listas"> <b>INSTRUCTOR</b>
+					{% for j in range(listaCont[i + 1] - listaCont[i])%}
+						<li> {{listaUsu[j + listaCont[i]]}}</li>
+					{% endfor %}
+				</ul>
+				<ul class="listas"> <b>DIAS DE CLASES </b>
+					{% for k in range(contHorarios[i + 1] - contHorarios[i])%}
+						<li>{{listaHorarios[contHorarios[i] + k][0]}}</li>
+					{% endfor %}
+				</ul>
+				{% if listaGims[i].instagram_gimnasio or listaGims[i].whats_gimnasio or listaGims[i].ubicacion_gimnasio or listaGims[i].face_gimnasio %}
 					<ul class="redes">
-						<a href="https://www.instagram.com/tkdenat/"> <i class="fab fa-instagram  icono1"> </i> </a>
-						<a
-							href="https://api.whatsapp.com/send?phone=+54 1140556459&text=Hola,quisiera mas informacion de las clases en el instituto huergo."><i
-								class="iconos fab fa-whatsapp icono2"></i></a>
-						<a href="https://g.page/AmigosDeVillaLuro?share">
-							<ion-icon name="map-outline" class="fab icono4"> </ion-icon>
-						</a>
-						<a href="https://www.facebook.com/taekwondofederacioncaballito"><i
+						{% if listaGims[i].instagram_gimnasio %}
+							<a href="{{listaGims[i].instagram_gimnasio}}"> <i class="fab fa-instagram  icono1"> </i> </a>
+						{% endif %}
+						{% if listaGims[i].whats_gimnasio %}
+							<a
+								href="https://api.whatsapp.com/send?phone=+54 {{listaGims[i].whats_gimnasio}}&text=Hola,quisiera mas informacion de las clases en el instituto huergo."><i
+									class="iconos fab fa-whatsapp icono2"></i></a>
+						{% endif %}
+						{% if listaGims[i].ubicacion_gimnasio %}
+							<a href="{{listaGims[i].ubicacion_gimnasio}}">
+								<ion-icon name="map-outline" class="fab icono4"> </ion-icon>
+							</a>
+						{% endif %}
+						{% if listaGims[i].face_gimnasio %}
+							<a href="{{listaGims[i].face_gimnasio}}"><i
 								class="fab fa-facebook icono3"></i></a>
+						{% endif %}
 					</ul>
-				</div>
-			{% endfor %}
+				{% endif %}
+			</div>
 		{% endfor %}
 	</main>
 	<footer>
@@ -462,16 +143,11 @@
 			<ul class="font">
 				<p class="contactanos">contactanos
 				<p> <br>
-					<li> <b>
-							<ion-icon name="logo-instagram"></ion-icon> <a class="mediodecontacto"
-								href="https://www.instagram.com/tkdenat/" class="iconos"> instagram </a>
-						</b> </li>
-					<li>
-						<ion-icon name="logo-facebook"></ion-icon> <a class="mediodecontacto"
-							href="https://www.facebook.com/taekwondofederacioncaballito" class="iconos"> facebook</a>
-					</li>
-					<li> <b> MAIL:</b><a href="mailto:lautarovallejos14@gmail.com?Subject=Taekwon-Do">
-							lautarovallejos14@gmail.com </a></li>
+					<li> <b><ion-icon name="logo-instagram"></ion-icon> <a class="mediodecontacto"
+								href="https://www.instagram.com/tkdenat/" class="iconos"> instagram </a></b> </li>
+					<li> <ion-icon name="logo-facebook"></ion-icon> <a class="mediodecontacto" href="#" class="iconos">
+							facebook</a> </li>
+					<li> <b> MAIL:</b><a href="mailto:#.com?Subject=Taekwon-Do"> falta gmail de la escuela </a></li>
 					<li class="copy">© Enat-Escuela nacional de taekwondo - lautaro vallejos</li>
 			</ul>
 		</div>
@@ -497,7 +173,7 @@
 			duration: 1000
 		});
 	</script>
-	<script type="text/javascript" src="{{url_for('static',filename='JS/gimnasios.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static',filename='js/gimnasios.js')}}"></script>
 </body>
 
 </html>

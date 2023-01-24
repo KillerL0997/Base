@@ -8,45 +8,36 @@
                             <p>Usuario</p>
                             {{usuarios.usuario}}
                         </section>
-                            <button type="submit">Aceptar</button>
+                            <button class="btnFilRedondeado" type="submit">Aceptar</button>
                         </form>
                 {% endif %}
                 <section class="filtrosFil">
                     {% if opc == "todo" %}
-                            <button onclick="llenar('Gims','DesaGims','{{opc}}','{{msj}}')">Deshabilitar gimnasios</button>
-                            <button type="button" onclick="location.href='/ver_gimnasios/desa'">Ver deshabilitados</button>
+                            <button class="btnFilRedondeado" onclick="llenar('Gims','DesaGims','{{opc}}','{{msj}}')">Deshabilitar gimnasios</button>
+                            <button class="btnFilRedondeado" type="button" onclick="location.href='/ver_gimnasios/desa'">Ver deshabilitados</button>
                     {% else %}
-                            <button onclick="llenar('Gims','HabiGims','','')">Habilitar gimnasios</button>
-                            <button onclick="llenar('Gims','ElimGims','','')">Eliminar gimnasios</button>
-                            <button type="button" onclick="location.href='/ver_gimnasios/todo'">Ver habilitados</button>
+                            <button class="btnFilRedondeado" onclick="llenar('Gims','HabiGims','','')">Habilitar gimnasios</button>
+                            <button class="btnFilRedondeado" onclick="llenar('Gims','ElimGims','','')">Eliminar gimnasios</button>
+                            <button class="btnFilRedondeado" type="button" onclick="location.href='/ver_gimnasios/todo'">Ver habilitados</button>
                     {% endif %}
-                        <button type="button" onclick="location.href='/ver_gimnasios/todo'">Ver todo</button>
-                        <button type="button" onclick="location.href='/Base'">Regresar</button>
+                        <button class="btnFilRedondeado" type="button" onclick="location.href='/ver_gimnasios/todo'">Ver todo</button>
+                        <button class="btnFilRedondeado" type="button" onclick="location.href='/Base'">Regresar</button>
                 </section>
             </nav>
             <div class="tablaListado">
                 {% if gimnasios %}
                     <table border="1">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Nombre</th>
-                                <th>Direccion</th>
-                                {% if opc == 'todo' %}
-                                    <th></th>
-                                    <th></th>
-                                {% endif %}
-                            </tr>
-                        </thead>
                         <tbody>
                             {% for gimnasio in gimnasios %}
                                 <tr>
-                                    <td><input type="checkbox" name="checkbox" value="{{gimnasio.id_gimnsio}}"></td>
-                                    <td>{{gimnasio.nombre_gimnasio}}</td>
-                                    <td>{{gimnasio.direccion_gimnasio}}</td>
+                                    <td><input type="checkbox" name="checkbox" value="{{gimnasio.id_gimnasio}}"></td>
+                                    <td>
+                                        <strong>{{gimnasio.nombre_gimnasio}}</strong><br>
+                                        <p>{{gimnasio.direccion_gimnasio}}</p>
+                                    </td>
                                     {% if opc == 'todo' %}
-                                        <td><a href="{{url_for('editar_gimnasio', id = gimnasio.id_gimnsio )}}"><img src="../../../static/CSS/escritura.png" alt="Editar"></a></td>
-                                        <td><a href="{{url_for('mostrar_datos_gimnasio', id = gimnasio.id_gimnsio )}}"><img src="../../../static/CSS/icons8-detalles-50.png" alt="Detalles"></a></td>
+                                        <td><a href="{{url_for('editar_gimnasio', id = gimnasio.id_gimnasio )}}"><img src="../../../static/CSS/escritura.png" alt="Editar"></a></td>
+                                        <td><a href="{{url_for('mostrar_datos_gimnasio', id = gimnasio.id_gimnasio )}}"><img src="../../../static/CSS/icons8-detalles-50.png" alt="Detalles"></a></td>
                                     {% endif %}
                                 </tr>
                             {% endfor %}

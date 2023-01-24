@@ -18,60 +18,50 @@
             </section>
             <br>
             <section class="filtrosCol">
-                <button type="submit">Aceptar</button>
+                <button class="btnFilRedondeado" type="submit">Aceptar</button>
             </section>
         </form>
         <section class="filtrosFil">
-            <button onclick="llenar('Matriculas','AATEE','','')">Matricula AATEE</button>
-            <button onclick="llenar('Matriculas','FETRA','','')">Matricula FETRA</button>
-            <button onclick="llenar('Matriculas','ENAT','','')">Matricula ENAT</button>
+            <button class="btnFilRedondeado" onclick="llenar('Matriculas','AATEE','','')">Matricula AATEE</button>
+            <button class="btnFilRedondeado" onclick="llenar('Matriculas','FETRA','','')">Matricula FETRA</button>
+            <button class="btnFilRedondeado" onclick="llenar('Matriculas','ENAT','','')">Matricula ENAT</button>
         </section>
         <section class="filtrosFil">
-            <button type="button" onclick="location.href='/ver_matriculas/todo'">Ver todo</button>
-            <button type="button" onclick="location.href='/Base'">Regresar</button>
+            <button class="btnFilRedondeado" type="button" onclick="location.href='/ver_matriculas/todo'">Ver todo</button>
+            <button class="btnFilRedondeado" type="button" onclick="location.href='/Base'">Regresar</button>
         </section>
     </nav>
     <div class="tablaListado">
         <table border="1">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Categoria</th>
-                    <th>AATEE</th>
-                    <th>FETRA</th>
-                    <th>ENAT</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
             <tbody>
                 {% for alumno in alumnos %}
-                <tr>
-                    <td><input type="checkbox" name="checkbox" value="{{alumno.id_alumno}}"></td>
-                    <td>{{alumno.nombre_alumno}}</td>
-                    <td>{{alumno.apellido_alumno}}</td>
-                    <td>{{alumno.graduacion_alumno}}</td>
-                    {% if alumno.fecha_Aatee %}
-                    <td>{{alumno.fecha_Aatee}}</td>
-                    {% else %}
-                    <td></td>
-                    {% endif %}
-                    {% if alumno.fecha_Fetra %}
-                    <td>{{alumno.fecha_Fetra}}</td>
-                    {% else %}
-                    <td></td>
-                    {% endif %}
-                    {% if alumno.fecha_Enat %}
-                    <td>{{alumno.fecha_Enat}}</td>
-                    {% else %}
-                    <td></td>
-                    {% endif %}
-                    <td><a href="{{url_for('Detalles_matriculas', id = alumno.id_alumno)}}"><img src="../../../static/CSS/icons8-detalles-50.png" alt="Detalles"></a></td>
-                    <td><a href="{{url_for('Editar_matriculas', id = alumno.id_alumno, modo = 'editar')}}"><img src="../../../static/CSS/escritura.png" alt="Editar"></a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td><input type="checkbox" name="checkbox" value="{{alumno.id_alumno}}"></td>
+                        <td>
+                            <strong>{{alumno.apellido_alumno}} {{alumno.nombre_alumno}}</strong><br>
+                            <p>{{alumno.graduacion_alumno}}</p><br>
+                            {% if alumno.fecha_Aatee %}
+                                <p>AATEE: {{alumno.fecha_Aatee}}</p>
+                            {% else %}
+                                <p>No pagó AATEE</p>
+                            {% endif %}
+                            <br>
+                            {% if alumno.fecha_Fetra %}
+                                <p>Fetra: {{alumno.fecha_Fetra}}</p>
+                            {% else %}
+                                <p>No pagó Fetra</p>
+                            {% endif %}
+                            <br>
+                            {% if alumno.fecha_Enat %}
+                                <p>Enat: {{alumno.fecha_Enat}}</p>
+                            {% else %}
+                                <p>No pagó Enat</p>
+                            {% endif %}
+                        </td>
+                        <td><a href="{{url_for('Detalles_matriculas', id = alumno.id_alumno)}}"><img src="../../../static/CSS/icons8-detalles-50.png" alt="Detalles"></a></td>
+                        <td><a href="{{url_for('Editar_matriculas', id = alumno.id_alumno, modo = 'editar')}}"><img src="../../../static/CSS/escritura.png" alt="Editar"></a>
+                        </td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>

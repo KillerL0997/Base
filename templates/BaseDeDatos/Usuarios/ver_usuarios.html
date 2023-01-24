@@ -5,40 +5,35 @@
     <nav class="filtros">
         <section class="filtrosCol">
             <section class="filtrosFil">
-                <button onclick="location.href='/ver_usuarios/cabeza'">Ver cabezas</button>
-                <button onclick="location.href='/ver_usuarios/instructor'">Ver instructores</button>
-                <button onclick="location.href='/ver_usuarios/usuario'">Ver usuarios</button>
+                <button class="btnFilRedondeado" onclick="location.href='/ver_usuarios/cabeza'">Ver cabezas</button>
+                <button class="btnFilRedondeado" onclick="location.href='/ver_usuarios/instructor'">Ver instructores</button>
+                <button class="btnFilRedondeado" onclick="location.href='/ver_usuarios/usuario'">Ver usuarios</button>
             </section>
             <section class="filtrosFil">
-                <button onclick="location.href='/ver_usuarios/administrador'">Ver Administradores</button>
-                <button onclick="location.href='/ver_usuarios/todo'">Todos los usuarios</button>
-                <button onclick="location.href='/Base'">Regresar</button>
+                <button class="btnFilRedondeado" onclick="location.href='/ver_usuarios/administrador'">Ver Administradores</button>
+                <button class="btnFilRedondeado" onclick="location.href='/ver_usuarios/todo'">Todos los usuarios</button>
+                <button class="btnFilRedondeado" onclick="location.href='/Base'">Regresar</button>
             </section>
         </section>
     </nav>
     <div class="tablaListado">
         <table border="1">
             {% if usuarios %}
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Cabeza</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
             <tbody>
                 {% for usuario in usuarios %}
                 <tr>
-                    <td>{{usuario.nombre_usuario}}</td>
-                    <td>{{usuario.apellido_usuario}}</td>
-                    {% if usuario.cabeza_de_grupo == True %}
-                    <td>Si</td>
-                    {% else %}
-                    <td>No</td>
-                    {% endif %}
+                    <td>
+                        <strong>{{usuario.apellido_usuario}} {{usuario.nombre_usuario}}</strong><br>
+                        {% if usuario.cargo_usuario == 'Administrador'%}
+                            <p>Este usuario es un administrador</p>
+                        {% else %}
+                            {% if usuario.cabeza_de_grupo == True %}
+                                <p>Este usuario es una cabeza de grupo</p>
+                            {% else %}
+                                <p>Este es un usuario normal</p>
+                            {% endif %}
+                        {% endif %}
+                    </td>
                     <td><a href="{{url_for('eliminar_usuario', id = usuario.id_usuario)}}"><img src="../../../static/CSS/icons8-eliminar-50.png" alt="Eliminar"></a></td>
                     <td><a href="{{url_for('editar_usuario', id = usuario.id_usuario, opc = 'editar')}}"><img src="../../../static/CSS/escritura.png" alt="Editar"></a></td>
                     <td><a href="{{url_for('mostrar_datos_usuario', id = usuario.id_usuario)}}"><img src="../../../static/CSS/icons8-detalles-50.png" alt="Detalles"></a></td>

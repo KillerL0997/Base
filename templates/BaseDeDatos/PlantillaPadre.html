@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="{{url_for('static',filename='CSS/BaseDeDatos.css')}}">
     <title>Base de datos</title>
 </head>
-    {% block content %}
-    {% endblock %}
+    <body>
+        <img src="{{url_for('static',filename='Imagenes/ENAT.png')}}" alt="" class="imgFondo">
+        {% block content %}
+        {% endblock %}
+    </body>
+    <footer>
+        <p>Base de datos creada por Leonel vallejos</p>
+        <p>Todos los derechos reservados</p>
+        <p>Contacto: leonelvallejos3@gmail.com</p>
+    </footer>
 </html>

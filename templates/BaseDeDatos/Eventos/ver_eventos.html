@@ -13,15 +13,15 @@
                             <p>Hasta:</p>
                             <input type="date" name="fHasta" id="">
                         </section>
-                        <button type="submit">Aceptar</button>
+                        <button class="btnFilRedondeado" type="submit">Aceptar</button>
                     </form>
                 </section>
                 <section class="filtrosFil">
-                    <button onclick="location.href='/ver_eventos/examen'">Ver examenes</button>
-                    <button onclick="location.href='/ver_eventos/torneos'">Ver torneos</button>
-                    <button onclick="location.href='/ver_eventos/otros'">Ver otros eventos</button>
-                    <button onclick="location.href='/ver_eventos/todo'">Ver todo</button>
-                    <button onclick="location.href='/Base'">Regresar</button>
+                    <button class="btnFilRedondeado" onclick="location.href='/ver_eventos/examen'">Ver examenes</button>
+                    <button class="btnFilRedondeado" onclick="location.href='/ver_eventos/torneos'">Ver torneos</button>
+                    <button class="btnFilRedondeado" onclick="location.href='/ver_eventos/otros'">Ver otros eventos</button>
+                    <button class="btnFilRedondeado" onclick="location.href='/ver_eventos/todo'">Ver todo</button>
+                    <button class="btnFilRedondeado" onclick="location.href='/Base'">Regresar</button>
             </section>
             </section>
         </nav>
@@ -30,20 +30,12 @@
                 {% if examenes %}
                     <h2>Examenes</h2>
                         <table border="1">
-                            <thead>
-                                <tr>
-                                    <th>Fecha examen</th>
-                                    {% if msj == 'Administrador'%}
-                                        <th></th>
-                                    {% endif %}
-                                    <th></th>
-                                </tr>
-                            </thead>
                             <tbody>
                                 {% for examen in examenes %}
                                     <tr>
                                         <td>{{examen.fecha_evento}}</td>
-                                        {% if msj == 'Administrador'%}
+                                        {% if msj == 'Administrador'%} 
+                                        <td><a href="{{url_for('eliminar_evento', id = examen.id_evento)}}"><img src="../../../static/CSS/icons8-eliminar-50.png" alt="Eliminar"></a></td>
                                             <td><a href="{{url_for('editar_evento', id = examen.id_evento)}}"><img src="../../../static/CSS/escritura.png" alt="Editar"></a></td>
                                         {% endif %}
                                         <td><a href="{{url_for('mostrar_datos_evento', id = examen.id_evento)}}"><img src="../../../static/CSS/icons8-detalles-50.png" alt="Detalles"></a></td>
@@ -55,16 +47,6 @@
                 {% if torneos %}
                     <h2>Torneos</h2>
                     <table border="1">
-                        <thead>
-                            <tr>
-                                <th>Fecha torneos</th>
-                                {% if msj == 'Administrador'%}
-                                    <th></th>
-                                    <th></th>
-                                {% endif %}
-                                <th></th>
-                            </tr>
-                        </thead>
                         <tbody>
                             {% for torneo in torneos %}
                                 <tr>
@@ -82,16 +64,6 @@
                 {% if otros %}
                 <h2>Otros eventos</h2>
                 <table border="1">
-                    <thead>
-                        <tr>
-                            <th>Fecha torneos</th>
-                            {% if msj == 'Administrador'%}
-                                <th></th>
-                                <th></th>
-                            {% endif %}
-                            <th></th>
-                        </tr>
-                    </thead>
                     <tbody>
                         {% for otro in otros %}
                             <tr>

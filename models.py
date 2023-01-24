@@ -39,7 +39,6 @@ class Gimnasio(db.Model):
         id_gimnasio: {self.id_gimnasio}
         nombre: {self.nombre_gimnasio}
         direccion: {self.direccion_gimnasio}
-        horarios: {self.horarios_gimnasio}
         logo: {self.logo_gimnasio}
         '''
 

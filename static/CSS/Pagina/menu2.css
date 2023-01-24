@@ -1,3 +1,118 @@
+/*pegale una leida despues es lo nuevo que pasaste */
+/*HISTORIA */
+.titulohistoria{
+	text-align: center;
+	font-size: 40px;
+	font-family: 'Roboto Mono', monospace;
+}
+.historiaenat{
+	border: inset;
+border-radius: 30px;
+}
+.historia{
+	
+	font-size: 18px;
+	color:black;
+font-family: 'Source Sans Pro', sans-serif;
+text-align: center;
+padding: 1%;
+}
+.text{
+	height: 56px !important;
+}
+
+/*modal*/
+.carousel-item{
+height: 100%;
+width: 100%;
+}
+.imge{
+	height: 200px;
+}
+.d-block{
+	height: 100%;
+    width: 500px;
+}
+/*carrousel*/
+.carrousel{
+	margin: 1%;
+}
+.tituloimagenes{
+	text-align: center;
+	font-size: 30px;
+}
+.carrousel__contenedor{
+position: relative;
+padding: 1%;
+width: 100%;
+}
+.carrousel__contenedor:hover{
+	transition: 2s;
+		transform: translateY(2%);
+		box-shadow: 8px 8px 10px rgba(0,0,0,0.5);
+}
+.carrousel__anterior,
+.carrousel__siguiente{
+	visibility: hidden;
+	position: absolute;
+	display: block;
+	width: 50px;
+	height: 50px;
+	border:none;
+	position: calc(50%-35px);
+	cursor: pointer;
+	line-height: 30px;
+	text-align: center;
+	color: white;
+	background: black;
+}
+.carrousel__anterior{
+	left: -20px;
+	bottom: 300px;
+	display: block;
+	position: absolute;
+}
+.carrousel__siguiente{
+	right: -20px;
+	top: 250px;
+}
+.imagen{
+	width: 100%;
+	height: 300px;
+}
+.carousel-item{
+	
+	height: 270px;
+}
+@media(max-width: 992px){
+	.carrousel__anterior{
+		border: none;
+		background:none;
+		display: none;
+	}
+	.carrousel__siguiente{
+		border: none;
+		background:none;
+		display: none;
+	}
+	.logoescueladiv{
+			margin-left: 80px;
+		margin-right: 80px;
+	}
+.titulohistoria, .font{
+	font-size: x-large;
+}
+	.historia{
+		font-size: smaller;
+	}
+.imagen{
+	height: 200px;
+}
+.articulo{
+	margin-left: 0% !important;
+}
+}
+/*pegale una leida despues es lo nuevo que pasaste */
 a*{
 	box-sizing: border-box;
 
@@ -21,7 +136,7 @@ h1{
 /*MENU Y MENU RESPONSIVE */
 .nav-bar{
 	background: blue;
-	padding:20px;
+	padding:0 9px;
 	display: block;
 	color: white;
 	cursor: pointer;
@@ -77,7 +192,12 @@ background: #8095FF ;
 	height: 150px;
 }
 
-.enat{margin: auto;display: block;}
+.enat{
+	margin: 0% auto;
+height: 200px;
+width: 200px;
+display: block;
+}
 .titulocentral{
 	padding: 1%;
 text-align: center;
@@ -106,6 +226,7 @@ font-family: 'Poppins', sans-serif;
     text-align: center;
     font-size: 30px;
     color: white;
+	margin-top: -5%;
 }
 /*NOTICIAS */
 .noticias{
@@ -115,20 +236,7 @@ font-family: 'Poppins', sans-serif;
    font-family: 'Poppins', sans-serif;
     font-size: 25px;
 }
-.historia{
-	margin-top: 1%;
-	text-align: center;
-	font-size: 30px;
-	font-family: 'Lato', sans-serif;
-	margin-left: 2%;
-}
-.historiataekwondo{
-	font-size: 20px;
-	width: 70%;
-	animation-name: derecha;
-	animation-duration: 1s;
-	animation-fill-mode: forwards;
-}
+
 @keyframes derecha{
 	from{
 transform: translateX(-100%);
@@ -140,10 +248,10 @@ transform: translateX(0);
 
 /*ENRIQUE EIRIZ*/
 .articulo{
-	float: right;
-	width: 20%;
 border: inset;
 border-radius: 30px;
+margin-left: 10%;
+width: 80%;
 }
 
 .titulo{
@@ -161,93 +269,8 @@ border-radius: 30px;
 }
 .font{
 	font-family: 'Nanum Gothic', sans-serif;
-	margin: 10px;
-	padding: 10px;
 }
 
-	/*que es y para que sirve el taekwondo*/
-	.taekwondo{
-		padding: 2%;
-	}
-.tc{
-	text-align: center;
-	font-style: 'Inconsolata', monospace;
-}
-/*flip back imagenes */
-.imagenes{
-display: flex;
- justify-content: center;
-}
-
-.carta{
-	position: relative;
-	width: 160px;
-	height: 160px;
-	margin: 20px;
-}
-.carta .face{
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	backface-visibility: hidden;
-	border-radius: 10px;
-	overflow: hidden;
-	transition: .5s;
-}
-
-.carta .front{
-	transform: perspective(600px) rotateY(0deg);
-	box-shadow: 0 5px 10px #000;
-}
-.carta .front img{
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-.carta .front h3{
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	height: 27px;
-	line-height: 30px;
-	color: #fff;
-	background: black;
-	text-align: center;
-}
-
-.carta .back{
-	transform: perspective(600px) rotateY(180deg);
-	background-color: black;
-	color: white;
-	display: inline-grid;
-	flex-direction: column;
-	justify-content: space-between;
-	text-align: center;
-	box-shadow: 0 5px 10px black;
-}
-
-.carta .back .link{
-	border-top: solid 1px white;
-	height: 50px;
-	line-height: 34px;
-}
-.carta .back .link a{
-	color: white;
-}
-
-.carta .back h3{
-	padding-top: 20px;
-}
-.carta .back p{
-	letter-spacing: 1px;
-}
-.carta:hover .front {
-transform: perspective(600px) rotateY(180deg);
-}
-.carta:hover .back {
-transform: perspective(600px) rotateY(360deg);
-}
 
 /*pie de pagina*/
 footer{
@@ -348,44 +371,35 @@ margin-right: 10%;
 	font-size: 9px;
 }
 .copy{
-	font-family: 7px;
+	font-size: 7px;
 }
 .mediodecontacto{
-	font-size: 10px;
+	font-size: 7px;
 }
-.historiataekwondo{
-	padding-left:0;
-	padding-right:0;
-	width: 90%;
-	text-align: left;
-}
+
 .textoarticulo{
 	margin-top: 20px;
+	font-size: smaller;
 }
 .logoescueladiv{
 	margin-left: 80px;
 	margin-right: 80px;
 }
 .itf{
-	width: 100px;
+	width: 50px;
     height: 50px;
 }
-.historiataekwondo{
-	padding-left: 2%;
-	text-align: left;
-}
+
 .articulo{
 	float: none;
 	width: 100%;
 	display: block;
 }
-.carta .back h3 {
-padding-top: 5px;
-font-size: 15px;
-}
+
 .logsitf {
 display: block;
 margin: 0px;
+margin-left: 0px;
 }
 .logodiv {
 width: 60px;
@@ -395,30 +409,7 @@ height: 83px;
 margin-left: 1%;
 margin-right: 1%;
 }
-.historia{
-font-size:28px;
-}
-.img{/* width: 100px; */height: 100px;}
-.carta {
-width: 100px;
-height: 100px;
-}
 
-.carta .back p {
-letter-spacing: 1px;
-font-size: 10px;
-}
-.carta .back .link {
-border-top: solid 1px white;
-height: auto;
-line-height: 16px;
-}
-.carta .front h3 {
-font-size: 10px;
-}
-.histo{
-font-size: 14px;
-}
 }
 
 @media(min-width: 993px) and (max-width: 1338px){
@@ -428,11 +419,6 @@ font-size: 14px;
     margin-right: 128px;
 	}
 
-.historiataekwondo{
-	padding-left:70px;
-	padding-right:80px;
-	
-}
 .textoarticulo{
 	margin-top: 0;
 }

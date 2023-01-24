@@ -1,3 +1,40 @@
+
+.lis{
+	list-style: disc ;
+	font-family: 'Jost', sans-serif;
+}
+.historia{
+	margin-top: 1%;
+	text-align: center;
+	font-size: 30px;
+	font-family: 'Lato', sans-serif;
+	margin-left: 2%;
+}
+.historiataekwondo{
+	font-size: 20px;
+	width: 70%;
+	animation-name: derecha;
+	animation-duration: 1s;
+	animation-fill-mode: forwards;
+}
+@keyframes derecha{
+	from{
+transform: translateX(-100%);
+}
+	to{
+transform: translateX(0);
+	}
+}
+	/*que es y para que sirve el taekwondo*/
+	.taekwondo{
+		padding: 2%;
+	}
+.tc{
+	text-align: center;
+	font-style: 'Inconsolata', monospace;
+}
+
+
 a*{
 	box-sizing: border-box;
 
@@ -14,16 +51,27 @@ h1{
 	margin: 0;
 	padding: 0;
 }
-.text{
-	height: 56px !important;
-}
+
 .img{
 	height: 200px !important;
+}
+.contenido{
+	display: inline-flex;
+    flex-flow: row-reverse;
+}
+.images{
+	margin: 2% 3%;
+}
+h2{
+	font-family: 'Roboto Condensed', sans-serif;
+}
+.texto{
+	font-family: 'Jost', sans-serif;
 }
 /*MENU Y MENU RESPONSIVE */
 .nav-bar{
 	background: blue;
-	padding:20px;
+	padding:0 9px;
 	display: block;
 	color: white;
 	cursor: pointer;
@@ -122,25 +170,22 @@ margin: 0;
 	font-size: 20px;
 	text-align: center;
 	border: solid black 1px;
-	margin-top: 20px;
 	border-radius: 20px;
-height: 100%;
-width: 70%;
-text-decoration: none;
+	height: 100%;
+	width: 70%;
+	text-decoration: none;
+	margin: 2% 10%;
 }
 ul{
 	margin: 0 10%;
 }
-li{
-	list-style: none;
-}
+
 p{
 	margin: 0 10%;
 }
 
 .teo{
 	list-style: none;
-	font-size: 24px;
 	color: black;
 text-decoration: none;
 margin: 2%;
@@ -223,6 +268,38 @@ font-family: monospace;
 	color: gray;
 }
 @media(max-width: 990px){
+	.text{
+font-size: 14px;
+	}
+	.images{
+		height: 20%;
+		width: 20%;
+	}
+
+	.historiataekwondo{
+		padding-left:0;
+		padding-right:0;
+		width: 90%;
+		text-align: left;
+	}
+	.historiataekwondo{
+		padding-left: 2%;
+		text-align: left;
+	}
+		.historia{
+			font-size:28px;
+			}
+			.img{/* width: 100px; */height: 100px;}
+			.carta {
+			width: 100px;
+			height: 100px;
+			}
+			.histo{
+			font-size: 14px;
+			}
+	.divsteo{
+		margin: 2% 0;
+	}
 	.contactanos{
 		font-size: 10px;
 	}
@@ -240,6 +317,12 @@ font-family: monospace;
 	}
 	.logsitf{
 		margin:0;
+	}
+	li{
+		font-size: small;
+	}
+	.teo{
+		font-size: 14px;
 	}
 }
 @media(min-width: 1024px){
@@ -281,6 +364,21 @@ font-family: monospace;
 
 
 @media(max-width: 992px){
+	.titulocentral{
+		font-size: 16px;
+	}
+	.teoria{
+		width: auto;
+	}
+	li{
+		font-size: smaller;
+	}
+	.divsteo{
+		width: auto;
+	}
+	.noticias{
+		font-size: 23px;
+	}
 .contacto{
 	margin:0;
 }
@@ -289,10 +387,10 @@ font-family: monospace;
 }
 .mediodecontacto{
 	font-size: 10px;
+	margin:0;
 }
 .logoescueladiv{
-	margin-left: 80px;
-	margin-right: 80px;
+	margin:0;
 }
 .itf{
 	width: 50px;
@@ -309,4 +407,9 @@ font-family: monospace;
 	margin-left: 100px;
 	margin-right: 100px;
 }	
+.historiataekwondo{
+	padding-left:70px;
+	padding-right:80px;
+	
+}
 }

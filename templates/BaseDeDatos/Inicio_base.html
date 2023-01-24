@@ -9,17 +9,15 @@
                 <section>
                     <ul>
                         <li>
-                            <button class="botonInicio" id="primero" onclick="mostrarSubmenu('submenu1')">
-                                Usuario
-                                <img src="https://img.icons8.com/ios/50/null/right-squared--v1.png"/>
-                            </button>
+                            <button class="botonInicio" id="primero"
+                             onclick="mostrarSubmenu('submenu1')">Usuario</button>
                             <ul class="submenu" id="submenu1">
                                 {% if msj == 'Administrador' %}
-                                    <li><button onclick="location.href='/agregar_usuario/registrar'">Registrar usuario</button></li>
-                                    <li><button onclick="location.href='/ver_usuarios/todo'">Ver usuarios</button></li>
+                                    <li><button class="btnInicio" onclick="location.href='/agregar_usuario/registrar'" id="botonCambio">Registrar usuario</button></li>
+                                    <li><button class="btnInicio" onclick="location.href='/ver_usuarios/todo'" id="botonCambio">Ver usuarios</button></li>
                                 {% endif %}
-                                <li><button onclick="location.href='/editar_usuario/{{usuario}}/inicio'">Cambiar datos</button></li>
-                                <li><button onclick="location.href='/cambiar_contraseña/nada'">Cambiar contraseña</button></li>
+                                <li><button class="btnInicio" onclick="location.href='/editar_usuario/{{usuario}}/inicio'" id="botonCambio">Cambiar datos</button></li>
+                                <li><button class="btnInicio" onclick="location.href='/cambiar_contraseña/nada'" id="botonCambio">Cambiar contraseña</button></li>
                             </ul>
                         </li>
                     </ul>
@@ -27,15 +25,13 @@
                 <section>
                     <ul>
                         <li>
-                            <button class="botonInicio" id="primero" onclick="mostrarSubmenu('submenu2')">
-                                Notificacion
-                                <img src="https://img.icons8.com/ios/50/null/right-squared--v1.png"/>
-                            </button>
+                            <button class="botonInicio" id="primero"
+                             onclick="mostrarSubmenu('submenu2')">Notificacion</button>
                             <ul class="submenu" id="submenu2">
                                 {% if msj == 'Administrador' %}
-                                    <li><button onclick="location.href='/crear_notificacion'">Registrar notificacion</button></li>
+                                    <li><button class="btnInicio" id="botonCambio" onclick="location.href='/crear_notificacion'">Registrar notificacion</button></li>
                                 {% endif %}
-                                <li><button onclick="location.href='/eliminar_notificacion'">Eliminar notificacion</button></li>
+                                <li><button class="btnInicio" id="botonCambio" onclick="location.href='/eliminar_notificacion'">Eliminar notificacion</button></li>
                             </ul>
                         </li>
                     </ul>
@@ -43,14 +39,12 @@
                 <section>
                     <ul>
                         <li>
-                            <button class="botonInicio" id="primero" onclick="mostrarSubmenu('submenu3')">
-                                Gimnasio
-                                <img src="https://img.icons8.com/ios/50/null/right-squared--v1.png"/>
-                            </button>
+                            <button class="botonInicio" id="primero"
+                             onclick="mostrarSubmenu('submenu3')">Gimnasio</button>
                             <ul class="submenu" id="submenu3">
-                                <li><button onclick="location.href='/agregar_gimnasio'">Registrar gimnasio</button></li>
+                                <li><button class="btnInicio" id="botonCambio" onclick="location.href='/agregar_gimnasio'">Registrar gimnasio</button></li>
                                 {% if gimnasios %}
-                                    <li><button onclick="location.href='/ver_gimnasios/todo'">Ver gimnasios</button></li>
+                                    <li><button class="btnInicio" id="botonCambio" onclick="location.href='/ver_gimnasios/todo'">Ver gimnasios</button></li>
                                 {% endif %}
                             </ul>
                         </li>
@@ -60,14 +54,12 @@
                     <section>
                         <ul>
                             <li>
-                                <button class="botonInicio" id="primero" onclick="mostrarSubmenu('submenu4')">
-                                    Alumnos
-                                    <img src="https://img.icons8.com/ios/50/null/right-squared--v1.png"/>
-                                </button>
+                                <button class="botonInicio" id="primero"
+                                 onclick="mostrarSubmenu('submenu4')">Alumnos</button>
                                 <ul class="submenu" id="submenu4">
-                                    <li><button onclick="location.href='/agregar_alumno'">Registrar alumno</button></li>
-                                    <li><button onclick="location.href='/ver_alumnos/todo'">Ver alumnos</button></li>
-                                    <li><button onclick="location.href='/buscarAlumno'">Buscar alumno</button></li>
+                                    <li><button class="btnInicio" id="botonCambio" onclick="location.href='/agregar_alumno'">Registrar alumno</button></li>
+                                    <li><button class="btnInicio" id="botonCambio" onclick="location.href='/ver_alumnos/todo'">Ver alumnos</button></li>
+                                    <li><button class="btnInicio" id="botonCambio" onclick="location.href='/buscarAlumno'">Buscar alumno</button></li>
                                 </ul>
                             </li>
                         </ul>
@@ -76,14 +68,12 @@
                 <section>
                     <ul>
                         <li>
-                            <button class="botonInicio" id="primero" onclick="mostrarSubmenu('submenu5')">
-                                Eventos
-                                <img src="https://img.icons8.com/ios/50/null/right-squared--v1.png"/>
-                            </button>
+                            <button class="botonInicio" id="primero"
+                             onclick="mostrarSubmenu('submenu5')">Eventos</button>
                             <ul class="submenu" id="submenu5">
-                                <li><button onclick="location.href='/ver_eventos/todo'">Ver eventos</button></li>
+                                <li><button class="btnInicio" id="botonCambio" onclick="location.href='/ver_eventos/todo'">Ver eventos</button></li>
                                 {% if msj == 'Administrador' %}
-                                    <li><button onclick="location.href='/agregar_evento'">Registrar evento</button></li>
+                                    <li><button class="btnInicio" id="botonCambio" onclick="location.href='/agregar_evento'">Registrar evento</button></li>
                                 {% endif %}
                             </ul>
                         </li>
@@ -93,20 +83,18 @@
                     <section>
                         <ul>
                             <li>
-                                <button class="botonInicio" id="primero" onclick="mostrarSubmenu('submenu6')">
-                                    Imagenes y Matriculas
-                                    <img src="https://img.icons8.com/ios/50/null/right-squared--v1.png"/>
-                                </button>
+                                <button class="botonInicio" id="primero"
+                                 onclick="mostrarSubmenu('submenu6')">Imagenes y Matriculas</button>
                                 <ul class="submenu" id="submenu6">
-                                    <li><button onclick="location.href='/ver_matriculas/todo'">Ver matriculas</button></li>
-                                    <li><button onclick="location.href='/ver_imagenes/todo'">Ver Imagenes</button></li>
+                                    <li><button class="btnInicio" id="botonCambio" onclick="location.href='/ver_matriculas/todo'">Ver matriculas</button></li>
+                                    <li><button class="btnInicio" id="botonCambio" onclick="location.href='/ver_imagenes/todo'">Ver Imagenes</button></li>
                                 </ul>
                             </li>
                         </ul>
                     </section>
                 {% endif %}
                 <section>
-                    <button onclick="location.href='/logout'">Salir</button>
+                    <button class="btnInicio" id="botonCambio" onclick="location.href='/logout'">Salir</button>
                 </section>
             </nav>
             {% if notificaciones %}
@@ -120,7 +108,7 @@
                 </div>
             {% else %}
                 <div class="sinNotis">
-                    <h2>Sin notificaciones</h2>
+                    <h1>Sin notificaciones</h1>
                 </div>
             {% endif %}
         </section>

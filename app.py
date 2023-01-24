@@ -14,11 +14,11 @@ import random, pathlib
 
 app= Flask(__name__)
 
-USER_DB = "postgres"
-PASS_DB = 12345
-URL_DB = "localhost"
-NAME_DB = "base_enat"
-FULL_URL_DB = f'postgresql://{USER_DB}:{PASS_DB}@{URL_DB}/{NAME_DB}'
+USER_DB = "Leo0997"
+PASS_DB = "matryoshka"
+URL_DB = "Leo0997.mysql.pythonanywhere-services.com"
+NAME_DB = "Leo0997$base_enat"
+FULL_URL_DB = f'mysql://{USER_DB}:{PASS_DB}@{URL_DB}/{NAME_DB}'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = FULL_URL_DB
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -32,17 +32,52 @@ app.config['SECRET_KEY'] = 'Taekwon-do_Enat'
 photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
 
-if __name__ == '__main__':
-    db.create_all()
-    app.run()
-
 @app.route("/")
 @app.route("/Menu")
 @app.route("/Menu.html")
 @app.route("/index")
 @app.route("/index.html")
 def base():
-    return render_template("/BaseDeDatos/menu.html")
+    fActual = datetime.now().date()
+    fExamen = Eventos.query.filter(Eventos.tipo_de_evento == "Examen", Eventos.fecha_evento <= fActual).order_by(Eventos.fecha_evento).with_entities(Eventos.fecha_evento, Eventos.lugar_evento, Eventos.descripcion).first()
+    fTorneo = Eventos.query.filter(Eventos.tipo_de_evento == "Torneo", Eventos.fecha_evento <= fActual).order_by(Eventos.fecha_evento).with_entities(Eventos.fecha_evento, Eventos.lugar_evento, Eventos.descripcion).first()
+    fOtro = Eventos.query.filter(Eventos.tipo_de_evento == "Otros eventos", Eventos.fecha_evento <= fActual).order_by(Eventos.fecha_evento).with_entities(Eventos.fecha_evento, Eventos.descripcion).first()
+    fotoExa = Imagen.query.filter(Imagen.id_evento.in_(listaEventosId("Examen"))).with_entities(Imagen.direccion).all()
+    fotoTor = Imagen.query.filter(Imagen.id_evento.in_(listaEventosId("Torneo"))).with_entities(Imagen.direccion).all()
+    fotoOtro = Imagen.query.filter(Imagen.id_evento.in_(listaEventosId("Otros eventos"))).with_entities(Imagen.direccion).all()
+    carrExaSel = llenarCarrucelSel(fotoExa)
+    carrTorSel = llenarCarrucelSel(fotoTor)
+    carrOtroSel = llenarCarrucelSel(fotoOtro)
+    carrExa = llenarCarrucel(fotoExa)
+    carrTor = llenarCarrucel(fotoTor)
+    carrOtro = llenarCarrucel(fotoOtro)
+    return render_template("/BaseDeDatos/menu.html", fActual = fActual,
+    fExamen = fExamen, fTorneo = fTorneo,fOtro = fOtro,
+    carrExaSel = carrExaSel, cantCarrExaSel = len(carrExaSel),
+    carrTorSel = carrTorSel, cantCarrTorSel = len(carrTorSel),
+    carrOtroSel = carrOtroSel, cantCarrOtroSel = len(carrOtroSel),
+    carrExa = carrExa, carrTor = carrTor, carrOtro = carrOtro)
+
+def llenarCarrucel(lista):
+    if not lista:
+        return ()
+    carrucel = []
+    for i in lista:
+        carrucel.append(i[0])
+    return carrucel
+
+def llenarCarrucelSel(lista):
+    if not lista:
+        return ()
+    carrucel = ["carousel-item active", lista[0][0]]
+    for i in range(1, len(lista)):
+        carrucel.append("carousel-item")
+        carrucel.append(lista[i][0])
+    return carrucel
+
+def listaEventosId(tipo):
+    even = Eventos.query.filter(Eventos.tipo_de_evento == tipo).order_by(Eventos.fecha_evento).with_entities(Eventos.id_evento).first()
+    return even if even else ()
 
 @app.route("/Gimnasios")
 def gimnasios():
@@ -57,21 +92,27 @@ def gimnasios():
     contHorarios = []
     contHorarios.append(0)
     for i in listaGims:
-        registros = usuGim.query.filter_by(id_gimnasio = i.id_gimnasio).all()
+        registros = usuGim.query.filter(usuGim.id_gimnasio == i.id_gimnasio).with_entities(usuGim.id_usuario,usuGim.id_UsuGim).order_by(usuGim.id_usuario.asc()).all()
         for j in registros:
-            usu = Usuario.query.get(j.id_usuario)
+            usu = Usuario.query.filter(Usuario.id_usuario == j.id_usuario).with_entities(Usuario.nombre_usuario,Usuario.apellido_usuario).first()
             listaUsu.append(f'{usu.nombre_usuario} {usu.apellido_usuario}')
-            horarios = horarioGim.query.filter_by(id_UsuGim = j.id_UsuGim).all()
-            for k in horarios:
-                listaHorarios.append(k.descripcion)
+            horario = horarioGim.query.filter(horarioGim.id_UsuGim == j.id_UsuGim).with_entities(horarioGim.descripcion).first()
+            if horario:
+                listaHorarios.append(horario)
                 hora += 1
-            contHorarios.append(hora)
             cont += 1
+        contHorarios.append(hora)
         listaCont.append(cont)
         pos += 1
+    fExamen = Eventos.query.filter(Eventos.tipo_de_evento == "Examen").order_by(Eventos.fecha_evento).with_entities(Eventos.fecha_evento).first()
+    fTorneo = Eventos.query.filter(Eventos.tipo_de_evento == "Torneo").order_by(Eventos.fecha_evento).with_entities(Eventos.fecha_evento).first()
+    fOtro = Eventos.query.filter(Eventos.tipo_de_evento == "Otros eventos").order_by(Eventos.fecha_evento).with_entities(Eventos.fecha_evento).first()
+    app.logger.debug(contHorarios)
     return render_template("/BaseDeDatos/gimnasios.html", listaGims = listaGims,
     listaUsu = listaUsu, listaHorarios = listaHorarios, listaCont = listaCont, pos = pos,
-    contHorarios = contHorarios)
+    contHorarios = contHorarios, fActual = datetime.now().date(),
+    fExamen = fExamen[0] if fExamen else fExamen, fTorneo = fTorneo[0] if fTorneo else fTorneo,
+    fOtro = fOtro[0] if fOtro else fOtro)
 
 @app.route("/Informacion")
 def informacion():
@@ -82,7 +123,12 @@ def informacion():
 
 @app.route("/Teoria")
 def teoria():
-    return render_template("/BaseDeDatos/teoria.html")
+    fExamen = Eventos.query.filter(Eventos.tipo_de_evento == "Examen").order_by(Eventos.fecha_evento).with_entities(Eventos.fecha_evento).first()
+    fTorneo = Eventos.query.filter(Eventos.tipo_de_evento == "Torneo").order_by(Eventos.fecha_evento).with_entities(Eventos.fecha_evento).first()
+    fOtro = Eventos.query.filter(Eventos.tipo_de_evento == "Otros eventos").order_by(Eventos.fecha_evento).with_entities(Eventos.fecha_evento).first()
+    return render_template("/BaseDeDatos/teoria.html", fActual = datetime.now().date(),
+    fExamen = fExamen[0] if fExamen else fExamen, fTorneo = fTorneo[0] if fTorneo else fTorneo,
+    fOtro = fOtro[0] if fOtro else fOtro)
 
 @app.route("/Base")
 def inicio():
@@ -95,7 +141,7 @@ def inicio():
     notificaciones = Notificaciones.query.filter(Notificaciones.id_notificacion.in_(noti)).all()
     gimnasios = False
     if session["Cargo"] == 'Administrador':
-        if Gimnasio.query.limit(1000).first():
+        if Gimnasio.query.limit(1):
             gimnasios = True
     else:
         if usuGim.query.filter_by(id_usuario = session["id"]).first() or usuGim.query.filter_by(id_cabeza = session["id"]).first():
@@ -166,8 +212,16 @@ def eliminar_notificacion():
         notificaciones = Notificaciones.query.all()
     if request.method == 'POST':
         for i in request.form.getlist("checkbox"):
-            dato = Notificaciones.query.get(i)
-            db.session.delete(dato)
+            if session["Cargo"] != "Usuario":
+                dato = usuNoti.query.filter_by(id_Notificacion = i).all()
+                for j in dato:
+                    db.session.delete(j)
+                    db.session.commit()
+            else:
+                dato = usuNoti.query.filter_by(id_Notificacion = i, id_Usuario = session["id"]).first()
+                db.session.delete(dato)
+                db.session.commit()
+            db.session.delete(Notificaciones.query.get(i))
             db.session.commit()
         return redirect(url_for('inicio'))
     return render_template("BaseDeDatos/eliminar_notificacion.html", notificaciones = notificaciones)
@@ -1034,7 +1088,7 @@ def habiAlums(ids,tams):
                 alum = Alumno.query.get(listaids[i])
                 alum.habilitado = True
                 alum.id_UsuGim = regi.id_UsuGim
-                alum.fecha_Exa_Desa = ultExa(alum)
+                ultExa(alum)
                 db.session.commit()
         return redirect(url_for("ver_alumnos", opc = "todo"))
     listaAlums = []
@@ -1352,7 +1406,6 @@ def subir_imagenes(tipo):
             else:
                 ultEvento = Eventos.query.filter_by(tipo_de_evento = "Otros eventos").all()
             evento = ultimoEvento(ultEvento)
-            app.logger.debug(request.files.getlist("foto"))
             for i in request.files.getlist("foto"):
                 imagen = Imagen()
                 nombre = photos.save(i,tipo)
