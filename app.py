@@ -135,12 +135,12 @@ def gimnasios():
     fTorneo = fechaEvento("Torneo",fActual)
     fOtro = fechaEvento("Otros eventos",fActual)
     carrFechas = preparaFechas(list((fExamen,fTorneo,fOtro)))
-    return render_template("/BaseDeDatos/gimnasios.html",
-    carrFechas = carrFechas, lenCarrFechas = len(carrFechas), listaGims = listaGims,
-    listaUsu = listaUsu, listaHorarios = listaHorarios, listaCont = listaCont, pos = pos,
-    contHorarios = contHorarios, fActual = datetime.now().date(),
-    fExamen = fExamen[0] if fExamen else fExamen, fTorneo = fTorneo[0] if fTorneo else fTorneo,
-    fOtro = fOtro[0] if fOtro else fOtro)
+    return render_template("BaseDeDatos/gimnasios.html",
+    carrFechas = carrFechas, lenCarrFechas = len(carrFechas) if carrFechas else 0,
+    listaGims = listaGims, listaUsu = listaUsu, listaHorarios = listaHorarios,
+    listaCont = listaCont, pos = pos, contHorarios = contHorarios,
+    fActual = datetime.now().date(), fExamen = fExamen[0] if fExamen else fExamen,
+    fTorneo = fTorneo[0] if fTorneo else fTorneo, fOtro = fOtro[0] if fOtro else fOtro)
 
 @app.route("/Teoria")
 def teoria():
@@ -149,10 +149,10 @@ def teoria():
     fTorneo = fechaEvento("Torneo",fActual)
     fOtro = fechaEvento("Otros eventos",fActual)
     carrFechas = preparaFechas(list((fExamen,fTorneo,fOtro)))
-    return render_template("/BaseDeDatos/teoria.html",
-    carrFechas = carrFechas, lenCarrFechas = len(carrFechas), fActual = datetime.now().date(),
-    fExamen = fExamen[0] if fExamen else fExamen, fTorneo = fTorneo[0] if fTorneo else fTorneo,
-    fOtro = fOtro[0] if fOtro else fOtro)
+    return render_template("BaseDeDatos/teoria.html",
+    carrFechas = carrFechas, lenCarrFechas = len(carrFechas) if carrFechas else 0,
+    fActual = datetime.now().date(), fExamen = fExamen[0] if fExamen else fExamen,
+    fTorneo = fTorneo[0] if fTorneo else fTorneo, fOtro = fOtro[0] if fOtro else fOtro)
 
 @app.route("/Base")
 def inicio():
