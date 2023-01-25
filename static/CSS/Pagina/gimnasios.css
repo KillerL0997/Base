@@ -103,6 +103,7 @@ animation-duration: 2s;
 .noticias{
     background: linear-gradient(to left, blue, red);
     color:white;
+	text-align: center;
 }
 .fonttitulo{
 	font-family: 'Poppins', sans-serif;

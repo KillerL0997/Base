@@ -6,8 +6,8 @@
 	<meta charset="utf-8">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/Pagina/normalize.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/Pagina/teoria.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='CSS/Pagina/normalize.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='CSS/Pagina/teoria.css')}}">
 	<link rel="icon" href="{{url_for('static',filename='Imagenes/ENAT.PNG')}}">
 	<style>
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
@@ -39,9 +39,9 @@
      <li class="menu__item container-submenu">
       <a  class="menu__link submenu-btn" href="#">NOSOTROS</a>
         <ul class="submenu">
-            <li  class="menu_item"> <a  class="menu__link" href="http://127.0.0.1:5000/Menu">INICIO</a></li>
-            <li class="menu__item"> <a  class="menu__link"href="http://127.0.0.1:5000/Gimnasios">GIMNASIOS</a></li> 
-                     <li class="menu__item"> <a  class="menu__link"href="http://127.0.0.1:5000/login">BASE DE DATOS</a> </li>
+            <li  class="menu_item"> <a  class="menu__link" href="{{url_for('base')}}">INICIO</a></li>
+            <li class="menu__item"> <a  class="menu__link"href="{{url_for('gimnasios')}}">GIMNASIOS</a></li> 
+                     <li class="menu__item"> <a  class="menu__link"href="{{url_for('inicio')}}">BASE DE DATOS</a> </li>
         </ul>
        </li> 
             <li class="menu_item"> <a  class="menu__link" href="#">EQUIPOS</a> </li> 
@@ -67,31 +67,19 @@
 		<h2 id="pasionporlaexcelencia" class="subtitulo"> PASION POR LA EXPERIENCIA
 		</h2>  
 	    </nav>
+		{% if carrFechas %}
 		<div id="carouselId" class="carousel slide" data-bs-ride="carousel">
-			<div class="carousel-inner" role="listbox">
-				<div class="carousel-item text active">
-					<div class="">
-						{% if fExamen and fExamen >= fActual%}
-                			<h2 class="noticias"> PROXIMO EXAMEN: {{fExamen}} </h2>
-              			{% endif %}
-					</div>
-				</div>
-				<div class="carousel-item text">
-					<div class="">
-						{% if fTorneo and fTorneo >= fActual%}
-							<h2 class="noticias"> PROXIMO TORNEO: {{fTorneo}} </h2>
-						{% endif %}
-					</div>
-				</div>
-				<div class="carousel-item text">
-					<div class="">
-						{% if fOtro and fOtro >= fActual%}
-							<h2 class="noticias"> PROXIMO EVENTO: {{fOtro}} </h2>
-						{% endif %}
-					</div>
-				</div>
+		  <div class="carousel-inner" role="listbox">
+			  {% for i in range(0,lenCarrFechas,2) %}
+				  <div class="{{carrFechas[i]}}">
+					  <div class="">
+						<h2 class="noticias"> {{carrFechas[i + 1]}} </h2>
+					  </div>
+				  </div>
+			  {% endfor %}
 			</div>
-		</div>
+		  </div>
+	  {% endif %}
 </header>
 	<section>
 		<ul class="teoria">Teoria

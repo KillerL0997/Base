@@ -14,11 +14,11 @@ import random, pathlib
 
 app= Flask(__name__)
 
-USER_DB = "Leo0997"
-PASS_DB = "matryoshka"
-URL_DB = "Leo0997.mysql.pythonanywhere-services.com"
-NAME_DB = "Leo0997$base_enat"
-FULL_URL_DB = f'mysql://{USER_DB}:{PASS_DB}@{URL_DB}/{NAME_DB}'
+USER_DB = "postgres"
+PASS_DB = 12345
+URL_DB = "localhost"
+NAME_DB = "base_enat"
+FULL_URL_DB = f'postgresql://{USER_DB}:{PASS_DB}@{URL_DB}/{NAME_DB}'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = FULL_URL_DB
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -39,9 +39,9 @@ configure_uploads(app, photos)
 @app.route("/index.html")
 def base():
     fActual = datetime.now().date()
-    fExamen = Eventos.query.filter(Eventos.tipo_de_evento == "Examen", Eventos.fecha_evento <= fActual).order_by(Eventos.fecha_evento).with_entities(Eventos.fecha_evento, Eventos.lugar_evento, Eventos.descripcion).first()
-    fTorneo = Eventos.query.filter(Eventos.tipo_de_evento == "Torneo", Eventos.fecha_evento <= fActual).order_by(Eventos.fecha_evento).with_entities(Eventos.fecha_evento, Eventos.lugar_evento, Eventos.descripcion).first()
-    fOtro = Eventos.query.filter(Eventos.tipo_de_evento == "Otros eventos", Eventos.fecha_evento <= fActual).order_by(Eventos.fecha_evento).with_entities(Eventos.fecha_evento, Eventos.descripcion).first()
+    fExamen = fechaEvento("Examen",fActual)
+    fTorneo = fechaEvento("Torneo",fActual)
+    fOtro = fechaEvento("Otros eventos",fActual)
     fotoExa = Imagen.query.filter(Imagen.id_evento.in_(listaEventosId("Examen"))).with_entities(Imagen.direccion).all()
     fotoTor = Imagen.query.filter(Imagen.id_evento.in_(listaEventosId("Torneo"))).with_entities(Imagen.direccion).all()
     fotoOtro = Imagen.query.filter(Imagen.id_evento.in_(listaEventosId("Otros eventos"))).with_entities(Imagen.direccion).all()
@@ -51,12 +51,38 @@ def base():
     carrExa = llenarCarrucel(fotoExa)
     carrTor = llenarCarrucel(fotoTor)
     carrOtro = llenarCarrucel(fotoOtro)
-    return render_template("/BaseDeDatos/menu.html", fActual = fActual,
-    fExamen = fExamen, fTorneo = fTorneo,fOtro = fOtro,
+    carrFechas = preparaFechas(list((fExamen,fTorneo,fOtro)))
+    return render_template("/BaseDeDatos/menu.html",
+    carrFechas = carrFechas, lenCarrFechas = len(carrFechas) if carrFechas else 0, 
     carrExaSel = carrExaSel, cantCarrExaSel = len(carrExaSel),
     carrTorSel = carrTorSel, cantCarrTorSel = len(carrTorSel),
     carrOtroSel = carrOtroSel, cantCarrOtroSel = len(carrOtroSel),
     carrExa = carrExa, carrTor = carrTor, carrOtro = carrOtro)
+
+def preparaFechas(lista):
+    if not lista[0] and not lista[1] and not lista[2]:
+        return None
+    carr = []
+    for i in range(len(lista)):
+        if lista[i]:
+            carr.append("carousel-item text")
+            if(lista[i].tipo_de_evento != "Otros eventos"):
+                carr.append("Proximo "+ lista[i].tipo_de_evento.lower() + 
+                " : " + str(lista[i].fecha_evento))
+            else:
+                carr.append(lista[i].descripcion.capitalize() + 
+                " : " + str(lista[i].fecha_evento))
+    carr[0] = "carousel-item text active"
+    return carr
+
+def fechaEvento(tipo, fActual):
+    return Eventos.query.filter(
+        Eventos.tipo_de_evento == tipo, Eventos.fecha_evento <= fActual
+        ).order_by(
+            Eventos.fecha_evento
+            ).with_entities(
+                Eventos.fecha_evento, Eventos.descripcion, Eventos.tipo_de_evento
+                ).first()
 
 def llenarCarrucel(lista):
     if not lista:
@@ -104,29 +130,27 @@ def gimnasios():
         contHorarios.append(hora)
         listaCont.append(cont)
         pos += 1
-    fExamen = Eventos.query.filter(Eventos.tipo_de_evento == "Examen").order_by(Eventos.fecha_evento).with_entities(Eventos.fecha_evento).first()
-    fTorneo = Eventos.query.filter(Eventos.tipo_de_evento == "Torneo").order_by(Eventos.fecha_evento).with_entities(Eventos.fecha_evento).first()
-    fOtro = Eventos.query.filter(Eventos.tipo_de_evento == "Otros eventos").order_by(Eventos.fecha_evento).with_entities(Eventos.fecha_evento).first()
-    app.logger.debug(contHorarios)
-    return render_template("/BaseDeDatos/gimnasios.html", listaGims = listaGims,
+    fActual = datetime.now().date()
+    fExamen = fechaEvento("Examen",fActual)
+    fTorneo = fechaEvento("Torneo",fActual)
+    fOtro = fechaEvento("Otros eventos",fActual)
+    carrFechas = preparaFechas(list((fExamen,fTorneo,fOtro)))
+    return render_template("/BaseDeDatos/gimnasios.html",
+    carrFechas = carrFechas, lenCarrFechas = len(carrFechas), listaGims = listaGims,
     listaUsu = listaUsu, listaHorarios = listaHorarios, listaCont = listaCont, pos = pos,
     contHorarios = contHorarios, fActual = datetime.now().date(),
     fExamen = fExamen[0] if fExamen else fExamen, fTorneo = fTorneo[0] if fTorneo else fTorneo,
     fOtro = fOtro[0] if fOtro else fOtro)
 
-@app.route("/Informacion")
-def informacion():
-    return render_template("/BaseDeDatos/informacion.html",
-    fotoExa = Imagen.query.filter_by(tipo_imagen = "Examen").all(),
-    fotoTor = Imagen.query.filter_by(tipo_imagen = "Torneo").all(),
-    fotoAct = Imagen.query.filter_by(tipo_imagen = "Otros eventos").all())
-
 @app.route("/Teoria")
 def teoria():
-    fExamen = Eventos.query.filter(Eventos.tipo_de_evento == "Examen").order_by(Eventos.fecha_evento).with_entities(Eventos.fecha_evento).first()
-    fTorneo = Eventos.query.filter(Eventos.tipo_de_evento == "Torneo").order_by(Eventos.fecha_evento).with_entities(Eventos.fecha_evento).first()
-    fOtro = Eventos.query.filter(Eventos.tipo_de_evento == "Otros eventos").order_by(Eventos.fecha_evento).with_entities(Eventos.fecha_evento).first()
-    return render_template("/BaseDeDatos/teoria.html", fActual = datetime.now().date(),
+    fActual = datetime.now().date()
+    fExamen = fechaEvento("Examen",fActual)
+    fTorneo = fechaEvento("Torneo",fActual)
+    fOtro = fechaEvento("Otros eventos",fActual)
+    carrFechas = preparaFechas(list((fExamen,fTorneo,fOtro)))
+    return render_template("/BaseDeDatos/teoria.html",
+    carrFechas = carrFechas, lenCarrFechas = len(carrFechas), fActual = datetime.now().date(),
     fExamen = fExamen[0] if fExamen else fExamen, fTorneo = fTorneo[0] if fTorneo else fTorneo,
     fOtro = fOtro[0] if fOtro else fOtro)
 
@@ -613,7 +637,7 @@ def agregar_gimnasio():
     registro_usuarios = Gimnasio_Usuario()
     usu = Usuario.query.get(session["id"])
     if session["Cargo"] == "Administrador":
-        usuarios = Usuario.query.all()
+        usuarios = Usuario.query.filter_by(cargo_usuario = "Usuario").all()
     elif usu.cabeza_de_grupo:
         registro_usuarios.usuario.choices.append((f'{usu.id_usuario}',f'{usu.nombre_usuario} {usu.apellido_usuario}'))
         usuarios = Usuario.query.filter_by(id_cabeza = session["id"]).all()

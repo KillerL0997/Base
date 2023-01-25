@@ -6,12 +6,12 @@
   <meta name="description"
     content="somos una escuela de taekwondo argentina asociada a la ITF. estamos en buenos aires, argentina.">
   <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/Pagina/glider.min.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='CSS/Pagina/glider.min.css')}}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/Pagina/normalize.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/Pagina/menu2.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='CSS/Pagina/normalize.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='CSS/Pagina/menu2.css')}}">
 
   <link rel="icon" href="{{url_for('static',filename='Imagenes/ENAT.PNG')}}">
   <style>
@@ -45,12 +45,12 @@
       <li class="menu__item container-submenu">
         <a class="menu__link submenu-btn" href="#">NOSOTROS</a>
         <ul class="submenu">
-          <li class="menu__item"> <a class="menu__link" href="http://127.0.0.1:5000/Gimnasios">GIMNASIOS</a></li>
-          <li class="menu__item"> <a class="menu__link" href="http://127.0.0.1:5000/login">BASE DE DATOS</a> </li>
+          <li class="menu__item"> <a class="menu__link" href="{{url_for('gimnasios')}}">GIMNASIOS</a></li>
+          <li class="menu__item"> <a class="menu__link" href="{{url_for('inicio')}}">BASE DE DATOS</a> </li>
         </ul>
       </li>
       <li class="menu_item"> <a class="menu__link" href="#">EQUIPOS</a> </li>
-      <li class="menu_item"> <a class="menu__link" href="http://127.0.0.1:5000/Teoria"> TEORIA</a> </li>
+      <li class="menu_item"> <a class="menu__link" href="{{url_for('teoria')}}"> TEORIA</a> </li>
     </ul>
     </li>
     </ul>
@@ -73,31 +73,19 @@
     </div>
     <h1 id="pasionporlaexcelencia" class="subtitulo"> PASION POR LA EXCELENCIA</h1>
   </nav>
-  <div id="carouselId" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner" role="listbox">
-      <div class="carousel-item text active">
-        <div class="">
-          {% if fExamen and fExamen[0] >= fActual%}
-            <h2 class="noticias"> PROXIMO EXAMEN: {{fExamen[0]}} </h2>
-          {% endif %}
+  {% if carrFechas %}
+    <div id="carouselId" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner" role="listbox">
+          {% for i in range(0,lenCarrFechas,2) %}
+              <div class="{{carrFechas[i]}}">
+                  <div class="">
+                    <h2 class="noticias"> {{carrFechas[i + 1]}} </h2>
+                  </div>
+              </div>
+          {% endfor %}
         </div>
       </div>
-      <div class="carousel-item text">
-        <div class="">
-          {% if fTorneo and fTorneo[0] >= fActual%}
-            <h2 class="noticias"> PROXIMO TORNEO: {{fTorneo[0]}} </h2>
-          {% endif %}
-        </div>
-      </div>
-      <div class="carousel-item text">
-        <div class="">
-          {% if fOtro and fOtro[0] >= fActual%}
-            <h2 class="noticias"> PROXIMO EVENTO: {{fOtro[0]}} </h2>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  </div>
+  {% endif %}
   <main class="contenido">
 
 
@@ -125,7 +113,7 @@
             <div class="carousel-inner">
               {% for i in range(0,cantCarrOtroSel,2) %}
                 <div class="{{carrOtroSel[i]}}">
-                  <img src="../../static/{{carrOtroSel[i + 1]}}" class="d-block" alt="...">
+                  <img src="{{url_for('static', filename= carrOtroSel[i + 1])}}" class="d-block" alt="...">
                 </div>
               {% endfor %}
               <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
@@ -149,7 +137,7 @@
             <div class="carousel-inner">
               {% for i in range(0,cantCarrExaSel,2) %}
                 <div class="{{carrExaSel[i]}}">
-                  <img src="../../static/{{carrExaSel[i + 1]}}" class="d-block" alt="...">
+                  <img src="{{url_for('static', filename= carrExaSel[i + 1])}}" class="d-block" alt="...">
                 </div>
               {% endfor %}
               <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
@@ -175,7 +163,7 @@
             <div class="carousel-inner">
               {% for i in range(0,cantCarrTorSel,2) %}
                 <div class="{{carrTorSel[i]}}">
-                  <img src="../../static/{{carrTorSel[i + 1]}}" class="d-block" alt="...">
+                  <img src="{{url_for('static', filename= carrTorSel[i + 1])}}" class="d-block" alt="...">
                 </div>
               {% endfor %}
               <button class="carousel-control-prev" type="button" data-bs-target="#torneos" data-bs-slide="prev">
@@ -200,10 +188,10 @@
       <div class="carrousel">
         <div class="carrousel__contenedor">
           <div class="carrousel__lista" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            {% if carrOtro %}
+            {% if carrOtro != None %}
               {% for i in carrOtro %}
               <div class="carrousel__elemento">
-                <img class="imagen" src="../../static/{{i}}">
+                <img class="imagen" src="{{url_for('static', filename=i)}}">
               </div>
               {% endfor %}
             {% endif %}
@@ -227,7 +215,7 @@
               {% if carrExa %}
                 {% for i in carrExa %}
                 <div class="carrousel__elemento">
-                  <img class="imagen" src="../../static/{{i}}">
+                  <img class="imagen" src="{{url_for('static', filename=i)}}">
                 </div>
                 {% endfor %}
               {% endif %}
@@ -252,7 +240,7 @@
               {% if carrTor %}
                 {% for i in carrTor %}
                 <div class="carrousel__elemento">
-                  <img class="imagen" src="../../static/{{i}}">
+                  <img class="imagen" src="{{url_for('static', filename=i)}}">
                 </div>
                 {% endfor %}
               {% endif %}
