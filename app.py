@@ -10,7 +10,7 @@ from sqlalchemy import or_
 from flask_uploads import UploadSet, IMAGES, configure_uploads
 from models import horarioGim,Imagen,Notificaciones, Usuario, Gimnasio, Alumno, Eventos, Matriculas, aluEven, usuGim, usuNoti
 from forms import AlumnoForm, DatoForm, ExamenForm, Gimnasio_Usuario, GimnasioForm, NotificacionForm, Usuario_Gimnasio, UsuarioForm
-import random, pathlib
+import random, pathlib, os
 
 app= Flask(__name__)
 
@@ -22,7 +22,8 @@ FULL_URL_DB = f'postgresql://{USER_DB}:{PASS_DB}@{URL_DB}/{NAME_DB}'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = FULL_URL_DB
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['UPLOADED_PHOTOS_DEST'] = 'static/Imagenes'
+app.config['UPLOADED_PHOTOS_DEST'] = os.path.join(app.root_path,'static/Imagenes')
+app.config['UPLOADED_PHOTOS_ALLOW'] = set(['png', 'jpg', 'jpeg','jfif','jpeg'])
 
 db.init_app(app)
 
@@ -39,9 +40,9 @@ configure_uploads(app, photos)
 @app.route("/index.html")
 def base():
     fActual = datetime.now().date()
-    fExamen = fechaEvento("Examen",fActual)
-    fTorneo = fechaEvento("Torneo",fActual)
-    fOtro = fechaEvento("Otros eventos",fActual)
+    fExamen = fechaEventoProx("Examen",fActual)
+    fTorneo = fechaEventoProx("Torneo",fActual)
+    fOtro = fechaEventoProx("Otros eventos",fActual)
     fotoExa = Imagen.query.filter(Imagen.id_evento.in_(listaEventosId("Examen"))).with_entities(Imagen.direccion).all()
     fotoTor = Imagen.query.filter(Imagen.id_evento.in_(listaEventosId("Torneo"))).with_entities(Imagen.direccion).all()
     fotoOtro = Imagen.query.filter(Imagen.id_evento.in_(listaEventosId("Otros eventos"))).with_entities(Imagen.direccion).all()
@@ -52,12 +53,16 @@ def base():
     carrTor = llenarCarrucel(fotoTor)
     carrOtro = llenarCarrucel(fotoOtro)
     carrFechas = preparaFechas(list((fExamen,fTorneo,fOtro)))
+    fExamen = fechaEvento("Examen",fActual)
+    fTorneo = fechaEvento("Torneo",fActual)
+    fOtro = fechaEvento("Otros eventos",fActual)
     return render_template("/BaseDeDatos/menu.html",
     carrFechas = carrFechas, lenCarrFechas = len(carrFechas) if carrFechas else 0, 
     carrExaSel = carrExaSel, cantCarrExaSel = len(carrExaSel),
     carrTorSel = carrTorSel, cantCarrTorSel = len(carrTorSel),
     carrOtroSel = carrOtroSel, cantCarrOtroSel = len(carrOtroSel),
-    carrExa = carrExa, carrTor = carrTor, carrOtro = carrOtro)
+    carrExa = carrExa, carrTor = carrTor, carrOtro = carrOtro,
+    fExamen = fExamen, fTorneo = fTorneo, fOtro = fOtro)
 
 def preparaFechas(lista):
     if not lista[0] and not lista[1] and not lista[2]:
@@ -68,18 +73,31 @@ def preparaFechas(lista):
             carr.append("carousel-item text")
             if(lista[i].tipo_de_evento != "Otros eventos"):
                 carr.append("Proximo "+ lista[i].tipo_de_evento.lower() + 
-                " : " + str(lista[i].fecha_evento))
+                " : " + str(lista[i].fecha_evento.day) + "/" 
+                + str(lista[i].fecha_evento.month) + "/"
+                + str(lista[i].fecha_evento.year))
             else:
                 carr.append(lista[i].descripcion.capitalize() + 
-                " : " + str(lista[i].fecha_evento))
+                " : " + str(lista[i].fecha_evento.day) + "/" 
+                + str(lista[i].fecha_evento.month) + "/"
+                + str(lista[i].fecha_evento.year))
     carr[0] = "carousel-item text active"
     return carr
 
 def fechaEvento(tipo, fActual):
     return Eventos.query.filter(
-        Eventos.tipo_de_evento == tipo, Eventos.fecha_evento <= fActual
+        Eventos.tipo_de_evento == tipo, Eventos.fecha_evento < fActual
         ).order_by(
-            Eventos.fecha_evento
+            Eventos.fecha_evento.desc()
+            ).with_entities(
+                Eventos.fecha_evento, Eventos.descripcion, Eventos.tipo_de_evento
+                ).first()
+
+def fechaEventoProx(tipo, fActual):
+    return Eventos.query.filter(
+        Eventos.tipo_de_evento == tipo, Eventos.fecha_evento >= fActual
+        ).order_by(
+            Eventos.fecha_evento.asc()
             ).with_entities(
                 Eventos.fecha_evento, Eventos.descripcion, Eventos.tipo_de_evento
                 ).first()
@@ -107,7 +125,7 @@ def listaEventosId(tipo):
 
 @app.route("/Gimnasios")
 def gimnasios():
-    listaGims = Gimnasio.query.all()
+    listaGims = Gimnasio.query.filter_by(habilitado = True).all()
     listaUsu = []
     listaHorarios = []
     listaCont = []
@@ -118,12 +136,12 @@ def gimnasios():
     contHorarios = []
     contHorarios.append(0)
     for i in listaGims:
-        registros = usuGim.query.filter(usuGim.id_gimnasio == i.id_gimnasio).with_entities(usuGim.id_usuario,usuGim.id_UsuGim).order_by(usuGim.id_usuario.asc()).all()
+        registros = usuGim.query.filter(usuGim.id_gimnasio == i.id_gimnasio).with_entities(usuGim.id_usuario,usuGim.id_UsuGim).order_by(usuGim.id_usuario.desc()).all()
         for j in registros:
             usu = Usuario.query.filter(Usuario.id_usuario == j.id_usuario).with_entities(Usuario.nombre_usuario,Usuario.apellido_usuario).first()
             listaUsu.append(f'{usu.nombre_usuario} {usu.apellido_usuario}')
-            horario = horarioGim.query.filter(horarioGim.id_UsuGim == j.id_UsuGim).with_entities(horarioGim.descripcion).first()
-            if horario:
+            horarios = horarioGim.query.filter(horarioGim.id_UsuGim == j.id_UsuGim).with_entities(horarioGim.descripcion).all()
+            for horario in horarios:
                 listaHorarios.append(horario)
                 hora += 1
             cont += 1
@@ -131,27 +149,27 @@ def gimnasios():
         listaCont.append(cont)
         pos += 1
     fActual = datetime.now().date()
-    fExamen = fechaEvento("Examen",fActual)
-    fTorneo = fechaEvento("Torneo",fActual)
-    fOtro = fechaEvento("Otros eventos",fActual)
+    fExamen = fechaEventoProx("Examen",fActual)
+    fTorneo = fechaEventoProx("Torneo",fActual)
+    fOtro = fechaEventoProx("Otros eventos",fActual)
     carrFechas = preparaFechas(list((fExamen,fTorneo,fOtro)))
     return render_template("BaseDeDatos/gimnasios.html",
     carrFechas = carrFechas, lenCarrFechas = len(carrFechas) if carrFechas else 0,
     listaGims = listaGims, listaUsu = listaUsu, listaHorarios = listaHorarios,
     listaCont = listaCont, pos = pos, contHorarios = contHorarios,
-    fActual = datetime.now().date(), fExamen = fExamen[0] if fExamen else fExamen,
+    fActual = fActual, fExamen = fExamen[0] if fExamen else fExamen,
     fTorneo = fTorneo[0] if fTorneo else fTorneo, fOtro = fOtro[0] if fOtro else fOtro)
 
 @app.route("/Teoria")
 def teoria():
     fActual = datetime.now().date()
-    fExamen = fechaEvento("Examen",fActual)
-    fTorneo = fechaEvento("Torneo",fActual)
-    fOtro = fechaEvento("Otros eventos",fActual)
+    fExamen = fechaEventoProx("Examen",fActual)
+    fTorneo = fechaEventoProx("Torneo",fActual)
+    fOtro = fechaEventoProx("Otros eventos",fActual)
     carrFechas = preparaFechas(list((fExamen,fTorneo,fOtro)))
     return render_template("BaseDeDatos/teoria.html",
     carrFechas = carrFechas, lenCarrFechas = len(carrFechas) if carrFechas else 0,
-    fActual = datetime.now().date(), fExamen = fExamen[0] if fExamen else fExamen,
+    fActual = fActual, fExamen = fExamen[0] if fExamen else fExamen,
     fTorneo = fTorneo[0] if fTorneo else fTorneo, fOtro = fOtro[0] if fOtro else fOtro)
 
 @app.route("/Base")
@@ -414,6 +432,7 @@ def editar_evento(id):
     gimnasio = Gimnasio.query.all()
     for i in gimnasio:
         gimnasios.gimnasio.choices.append((f'{i.id_gimnasio}',f'{i.nombre_gimnasio} {i.direccion_gimnasio}'))
+    gimnasios.gimnasio.choices.append(('otro','Otro lugar'))
     if request.method == 'POST' and eventoForma.validate_on_submit():
         eventoForma.populate_obj(evento)
         evento.lugar_evento = (Gimnasio.query.get(gimnasios.gimnasio.data)).nombre_gimnasio
@@ -592,6 +611,11 @@ def editar_gimnasio(id):
     gimnasioForma = GimnasioForm(obj= gimnasio)
     if request.method == 'POST':
             gimnasioForma.populate_obj(gimnasio)
+            if request.files['foto']:
+                nombre = photos.save(request.files['foto'])
+                url = pathlib.Path('static/' + gimnasio.logo_gimnasio)
+                url.unlink()
+                gimnasio.logo_gimnasio = "Imagenes/" + (url_for('obtener_nombre', filename = nombre)[9:])
             db.session.commit()
             return redirect(url_for("ver_gimnasios", opc = "todo"))
     return render_template("BaseDeDatos/Gimnasios/editar_gimnasio.html", forma = gimnasioForma,
@@ -639,7 +663,6 @@ def agregar_gimnasio():
     if session["Cargo"] == "Administrador":
         usuarios = Usuario.query.filter_by(cargo_usuario = "Usuario").all()
     elif usu.cabeza_de_grupo:
-        registro_usuarios.usuario.choices.append((f'{usu.id_usuario}',f'{usu.nombre_usuario} {usu.apellido_usuario}'))
         usuarios = Usuario.query.filter_by(id_cabeza = session["id"]).all()
     if session["Cargo"] == "Administrador" or usu.cabeza_de_grupo:
         for i in usuarios:
@@ -654,8 +677,8 @@ def agregar_gimnasio():
         if gim:
             armarUsuGim(idUsu,gim.id_gimnasio,(Usuario.query.get(idUsu)).id_cabeza)
             return redirect(url_for('inicio'))
-        nombre = photos.save(request.files['foto'])
-        gimnasio.logo_gimnasio = "static/Imagenes/" + (url_for('obtener_nombre', filename = nombre)[9:])
+        nombre = photos.save(request.files['foto'], 'static/Imagenes')
+        gimnasio.logo_gimnasio = "Imagenes/" + (url_for('obtener_nombre', filename = nombre)[9:])
         gimnasio.habilitado = True
         db.session.add(gimnasio)
         db.session.commit()
@@ -736,7 +759,7 @@ def ver_gimnasios(opc):
     usuarios.usuario.choices.append((("Nada"),("")))
     usuario = []
     if session["Cargo"] == "Administrador":
-        usuario = Usuario.query.all()
+        usuario = Usuario.query.filter_by(cargo_usuario = "Usuario").all()
     if (Usuario.query.get(session["id"])).cabeza_de_grupo:
         usuario = Usuario.query.filter_by(id_cabeza = session["id"]).all()
     for i in usuario:
@@ -751,7 +774,8 @@ def ver_gimnasios(opc):
                 else:
                     registros = usuGim.query.filter_by(id_usuario = session["id"]).all()
                 for i in registros:
-                    gimnasios.append(Gimnasio.query.get(i.id_gimnasio))
+                    if len(gimnasios) >= 0 and perteneceAlRegistro(i,gimnasios,compararGim):
+                        gimnasios.append(Gimnasio.query.get(i.id_gimnasio))
             else:
                 gimnasios = Gimnasio.query.filter_by(habilitado = True).all()
         else:
@@ -1011,17 +1035,20 @@ def ver_alumnos(opc):
     opciones = Gimnasio_Usuario()
     opciones.usuario.choices = form.graduacion_alumno.choices
     gimnasios = Usuario_Gimnasio()
-    gimnasios.gimnasio.choices.append(((""),("")))
+    gimnasios.gimnasio.choices.append((("Nada"),("")))
     gimnasio = []
     usuario = []
     usuarios = DatoForm()
+    listaIds = []
     if session["Cargo"] == 'Administrador':
         msj = "Administrador"
         regis = usuGim.query.all()
-        usuarios.dato.choices.append(((""),("")))
+        usuarios.dato.choices.append((("Nada"),("")))
         for i in regis:
-            usu = Usuario.query.get(i.id_usuario)
-            usuarios.dato.choices.append((f'{usu.id_usuario}',f'{usu.nombre_usuario} {usu.apellido_usuario}'))
+            if len(listaIds) >= 0 and perteneceAlRegistro(i,listaIds,compararIdUsu):
+                listaIds.append(i)
+                usu = Usuario.query.get(i.id_usuario)
+                usuarios.dato.choices.append((f'{usu.id_usuario}',f'{usu.nombre_usuario} {usu.apellido_usuario}'))
         gimnasio = Gimnasio.query.filter_by(habilitado = True).all()
     elif (Usuario.query.get(session["id"])).cabeza_de_grupo:
         msj = "Administrador"
@@ -1031,7 +1058,8 @@ def ver_alumnos(opc):
             usuarios.dato.choices.append((f'{i.id_usuario}',f'{i.nombre_usuario} {i.apellido_usuario}'))
         usuario = usuGim.query.filter_by(id_cabeza = session["id"]).all()
         for i in usuario:
-            if perteneceAlRegistro(i,gimnasio,compararGim):
+            if len(listaIds) >= 0 and perteneceAlRegistro(i,listaIds,compararIdUsu):
+                listaIds.append(i)
                 gimnasio.append(Gimnasio.query.get(i.id_gimnasio))
     else:
         registros = usuGim.query.filter_by(id_usuario = session["id"]).all()
@@ -1062,40 +1090,36 @@ def ver_alumnos(opc):
         fUsu = usuarios.dato.data
         alus = []
         regis = []
-        if nom and ape and cate:
-            alus = Alumno.query.filter(Alumno.nombre_alumno.like(f'%{nom.capitalize()}%'), Alumno.apellido_alumno.like(f'%{ape.capitalize()}%'), Alumno.graduacion_alumno.like(cate), Alumno.habilitado.is_(modo)).all()
-        elif nom and not ape and not cate:
-            alus = Alumno.query.filter(Alumno.nombre_alumno.like(f'%{nom.capitalize()}%'), Alumno.habilitado.is_(modo)).all()
-        elif nom and ape and not cate:
-            alus = Alumno.query.filter(Alumno.nombre_alumno.like(f'%{nom.capitalize()}%'), Alumno.apellido_alumno.like(f'%{ape.capitalize()}%'), Alumno.habilitado.is_(modo)).all()
-        elif nom and not ape and cate:
-            alus = Alumno.query.filter(Alumno.nombre_alumno.like(f'%{nom.capitalize()}%'), Alumno.graduacion_alumno.like(cate), Alumno.habilitado.is_(modo)).all()
-        elif not nom and ape and cate:
-            alus = Alumno.query.filter(Alumno.apellido_alumno.like(f'%{ape.capitalize()}%'), Alumno.graduacion_alumno.like(cate), Alumno.habilitado.is_(modo)).all()
-        elif not nom and not ape and cate:
-            alus = Alumno.query.filter(Alumno.graduacion_alumno.like(cate), Alumno.habilitado.is_(modo)).all()
-        elif not nom and ape and not cate:
-            alus = Alumno.query.filter(Alumno.apellido_alumno.like(f'%{ape.capitalize()}%'), Alumno.habilitado.is_(modo)).all()
-        else:
-            alus = Alumno.query.filter(Alumno.habilitado.is_(modo)).all()
+        if nom or ape or cate:
+            alus = Alumno.query.filter(Alumno.habilitado.is_(modo))
+            if nom:
+                alus = alus.filter(Alumno.nombre_alumno.like(f'%{nom.capitalize()}%'))
+            if ape:
+                alus = alus.filter(Alumno.apellido_alumno.like(f'%{ape.capitalize()}%'))
+            if cate:
+                alus = alus.filter(Alumno.graduacion_alumno.like(cate))
+        else: 
+            alus = Alumno.query.filter(Alumno.habilitado.is_(modo))
         if modo:
-            if fUsu and gim:
-                regis = usuGim.query.filter_by(id_usuario = fUsu, id_gimnasio = gim).all()
-            elif not fUsu and gim:
-                regis = usuGim.query.filter_by(id_gimnasio = gim).all()
-            elif fUsu and not gim:
-                regis = usuGim.query.filter_by(id_gimnasio = gim).all()
+            if fUsu or gim:
+                regis = usuGim.query
+                if fUsu != "Nada":
+                    regis = regis.filter(usuGim.id_usuario == fUsu)
+                if gim != "Nada":
+                    regis = regis.filter(usuGim.id_gimnasio == gim)
+                regis = regis.with_entities(usuGim.id_UsuGim)
         final = []
         if regis and alus:
-            for i in regis:
-                for j in alus:
-                    if j.id_UsuGim == i.id_UsuGim:
-                        final.append(j)
+            final = alus.filter(
+                Alumno.id_UsuGim.in_(regis)
+            ).all()
         elif alus:
-            final = alus
+            final = alus.all()
         elif regis:
-            for i in regis:
-                final += list(Alumno.query.filter_by(id_UsuGim = i.id_UsuGim, habilitado = modo).all())
+            final = Alumno.query.filter(
+                Alumno.id_UsuGim.in_(regis),
+                Alumno.habilitado.is_(modo)
+            ).all()
         alumnos = final
     return render_template("BaseDeDatos/Alumnos/ver_alumnos.html", alumnos = alumnos, gimnasios = gimnasios,
     usuarios = usuarios, msj = msj, modo = modo, opc = opc, opciones = opciones)
@@ -1478,6 +1502,9 @@ def perteneceAlRegistro(dato, lista, comparar):
 def compararUsuGim(dato1, dato2):
     return (dato1.id_usuario == dato2.id_usuario and dato1.id_gimnasio == dato2.id_gimnasio)
 
+def compararIdUsu(dato1,dato2):
+    return dato1.id_usuario == dato2.id_usuario
+
 def compararGim(dato1,dato2):
     return dato1.id_gimnasio == dato2.id_gimnasio
 
@@ -1641,12 +1668,11 @@ def bajarCategoria(dato):
     db.session.commit()
 
 def eventoReciente(opc):
-    lista = Eventos.query.filter_by(tipo_de_evento = opc).all()
-    dato = []
-    for i in lista:
-        if not dato or dato.fecha_evento < i.fecha_evento:
-            dato = i
-    return dato
+    return Eventos.query.filter(
+        Eventos.tipo_de_evento == opc, Eventos.fecha_evento >= datetime.now().date()
+        ).order_by(
+            Eventos.fecha_evento.asc()
+        ).first()
 
 def buscarYcambiar(lista, datoBus, tamLista, comparar):
     dato = []

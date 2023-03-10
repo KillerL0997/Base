@@ -68,9 +68,9 @@
                         <p>{{alumno.graduacion_alumno}}</p><br>
                         {% if alumno.fecha_Exa_Desa %}
                             {% if modo %}
-                                <p>Ult. examen: {{alumno.fecha_Exa_Desa}}</p>
+                                <p>Ult. examen: {{alumno.fecha_Exa_Desa.year}}/{{alumno.fecha_Exa_Desa.month}}/{{alumno.fecha_Exa_Desa.day}}</p>
                             {% else %}
-                                <p>Deshabilitado: {{alumno.fecha_Exa_Desa}}</p>
+                                <p>Deshabilitado: {{alumno.fecha_Exa_Desa.year}}/{{alumno.fecha_Exa_Desa.month}}/{{alumno.fecha_Exa_Desa.day}}</p>
                             {% endif %}
                             <br>
                         {% endif %}
@@ -88,6 +88,7 @@
         <h2>Sin alumnos registrados</h2>
         {% endif %}
     </div>
+    <br><br>
     <script type="text/javascript" src="/static/BaseJS/verAlumnos.js"></script>
     <script type="text/javascript" src="/static/BaseJS/llenarYrecargar.js"></script>
 </body>

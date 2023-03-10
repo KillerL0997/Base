@@ -37,23 +37,23 @@
                 {% for alumno in alumnos %}
                     <tr>
                         <td><input type="checkbox" name="checkbox" value="{{alumno.id_alumno}}"></td>
-                        <td>
+                        <td class="celdaCentro">
                             <strong>{{alumno.apellido_alumno}} {{alumno.nombre_alumno}}</strong><br>
                             <p>{{alumno.graduacion_alumno}}</p><br>
                             {% if alumno.fecha_Aatee %}
-                                <p>AATEE: {{alumno.fecha_Aatee}}</p>
+                                <p>AATEE: {{alumno.fecha_Aatee.year}}/{{alumno.fecha_Aatee.month}}/{{alumno.fecha_Aatee.day}}</p>
                             {% else %}
                                 <p>No pagó AATEE</p>
                             {% endif %}
                             <br>
                             {% if alumno.fecha_Fetra %}
-                                <p>Fetra: {{alumno.fecha_Fetra}}</p>
+                                <p>Fetra: {{alumno.fecha_Fetra.year}}/{{alumno.fecha_Fetra.month}}/{{alumno.fecha_Fetra.day}}</p>
                             {% else %}
                                 <p>No pagó Fetra</p>
                             {% endif %}
                             <br>
                             {% if alumno.fecha_Enat %}
-                                <p>Enat: {{alumno.fecha_Enat}}</p>
+                                <p>Enat: {{alumno.fecha_Enat.year}}/{{alumno.fecha_Enat.month}}/{{alumno.fecha_Enat.day}}</p>
                             {% else %}
                                 <p>No pagó Enat</p>
                             {% endif %}
@@ -66,6 +66,7 @@
             </tbody>
         </table>
     </div>
+    <br><br>
     <script type="text/javascript" src="/static/BaseJS/llenarYrecargar.js"></script>
 </body>
 {% endblock %}

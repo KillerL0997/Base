@@ -2,7 +2,7 @@
     {% block content %}
     <body>        
         <div class="body_formu">
-            <form action="" method="post" class="formularios">
+            <form enctype=multipart/form-data action="" method="post" class="formularios">
                 <h2>Editar gimnasio</h2>
                 {{forma.csrf_token}}
                 <label for="nombre_gimnasio">Nombre gimnasio</label>

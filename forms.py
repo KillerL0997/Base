@@ -13,7 +13,7 @@ class UsuarioForm(FlaskForm):
     id_cabeza = IntegerField("id_cabeza")
     cargo_usuario = SelectField("cargo_usuario", validators=[DataRequired()], choices = [('Usuario', 'Usuario'),('Administrador','Administrador')])
     email_usuario = EmailField("email_usuario", validators=[DataRequired()])
-    categoria = SelectField("categoria", validators=[DataRequired()], choices = [('I Dan','I Dan'),('II Dan','II Dan'),('III Dan','III Dan'),('IV Dan','IV Dan'),('V Dan','V Dan'),('VI Dan','VI Dan'),('VII Dan','VII Dan')]) 
+    categoria = SelectField("categoria", validators=[DataRequired()], choices = [('I Dan','I Dan'),('II Dan','II Dan'),('III Dan','III Dan'),('IV Dan','IV Dan'),('V Dan','V Dan'),('VI Dan','VI Dan'),('VII Dan','VII Dan'),('VIII Dan','VIII Dan'),('IX Dan','IX Dan')]) 
 
 class GimnasioForm(FlaskForm):
     nombre_gimnasio = StringField("nombre_gimnasio", validators=[DataRequired()])

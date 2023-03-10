@@ -181,7 +181,9 @@
       <br>
       {% if fOtro %}
         <p class="tituloimagenes" id="imagenes">
-          <u>{{fOtro["descripcion"]}}</u> 
+          <u>
+            {{fOtro["descripcion"]}}: {{fOtro.fecha_evento.year}}/{{fOtro.fecha_evento.month}}/{{fOtro.fecha_evento.day}}
+          </u> 
         </p>
       {% endif %}
 
@@ -203,9 +205,15 @@
         {% if fExamen %}
           <p class="tituloimagenes">
             {% if fExamen["lugar_evento"] == "Otro" %}
-            <u>{{fExamen["descripcion"]}}</u> 
+            <u>
+              {{fExamen["descripcion"]}}:
+              {{fExamen.fecha_evento.day}}/{{fExamen.fecha_evento.month}}/{{fExamen.fecha_evento.year}}
+            </u> 
             {% else %}
-              <u>Examen {{fExamen["fecha_evento"]}}</u>
+              <u>
+                Examen: 
+                {{fExamen.fecha_evento.day}}/{{fExamen.fecha_evento.month}}/{{fExamen.fecha_evento.year}}
+              </u>
             {% endif %}
           </p>
         {% endif %}
@@ -228,9 +236,15 @@
         {% if fTorneo %}
           <p class="tituloimagenes">
             {% if fTorneo["lugar_evento"] == "Otro" %}
-            <u>{{fTorneo["descripcion"]}}</u> 
+            <u>
+              {{fTorneo["descripcion"]}}:
+              {{fTorneo.fecha_evento.day}}/{{fTorneo.fecha_evento.month}}/{{fTorneo.fecha_evento.year}}
+            </u> 
             {% else %}
-              <u>Torneo {{fTorneo["fecha_evento"]}}</u>
+              <u>
+                Torneo:
+                {{fTorneo.fecha_evento.day}}/{{fTorneo.fecha_evento.month}}/{{fTorneo.fecha_evento.year}}
+              </u>
             {% endif %}
           </p>
         {% endif %}

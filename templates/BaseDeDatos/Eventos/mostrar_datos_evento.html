@@ -7,7 +7,7 @@
             {% else %}
                 <h2>Mostrar datos examen</h2>
             {% endif %}
-            <section class="filtrosCol">Fecha de realizacion: {{evento.fecha_evento}}</section>
+            <section class="filtrosCol">Fecha de realizacion: {{evento.fecha_evento.year}}/{{evento.fecha_evento.month}}/{{evento.fecha_evento.day}}</section>
             {% if evento.lugar_evento != None %}
                 <section class="filtrosCol">Lugar de realizacion: {{evento.lugar_evento}}</section>
             {% else %}

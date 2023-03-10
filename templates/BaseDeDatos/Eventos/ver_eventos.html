@@ -33,7 +33,7 @@
                             <tbody>
                                 {% for examen in examenes %}
                                     <tr>
-                                        <td>{{examen.fecha_evento}}</td>
+                                        <td>{{examen.fecha_evento.year}}/{{examen.fecha_evento.month}}/{{examen.fecha_evento.day}}</td>
                                         {% if msj == 'Administrador'%} 
                                         <td><a href="{{url_for('eliminar_evento', id = examen.id_evento)}}"><img src="../../../static/CSS/icons8-eliminar-50.png" alt="Eliminar"></a></td>
                                             <td><a href="{{url_for('editar_evento', id = examen.id_evento)}}"><img src="../../../static/CSS/escritura.png" alt="Editar"></a></td>
@@ -50,7 +50,7 @@
                         <tbody>
                             {% for torneo in torneos %}
                                 <tr>
-                                    <td>{{torneo.fecha_evento}}</td>
+                                    <td>{{torneo.fecha_evento.year}}/{{torneo.fecha_evento.month}}/{{torneo.fecha_evento.day}}</td>
                                     {% if msj == 'Administrador'%}
                                         <td><a href="{{url_for('eliminar_evento', id = torneo.id_evento)}}"><img src="../../../static/CSS/icons8-eliminar-50.png" alt="Eliminar"></a></td>
                                         <td><a href="{{url_for('editar_evento', id = torneo.id_evento)}}"><img src="../../../static/CSS/escritura.png" alt="Editar"></a></td>
@@ -67,7 +67,7 @@
                     <tbody>
                         {% for otro in otros %}
                             <tr>
-                                <td>{{otro.fecha_evento}}</td>
+                                <td>{{otro.fecha_evento.year}}/{{otro.fecha_evento.month}}/{{otro.fecha_evento.day}}</td>
                                 {% if msj == 'Administrador'%}
                                     <td><a href="{{url_for('eliminar_evento', id = otro.id_evento)}}"><img src="../../../static/CSS/icons8-eliminar-50.png" alt="Eliminar"></a></td>
                                     <td><a href="{{url_for('editar_evento', id = otro.id_evento)}}"><img src="../../../static/CSS/escritura.png" alt="Editar"></a></td>
@@ -79,6 +79,7 @@
                 </table>
             {% endif %}
             </div>
-        </div>    
+        </div> 
+        <br><br>   
     </body>
     {% endblock %}
