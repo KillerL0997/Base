@@ -1,0 +1,374 @@
+/*pegale una leida despues es lo nuevo que pasaste */
+/*modal*/
+.imge{
+	height: 200px;
+}
+.d-block{
+	height: 100%;
+    width: 500px;
+}
+/*carrousel*/
+
+.tituloimagenes{
+	text-align: center;
+	font-size: 30px;
+}
+
+.Carrouseles{
+padding: 3%;
+display: flex;
+margin: 2%;
+box-shadow: 8px 8px 10px rgba(0,0,0,0.5);
+}
+
+	.imagen{
+		width: 100%;
+		height: 300px;
+	}
+
+.textos{
+	font-family: 'Poppins', sans-serif;
+margin-left: 1%;
+ }
+@media(max-width: 992px){
+	.carrousel__anterior{
+		border: none;
+		background:none;
+		display: none;
+	}
+	.carrousel__siguiente{
+		border: none;
+		background:none;
+		display: none;
+	}
+	.logoescueladiv{
+			margin-left: 80px;
+		margin-right: 80px;
+	}
+.titulohistoria, .font{
+	font-size: x-large;
+}
+	.historia{
+		font-size: smaller;
+	}
+.imagen{
+	height: 200px;
+}
+.articulo{
+	margin-left: 0% !important;
+}
+}
+/*pegale una leida despues es lo nuevo que pasaste */
+a*{
+	box-sizing: border-box;
+
+}
+body{
+	margin:0;
+	padding: 0;
+	 background: #F7F8FE;
+}
+a{
+	text-decoration: none;
+}
+h1{
+	margin: 0;
+	padding: 0;
+}
+.text{
+	height: 56px !important;
+}
+
+/*MENU Y MENU RESPONSIVE */
+.nav-bar{
+	background: blue;
+	padding:0 9px;
+	display: block;
+	color: white;
+	cursor: pointer;
+	font-size: 1.9em;
+	width: 100%;
+}
+.menu, .submenu{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	z-index: 1;
+}
+.menu{
+	background: #4153AF;
+	width: 100%;
+	margin-left: -100%;
+	transition: all 0.5s;
+	position: absolute;
+}
+.menu__link{
+	display: block;
+	padding: 27px;
+	color: white;
+	font-size: 1.2em;
+	text-decoration: none;
+z-index: 1;
+	position: relative;
+}
+.submenu .menu__link{
+background: #8095FF ;
+	padding-left: 20px;
+	z-index: 1;
+	position: relative;
+}
+
+.submenu{
+	height: 0;
+	overflow: hidden;
+	transition: all 0.3s;
+}
+.mostrar{
+	margin-left: 0;
+}
+.logonav{
+	width: 5%;
+	height:5%;
+	visibility: hidden;
+}
+.width{
+	width: 300px !important;
+}
+/*header con titulos y logo*/
+
+.img{
+	width: 150px;
+	height: 150px;
+}
+
+.enat{
+	margin: 0% auto;
+height: 200px;
+width: 200px;
+display: block;
+}
+.titulocentral{
+	padding: 1%;
+text-align: center;
+background: linear-gradient(to bottom, #5756E5,#FF4545);
+color: white;
+animation-name: mover;
+animation-duration: 2s;
+}
+@keyframes mover{
+0%{
+	transform: translateX(-40%);
+
+}
+100%{
+	transform: translateX(0%);
+}
+}
+#tituloescuelanacional{
+font-family: 'Poppins', sans-serif;
+    text-align: center;
+    font-size: 30px;
+    color: white;
+}
+.subtitulo{
+font-family: 'Poppins', sans-serif;
+    text-align: center;
+    font-size: 30px;
+    color: white;
+	margin-top: 1%;
+}
+/*NOTICIAS */
+.noticias{
+	text-align: center;
+    background: linear-gradient(to left, blue, red);
+    color:white;
+   font-family: 'Poppins', sans-serif;
+    font-size: 25px;
+}
+
+@keyframes derecha{
+	from{
+transform: translateX(-100%);
+}
+	to{
+transform: translateX(0);
+	}
+}
+/*Seccion del video*/
+.entrevistas{
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	text-align: center;
+	display: block;
+	margin: 2% auto;
+}
+.entrevista{
+	margin: 1%;
+	font-weight: 400;
+	font-size: 30px;
+}
+.video{
+	border: rgb(26, 77, 243) 2px solid;
+	border-radius: 2%;
+	box-shadow: 8px 8px 10px rgba(0,0,0,0.5);
+}
+/*pie de pagina*/
+footer{
+	background:white;
+	text-align: center;
+display: flex;
+border-top: #000 2px inset;
+justify-content: space-around;
+}
+
+.mediodecontacto{
+color: black;
+font: monospace 20px;
+list-style: none;
+text-decoration: none;
+}
+a:hover{
+	color: blue;
+}
+.contactanos{
+	text-align: center;
+	font: 28px monospace;
+	padding:2%;
+}
+
+.logodiv{
+width: 150px;
+	height: 150px;
+}
+.logoescueladiv{
+	  display: flex;
+  justify-content: center;
+  align-items: center;
+margin-right: 10%;
+
+}
+.logsitf{
+    display: block;
+    margin: 2px;
+}
+.logoitf{
+	list-style: none;
+	margin-left: 40px;
+}
+.itf{
+	width: 80px;
+	height: 80px;
+}
+
+.copy{
+	font-family: perpetua;
+	font-size: 11px;
+	color: gray;
+}
+@media(min-width: 1024px){
+	.logonav{
+	width: 5%;
+	height:5%;
+}
+	.nav-bar{
+		display: none;
+	}
+	.menu{
+		margin-left: 0;
+		display: flex;
+		position: static;
+	}
+	.container-submenu{
+		position: relative;
+	}
+	.submenu{
+		position: absolute;
+		top: 60px;
+		width: 156px;
+		overflow: visible;
+		z-index: 1000;
+		opacity: 0;
+		visibility: hidden;
+	}
+	.container-submenu:hover .submenu{
+		opacity: 1;
+		visibility: visible;
+	}
+	.menu__link:hover{
+		background: #444;
+	}
+	.submenu .menu__link:hover{
+		background: #222;
+	}
+}
+@media(max-width: 992px){
+	.width{
+		width: 170px !important;
+	}
+	.textos{
+		font-size: 12px;
+	}
+.contacto{
+	margin:0;
+
+}
+.contactanos  {
+	font-size: 9px;
+}
+.copy, .mediodecontacto {
+	font-size: 7px;
+	font-family: monospace;
+	padding: 0%;
+    margin: 0;
+}
+
+.textoarticulo{
+	margin-top: 20px;
+	font-size: smaller;
+}
+.logoescueladiv{
+	margin: 0 80px;
+}
+.itf{
+	width: 50px;
+    height: 50px;
+}
+
+.articulo{
+	float: none;
+	width: 100%;
+	display: block;
+}
+
+.logoitf {
+display: block;
+margin: 0;
+padding-left: 14px;
+}
+.logsitf{
+	margin:0%
+}
+.logodiv {
+width: 60px;
+height: 83px;
+}
+.logoescueladiv {
+	margin: 0 1%;
+}
+.video{
+	width: 90%;
+	height: 90%;
+}
+}
+@media(min-width: 993px) and (max-width: 1338px){
+
+	.logoescueladiv{
+	margin-left: 137px;
+    margin-right: 128px;
+	}
+.textoarticulo{
+	margin-top: 0;
+}
+.logoescueladiv{
+	margin: 0 100px ;
+}	
+}

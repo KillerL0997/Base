@@ -1,0 +1,33 @@
+{% extends 'BaseDeDatos/varios.html' %}
+{% block content %}
+<div class="agregaUsu">
+    {% if usuarioForm %}
+    <form action="" method="post">
+        <h2>Agregar usuarios</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Nombre y apellido</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for idUsu, nom, ape in usuarioForm %}
+                <tr>
+                    <td><label for="">{{nom}} {{ape}}</label></td>
+                    <td><input type="checkbox" name="checkbox" id="checkbox" value="{{idUsu}}"></td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+        <button class="btnRedondeado" type="submit">Aceptar</button>
+        <button class="btnRedondeado" type="button"
+            onclick="location.href='/editar_gimnasio/{{idGim}}'">Regresar</button>
+    </form>
+    {% else %}
+    <p>No se puede agregar más usuarios</p>
+    <button type="button" class="btnRedondeado" onclick="location.href='/editar_gimnasio/{{idGim}}'">Regresar</button>
+    {% endif %}
+</div>
+{% endblock %}

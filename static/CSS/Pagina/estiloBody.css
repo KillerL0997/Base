@@ -1,0 +1,332 @@
+/*  */
+
+*:before,*:after{
+	margin:0;
+	padding: 0;
+	outline: 0;
+	-webkit-box-sizing:;border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	
+}
+body{
+	background-size: 10;
+	background-repeat: center;
+margin: 0;
+padding: 0;
+
+}
+/* estilos para el nav */
+.titulocentral{
+		align-items: center;
+	justify-content: center;
+	font-family: sans-serif;
+	background-position: relative;
+	outline: none !important;
+	transition: color 0.6s, background 0.6s;
+	width: 100%;
+	border: solid;
+}
+#tituloescuelanacional{
+	font-style: normal;
+	font-family: arial;
+	font-size:72;
+	color:black;
+	text-align: center;
+	align-content: center;
+	max-height: auto;
+	max-width: auto;
+
+}
+#pasionporlaexcelencia{
+	text-transform: uppercase;
+	text-align: center;
+  margin: 20px 30px;
+  font-size: 36;
+  }
+  .imagen{
+  	  display: flex;
+   align-items: center;
+   justify-content: center;
+
+  }
+#imgarriba{
+	max-height: 50%;
+	max-width: 50%;
+	border: 2px solid;
+}
+/* botones del div que te llevan a distinas web */
+
+.botones{
+   align-items: center;
+   justify-content: center;
+font-size: 15px;
+border-style: solid;
+	height:5%;
+	width: 20%;
+margin-top: 18px;
+padding: 12px;
+background: #blue;
+	outline: none !important;
+	transition: color 0.6s, background 0.6s;
+
+}
+button:hover{
+background: #26a;
+}
+
+ button::placeholder{
+	transition: color 0.6s;
+	
+}
+.divBotones{
+text-align: center;
+width: 100%;
+border: solid;
+
+}
+.escudo{
+display: flex;
+   align-items: center;
+   justify-content: center;	
+border: solid;
+
+}
+#enat{
+	display: block;
+float:center;
+border:none;
+max-height: 50%;
+max-width: 50%;
+height: 20%;
+width: 20%;
+
+}
+.main-div{
+	display: none;
+}
+.nav_bar{
+
+	background: green;
+	padding: 20px;
+	display:block;
+	color: white;
+	cursor: pointer;
+	font-size: 1.5em;
+	width: 100%
+}
+.menu{
+
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	background-color: #555;
+	width: 100%;
+	margin-left: -100%;
+	transition: all 0.5s;
+}
+.menu__link{
+	
+	display: block;
+	padding: 30px;
+	color:white;
+	font-size:1.2em;
+	text-decoration: none;
+	background: #333;
+	padding-left: 50px;
+}
+.menu__link:hover{
+	background: #444;
+}
+#bas{
+	border: solid;
+}
+#ins{
+border: solid;
+}
+#gim{
+border: solid;
+}
+#plani{
+border: solid;
+}
+
+@media only screen and (max-width:1024px){
+	.divbotones{
+		display: none;
+	}
+	.main-div{
+		display: block;
+	}
+	
+.nav_bar{
+margin-left: 0;
+display: flex;
+}
+.menu__link:hover{
+	background: #444;
+}
+.mostrar{
+	display: block;
+	margin-left:0;
+}
+}
+
+/* articulo y aside  */
+  aside{
+display: inline;
+background: green;
+
+border:solid;
+ }
+  article{
+  	display: inline;
+  	border:solid;
+  	background: green;
+
+                margin:0px;
+                width: 300px;
+                height: 400px;
+                float: right;
+                box-sizing:border-box;
+  }
+  #imagenarticulo{
+   width:80px;
+    height:80px;
+    border-radius:100px;	
+    border: solid yellow;
+  }
+  #textoarticulo{
+  	height: 842px;
+  	font-size: 18;
+  	font-family: serif;
+  	border:solid violet;
+  }
+/* texto de historia y lista */
+
+ section {
+ 	background-color: blue;
+ 	 font-size: 24;
+text-align: center;
+
+width: 80%;
+
+ }
+  #camino-a-la-perfeccion{
+font-family: sans-serif;
+font-size: 24;
+text-align: center;
+  }
+   #titulo-historia{
+  	text-align: center;
+
+  }
+#infoescuela{
+text-align: left;
+	}
+	#infoescuela::first-letter{
+		color: black;
+		font-size: 30px;
+	}
+  #historia{
+
+box-shadow: transparent;
+font-size: 20;
+font-family: arial;
+text-align: center;
+border:solid;
+  }
+
+
+/* Lista de profesores y fotos */
+
+/* .profes{
+	border: double;
+margin: 30px;
+padding: 40px;
+height: 100%;
+width: 100%;
+
+
+}
+.lista{
+	text-align:left;
+	list-style-type: circle;
+	list-style-position:inside;
+}
+
+.foto
+{
+	width: 20%;
+	height: 10%;
+	object-position: left; //posiciona la imagen al lado izquierdo.
+	object-fit: contain; se ajustan a las resoluciones reales, cover se ajustan
+}
+/* pie de pagina */
+footer{
+	/* background: #D3D3D3;
+	background-size: 100%;
+	font-family: monospace;
+bottom: 0;
+width: 100%;
+eight:100%;*/
+border:solid;
+}
+
+/* input{
+	height: 40px;
+}
+input,
+textarea {
+  /* Para asegurarse de que todos los campos de texto tienen la misma configuración de letra
+     Por defecto, las áreas de texto tienen un tipo de letra monoespaciada */
+  /*font:sans-serif;
+
+  /* Tamaño uniforme del campo de texto */
+  /*width: 300px;
+
+  box-sizing: border-box;
+
+  /* Hacer coincidir los bordes del campo del formulario */
+  /*border: 1px solid #999;
+}
+
+textarea{
+	height: 200px;
+vertical-align: top;
+}
+
+
+input:focus,
+textarea:focus {
+  /* Destacado adicional para elementos que tienen el cursor */
+/*  border-color: #000;
+}
+
+#enviar{
+
+   align-items: center;
+   justify-content: center;
+font-size: 15px;
+border-style: solid;
+	height:5%;
+	width: 20%;
+margin-top: 18px;
+padding: 12px;
+background: #blue;
+	outline: none !important;
+	transition: color 0.6s, background 0.6s;
+}
+#eliminar{
+		   align-items: center;
+   justify-content: center;
+font-size: 15px;
+border-style: solid;
+	height:5%;
+	width: 20%;
+margin-top: 18px;
+padding: 12px;
+background: #blue;
+	outline: none !important;
+	transition: color 0.6s, background 0.6s;
+}

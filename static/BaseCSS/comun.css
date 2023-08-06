@@ -1,0 +1,44 @@
+*{
+    margin: 0%;
+    padding: 0%;
+    word-break: break-word;
+    font-size: 1.1rem;
+}
+.btnRedondeado, .btnFilRedondeado{
+    border-radius: 20px;
+    height: 2rem;
+    font-size: .8rem;
+    font-weight: bold;
+    width: 25%;
+    background-color: transparent;
+    border: 3px solid #214677;
+    margin-bottom: 1px;
+    border-bottom: none;
+}
+.btnRedondeado:hover, .btnFilRedondeado:hover{
+    background-color: #225EAB;
+    color: whitesmoke;
+}
+.botonLinks{
+    display: none;
+}
+footer{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    text-align: center;
+    background-color: #225EAB;
+    position: relative;
+    bottom: 0;
+}
+@media screen and (max-width: 768px){
+    .botonLinks{
+        display: block;
+        width: 30px;
+    }
+    .botonLinks img{
+        width: 100%;
+    }
+}

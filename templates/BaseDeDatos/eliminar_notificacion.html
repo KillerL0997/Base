@@ -1,0 +1,35 @@
+{% extends 'BaseDeDatos/registrarYeditar.html' %}
+{% block content %}
+<div class="formulario">
+    {% if notificaciones %}
+    <form action="" method="post">
+        <h2>Eliminar notificacion</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th colspan="2">Seleccione las notificaciones a eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for notificacion in notificaciones %}
+                <tr>
+                    <td>{{notificacion.notificacion}}</td>
+                    <td><input type="checkbox" name="checkbox" id="checkbox" value="{{notificacion.id_notificacion}}">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="dosBotones">
+            <button class="btnRedondeado" type="submit">Aceptar</button>
+            <button class="btnRedondeado" type="button" onclick="location.href='/Base'">Regresar</button>
+        </div>
+    </form>
+    {% else%}
+    <section class="sinNotis">
+        <h1>Sin notificaciones a eliminar</h1>
+        <button class="btnRedondeado" class="unBoton" onclick="location.href='/Base'">Regresar</button>
+    </section>
+    {% endif %}
+</div>
+{% endblock %}

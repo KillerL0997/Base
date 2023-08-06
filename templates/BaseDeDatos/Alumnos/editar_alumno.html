@@ -1,0 +1,51 @@
+{% extends 'BaseDeDatos/registrarYeditar.html' %}
+{% block content %}
+<div class="formulario">
+    <form enctype="multipart/form-data" action="" method="post">
+        {{forma.csrf_token}}
+        <label for="nombre_alumno">Nombre del alumno</label>
+        {{forma.nombre_alumno(size= 50)}}
+        <label for="apellido_alumno">Apellido del alumno</label>
+        {{forma.apellido_alumno(size= 50)}}
+        <label for="localidad_alumno">Localidad del alumno</label>
+        {{forma.localidad_alumno(size= 50)}}
+        <label for="fecha_nacimiento_alumno">Fecha de nacimiento</label>
+        {{forma.fecha_nacimiento_alumno}}
+        <label for="nacionalidad_alumno">Nacionalidad del alumno</label>
+        {{forma.nacionalidad_alumno(size= 50)}}
+        <label for="documento_alumno">Documento del alumno</label>
+        {{forma.documento_alumno}}
+        <label for="telefono_alumno">Telefono del alumno</label>
+        {{forma.telefono_alumno}}
+        <label for="graduacion_alumno">Graduacion del alumno</label>
+        {{forma.graduacion_alumno}}
+        <label for="fecha_inscripcion_alumno">Fecha de inscripcion</label>
+        {{forma.fecha_inscripcion_alumno}}
+        <label for="observaciones_alumno">Observaciones</label>
+        {{forma.observaciones_alumno(size= 50)}}
+        <label for="email_alumno">Email del alumno</label>
+        {{forma.email_alumno(size= 50)}}
+        <label for="imagen">Cambiar foto del alumno:</label>
+        <select name="opcionFoto" id="opcionFoto">
+            <option value="No">No</option>
+            <option value="Si">Si</option>
+        </select>
+        <label id="porImagen" for="imagenAlumno"><strong>En caso de no subir una foto, el alumno, quedara sin
+                foto</strong></strong></label>
+        <input type="file" name="imagenAlumno" id="imagenAlumno">
+        <label for="gimnasio">Gimnasio: </label>
+        {{gimnasios.gimnasio}}
+        <div class="dosBotones">
+            <button class="btnRedondeado" type="submit">Guardar cambios</button>
+            <button class="btnRedondeado" type="button" onclick="location.href='/ver_alumnos/todo'">Regresar</button>
+        </div>
+        <div class="dosBotones">
+            <button class="btnRedondeado" type="button"
+                onclick="location.href='/agregar_evento_existente/{{id}}'">Agregar a examen/torneo</button>
+            <button class="btnRedondeado" type="button" onclick="location.href='/quitar_evento_existente/{{id}}'">Quitar
+                de examen/torneo</button>
+        </div>
+    </form>
+    <script src="../../../static/BaseJS/agregarAlumno.js"></script>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../static/BaseCSS/login.css" />
+    <link rel="stylesheet" href="../../static/BaseCSS/comun.css" />
+    <link rel="icon" type="image/x-icon" href="../../static/Imagenes/ENAT.png">
+    <title>Login</title>
+</head>
+
+<body>
+    <img src="../../static/Imagenes/ENAT.png" alt="" class="imagenFondo">
+    <div class="cajaLogin">
+        <form action="" method="post">
+            <h1>BIENVENIDO A LA BASE DE DATOS</h1>
+            <h4>{{msj}}</h4>
+            <label for="E-Mail" class="label">E-mail usuario</label>
+            <input type="email" name="E-Mail" class="input" />
+            <label for="password" class="label">Contraseña</label>
+            <input type="password" name="password" class="input" /><br>
+            <button class="btnRedondeado" type="submit">Ingresar</button>
+            <button class="btnRedondeado" name="reto" value="reto">Regresar</button>
+        </form>
+    </div>
+    <footer>
+        <p>Base de datos creada por Leonel vallejos</p>
+        <p>Todos los derechos reservados</p>
+        <p>Contacto: leonelvallejos3@gmail.com</p>
+    </footer>
+    <script src="{{url_for('static', filename='BaseJS/footer.js')}}"></script>
+</body>
+
+</html>

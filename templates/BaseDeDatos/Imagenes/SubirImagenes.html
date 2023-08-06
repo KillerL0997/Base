@@ -1,0 +1,12 @@
+{% extends 'BaseDeDatos/registrarYeditar.html' %}
+{% block content %}
+<div class="formulario">
+    <form method="post" enctype=multipart/form-data>
+        <input type="file" id="foto" name="foto" multiple>
+        <div class="dosBotones">
+            <button class="btnRedondeado" type="submit">Subir</button>
+            <button class="btnRedondeado" type="button" onclick="location.href='/ver_imagenes/todo'">Regresar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

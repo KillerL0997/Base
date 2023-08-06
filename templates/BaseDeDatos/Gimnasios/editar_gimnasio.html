@@ -1,0 +1,38 @@
+{% extends 'BaseDeDatos/registrarYeditar.html' %}
+{% block content %}
+<div class="formulario">
+    <form enctype=multipart/form-data action="" method="post">
+        {{forma.csrf_token}}
+        <label for="nombre_gimnasio">Nombre gimnasio</label>
+        {{forma.nombre_gimnasio(size = 30)}}
+        <label for="direccion_gimnasio">Direccion gimnasio</label>
+        {{forma.direccion_gimnasio(size = 30)}}
+        <label for="ubicacion_gimnasio">Ubicacion</label>
+        {{forma.ubicacion_gimnasio(size = 30)}}
+        <label for="instagram_gimnasio">Instagram</label>
+        {{forma.instagram_gimnasio(size = 30)}}
+        <label for="face_gimnasio">Facebook</label>
+        {{forma.face_gimnasio(size = 30)}}
+        <label for="whats_gimnasio">Whatsapp</label>
+        {{forma.whats_gimnasio(size = 30)}}
+        <label for="logo_gimnasio">Logo</label>
+        <input type="file" name="foto" id="">
+        <div class="dosBotones">
+            <button class="btnRedondeado" type="button"
+                onclick="location.href='/horarios/{{gimnasio}}'">Horarios</button>
+        </div>
+        {% if msj == 'Administrador' %}
+        <div class="dosBotones">
+            <button class="btnRedondeado" type="button" onclick="location.href='/agregar_usuarios/{{gimnasio}}'">Agregar
+                usuarios</button>
+            <button class="btnRedondeado" type="button" onclick="location.href='/quitar_usuarios/{{gimnasio}}'">Quitar
+                usuarios</button>
+        </div>
+        {% endif %}
+        <div class="dosBotones">
+            <button class="btnRedondeado" type="submit">Guardar cambios</button>
+            <button class="btnRedondeado" type="button" onclick="location.href='/ver_gimnasios/todo'">Regresar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

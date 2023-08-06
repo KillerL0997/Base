@@ -1,0 +1,76 @@
+{% extends 'BaseDeDatos/mostrarTablas.html' %}
+{% block content %}
+
+<nav class="filtros" id="filtros">
+    <form action="" method="post">
+        <p>Nombre</p>
+        <input type="text" name="Nombre" id="Nombre">
+        <p>Apellido</p>
+        <input type="text" name="Apellido" id="Apellido">
+        <p>Categoria</p>
+        {{opciones.usuario}}
+        {% if opc == 'todo' or opc == 'habilitado' %}
+        <p>Gimnasio</p>
+        {{gimnasios.gimnasio}}
+        {% endif %}
+        {% if (msj == 'Administrador' or msj == 'Cabeza') and opc != 'deshabilitado' %}
+        <p>Instructor</p>
+        {{usuarios.dato}}
+        {% endif %}
+        <button class="btnFilRedondeado" type="submit">Aceptar</button>
+    </form>
+    {% if modo %}
+    <button class="btnFilRedondeado" onclick="llenar('Alumnos','Desa','','')">Deshabilitar alumnos</button>
+    <button class="btnFilRedondeado" onclick="llenar('Alumnos','Examen','','')">Alumnos a examen</button>
+    <button class="btnFilRedondeado" onclick="llenar('Alumnos','Torneo','','')">Alumnos a torneo</button>
+    {% if libre %}
+    <button class="btnFilRedondeado" onclick="llenar('Alumnos','libre','','')">Asignar libretas alumnos</button>
+    {% endif%}
+    {% else %}
+    <button class="btnFilRedondeado" onclick="llenar('Alumnos','Habi','','')">Habilitar alumnos</button>
+    <button class="btnFilRedondeado" onclick="llenar('Alumnos','Elim','','')">Eliminar alumnos</button>
+    {% endif %}
+    <button class="btnFilRedondeado" type="button" onclick="location.href='/ver_alumnos/todo'">Ver todo</button>
+    {% if modo %}
+    <button class="btnFilRedondeado" type="button" onclick="location.href='/ver_alumnos/deshabilitado'">Ver
+        deshabilitados</button>
+    {% else %}
+    <button class="btnFilRedondeado" type="button" onclick="location.href='/ver_alumnos/habilitado'">Ver
+        habilitados</button>
+    {% endif %}
+    <button class="btnFilRedondeado" type="button" onclick="location.href='/Base'">Regresar</button>
+</nav>
+{% if alumnos %}
+<table border="1" id="tabla">
+    <thead>
+        <tr>
+            <th></th>
+            {% if modo %}
+            <th>Ult. Examen</th>
+            {% else %}
+            <th>Desa. en</th>
+            {% endif %}
+            <th>Apellido y Nombre</th>
+            <th>Categoria</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for idAlu, fecha, libre, ape, nom, grad in alumnos %}
+        <tr>
+            <td><input type="checkbox" name="checkbox" value="{{idAlu}}"></td>
+            <td>{{fecha.year}}/{{fecha.month}}/{{fecha.day}}</td>
+            {% if modo %}
+            <td class="{{libre}}"><a onclick="mostrarDato('{{idAlu}}','alu','{{msj}}')">{{ape}} {{nom}}</a></td>
+            {% else %}
+            <td class="{{libre}}">{{ape}} {{nom}}</td>
+            {% endif %}
+            <td>{{grad}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<h2>Sin alumnos registrados</h2>
+{% endif %}
+<script type="text/javascript" src="/static/BaseJS/llenarYrecargar.js"></script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'BaseDeDatos/varios.html' %}
+{% block content %}
+<form action="" method="post" class="contenedor">
+    <h2>Quitar evento</h2>
+    {% for evento in registros %}
+    <div class="agreQuitExaTor">
+        <label for="">{{evento.tipo_de_evento}}: {{evento.fecha_evento}}</label>
+        <input type="checkbox" name="checkbox" id="checkbox" value="{{evento.id_evento}}">
+    </div>
+    {% endfor %}
+    <div class="dosBotones">
+        <button class="btnRedondeado" type="submit">Aceptar</button>
+        <button class="btnRedondeado" type="button"
+            onclick="location.href='/editar_alumno/{{alumno.id_alumno}}'">Regresar</button>
+    </div>
+</form>
+{% endblock %}

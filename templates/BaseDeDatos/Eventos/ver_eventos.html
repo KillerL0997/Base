@@ -1,0 +1,74 @@
+{% extends 'BaseDeDatos/mostrarTablas.html' %}
+{% block content %}
+<nav class="filtros" id="filtros">
+    <form action="" method="post">
+        <p>Desde:</p>
+        <input type="date" name="fDesde" id="">
+        <p>Hasta:</p>
+        <input type="date" name="fHasta" id="">
+        <button class="btnFilRedondeado" type="submit">Aceptar</button>
+    </form>
+    <button class="btnFilRedondeado" onclick="location.href='/ver_eventos/examen'">Ver examenes</button>
+    <button class="btnFilRedondeado" onclick="location.href='/ver_eventos/torneos'">Ver torneos</button>
+    <button class="btnFilRedondeado" onclick="location.href='/ver_eventos/otros'">Ver otros eventos</button>
+    <button class="btnFilRedondeado" onclick="location.href='/ver_eventos/todo'">Ver todo</button>
+    <button class="btnFilRedondeado" onclick="location.href='/Base'">Regresar</button>
+</nav>
+<section class="tablas" id="tabla">
+    {% if examenes %}
+    <h2>Examenes</h2>
+    <table border="1">
+        <tbody>
+            {% for examen in examenes %}
+            <tr>
+                {% if msj == 'Administrador'%}
+                <td><a onclick="mostrarDato('{{examen.id_evento}}','eve')">{{examen.fecha_evento.year}}/{{examen.fecha_evento.month}}/{{examen.fecha_evento.day}}</a></td>
+                <td><a href="{{url_for('eliminar_evento', id = examen.id_evento)}}"><img
+                            src="../../../static/CSS/icons8-eliminar-50.png" alt="Eliminar"></a></td>
+                {% else %}
+                <td>{{examen.fecha_evento.day}}/{{examen.fecha_evento.month}}/{{examen.fecha_evento.year}}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    {% if torneos %}
+    <h2>Torneos</h2>
+    <table border="1">
+        <tbody>
+            {% for torneo in torneos %}
+            <tr>
+                {% if msj == 'Administrador'%}
+                <td><a onclick="mostrarDato('{{torneo.id_evento}}','eve')">{{torneo.fecha_evento.year}}/{{torneo.fecha_evento.month}}/{{torneo.fecha_evento.day}}</a></td>
+                <td><a href="{{url_for('eliminar_evento', id = torneo.id_evento)}}"><img
+                            src="../../../static/CSS/icons8-eliminar-50.png" alt="Eliminar"></a></td>
+                {% else %}
+                <td>{{torneo.fecha_evento.day}}/{{torneo.fecha_evento.month}}/{{torneo.fecha_evento.year}}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    {% if otros %}
+    <h2>Otros eventos</h2>
+    <table border="1">
+        <tbody>
+            {% for otro in otros %}
+            <tr>
+                {% if msj == 'Administrador'%}
+                <td><a onclick="mostrarDato('{{otro.id_evento}}','eve')">{{otro.fecha_evento.year}}/{{otro.fecha_evento.month}}/{{otro.fecha_evento.day}}</a></td>
+                <td><a href="{{url_for('eliminar_evento', id = otro.id_evento)}}"><img
+                            src="../../../static/CSS/icons8-eliminar-50.png" alt="Eliminar"></a></td>
+                {% else %}
+                <td>{{otro.fecha_evento.day}}/{{otro.fecha_evento.month}}/{{otro.fecha_evento.year}}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</section>
+{% endblock %}

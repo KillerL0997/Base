@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='BaseCSS/comun.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='BaseCSS/varios.css')}}">
+    <link rel="icon" type="image/x-icon" href="../../static/Imagenes/ENAT.png">
+    <title>Opciones</title>
+</head>
+
+<body>
+    <img src="{{url_for('static',filename='Imagenes/ENAT.png')}}" alt="" class="imagenFondo">
+    <div class="contenido">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <footer>
+        <p>Base de datos creada por Leonel vallejos</p>
+        <p>Todos los derechos reservados</p>
+        <p>Contacto: leonelvallejos3@gmail.com</p>
+    </footer>
+    <script src="{{url_for('static', filename='BaseJS/footer.js')}}"></script>
+</body>
+
+</html>

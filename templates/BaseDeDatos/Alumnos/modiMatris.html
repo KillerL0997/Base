@@ -1,0 +1,66 @@
+{% extends 'BaseDeDatos/registrarYeditar.html' %}
+{% block content %}
+<div class="formuFlex">
+    {% if modo == 'editar' %}
+    <table border="1">
+        <thead>
+            <th></th>
+            <th>Fecha</th>
+            <th>Tipo</th>
+        </thead>
+        <tbody>
+            {% for idMatri, fecha, tipo in matris %}
+            <tr>
+                <td><input type="checkbox" name="selec"><input type="hidden" name="idMatri" value="{{idMatri}}"></td>
+                <td><input type="date" name="fecha" value="{{fecha}}"></td>
+                <td><p id="tipo">{{tipo}}</p></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% elif modo == 'eliminar'%}
+    <table border="1">
+        <thead>
+            <th></th>
+            <th>Fecha</th>
+            <th>Tipo</th>
+        </thead>
+        <tbody>
+            {% for idMatri, fecha, tipo in matris %}
+            <tr>
+                <td><input type="checkbox" name="selec"><input type="hidden" name="idMatri" value="{{idMatri}}"></td>
+                <td><p name="fecha">{{fecha}}</p></td>
+                <td><p>{{tipo}}</p></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <section class="contMatris" id="contMaris">
+        <section class="datos">
+            <section class="datosMatri">
+                <label for="">Fecha</label>
+                <input type="date" name="fecha" id="">
+            </section>
+            <section class="datosMatri">
+                <label for="">Tipo</label>
+                <select name="tipoMatri">
+                    <option value="AATEE">AATEE</option>
+                    <option value="FETRA">Fetra</option>
+                    <option value="ENAT">Enat</option>
+                </select>
+            </section>
+        </section>
+    </section>
+    <section class="dosBotones">
+        <button class="btnRedondeado" onclick="eliminar()">Eliminar</button>
+        <button class="btnRedondeado" onclick="agregar()">Agregar</button>
+    </section>
+    {% endif %}
+    <section class="dosBotones">
+        <button class="btnRedondeado" onclick="matris('{{idAlu}}', '{{modo}}')">Guardar cambios</button>
+        <button class="btnRedondeado" onclick="location.href='/ver_alumnos/habilitado'">Regresar</button>
+    </section>
+</div>
+<script src="../../../static/BaseJS/Matris2.js"></script>
+{% endblock %}

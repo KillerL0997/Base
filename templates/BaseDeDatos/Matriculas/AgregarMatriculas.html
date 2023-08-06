@@ -1,0 +1,28 @@
+{% extends 'BaseDeDatos/varios.html' %}
+{% block content %}
+<nav class="agregaMatris">
+    <div class="filtros">
+        <button class="btnRedondeado" type="button" onclick="agregar('AATEE')">Agregar AATEE</button>
+        <button class="btnRedondeado" type="button" onclick="quitar('AATEE')">Quitar AATEE</button>
+        <button class="btnRedondeado" type="button" onclick="agregar('ENAT')">Agregar ENAT</button>
+        <button class="btnRedondeado" type="button" onclick="quitar('ENAT')">Quitar ENAT</button>
+        <button class="btnRedondeado" type="button" onclick="agregar('Fetra')">Agregar Fetra</button>
+        <button class="btnRedondeado" type="button" onclick="quitar('Fetra')">Quitar Fetra</button>
+        <button class="btnRedondeado" type="button"
+            onclick="location.href='/Editar_matriculas/{{id}}/editar'">Regresar</button>
+    </div>
+    <form action="" method="post">
+        <div id="AATEE">
+            <h4>AATEE</h4>
+        </div>
+        <div id="ENAT">
+            <h4>ENAT</h4>
+        </div>
+        <div id="Fetra">
+            <h4>Fetra</h4>
+        </div>
+        <button class="btnRedondeado" type="submit" class="unBoton">Registrar</button>
+    </form>
+    <script src="/static/BaseJS/Matris.js"></script>
+</nav>
+{% endblock %}

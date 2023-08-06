@@ -1,0 +1,51 @@
+{% extends 'BaseDeDatos/registrarYeditar.html' %}
+    {% block content %}
+        <div class="formulario">
+            <form enctype="multipart/form-data" action="" method="post">
+                {{forma.csrf_token}}
+                <label for="nombre_alumno">Nombre del alumno</label>
+                {{forma.nombre_alumno(size= 50)}}
+                <label for="apellido_alumno">Apellido del alumno</label>
+                {{forma.apellido_alumno(size= 50)}}
+                <label for="localidad_alumno">Localidad del alumno</label>
+                {{forma.localidad_alumno(size= 50)}}
+                <label for="fecha_nacimiento_alumno">Fecha de nacimiento</label>
+                {{forma.fecha_nacimiento_alumno}}
+                <label for="documento_alumno">Documento del alumno</label>
+                {{forma.documento_alumno}}
+                <label for="telefono_alumno">Telefono del alumno</label>
+                {{forma.telefono_alumno}}
+                <label for="nacionalidad_alumno">Nacionalidad del alumno</label>
+                {{forma.nacionalidad_alumno(size= 50)}}
+                <label for="graduacion_alumno">Graduacion del alumno</label>
+                {{forma.graduacion_alumno}}
+                <label for="fecha_inscripcion_alumno">Fecha de inscripcion</label>
+                {{forma.fecha_inscripcion_alumno}}
+                <label for="observaciones_alumno">Observaciones</label>
+                {{forma.observaciones_alumno(size= 50)}}
+                <label for="email_alumno">Email del alumno</label>
+                {{forma.email_alumno(size= 50)}}
+                <label for="">Tiene libreta:</label>
+                <section class="secRadio">
+                    <section>
+                        <input type="radio" name="libre" id="libre" value="" checked>
+                        <p>Si</p>
+                    </section>
+                    <section>
+                        <input type="radio" name="libre" id="libre" value="sin_libre">
+                        <p>No</p>
+                    </section>
+                </section>
+                <label for="">Foto del alumno</label>
+                <input type="file" name="foto" id="foto">
+                <form action="" method="post">
+                    <label for="">Gimnasios: </label>
+                        {{usuarios.usuario}} 
+                    <div class="dosBotones">
+                        <button class="btnRedondeado" type="submit">Aceptar</button>
+                        <button class="btnRedondeado" type="button" onclick="location.href='/Base'">Regresar</button>
+                    </div>
+                </form>
+            </form>
+        </div>
+    {% endblock %}

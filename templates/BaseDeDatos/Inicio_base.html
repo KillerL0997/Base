@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/BaseCSS/comun.css">
+    <link rel="stylesheet" href="../../static/BaseCSS/inicioBase.css">
+    <link rel="icon" type="image/x-icon" href="../../static/Imagenes/ENAT.png">
+    <title>Inicio</title>
+</head>
+
+<body>
+    <img src="../../static/Imagenes/ENAT.png" alt="" class="imagenFondo">
+    <section class="inicio">
+        <div class="botonLinks">
+            <img src="../../static/CSS/menu.png" alt="Detalles" id="imgLinks">
+        </div>
+        <nav class="links" id="links">
+            <section>
+                {% if msj == 'Administrador' %}
+                <button class="btnInicio" onclick="location.href='/agregar_usuario/registrar'">Registrar
+                    usuario</button>
+                <button class="btnInicio" onclick="location.href='/ver_usuarios/todo'">Ver
+                    usuarios</button>
+                {% endif %}
+                <button class="btnInicio" onclick="location.href='/editar_usuario/{{usuario}}/inicio'">Cambiar
+                    datos</button>
+                <button class="btnInicio" onclick="location.href='/cambiar_contraseña/nada'">Cambiar
+                    contraseña</button>
+            </section>
+            <section>
+                {% if msj == 'Administrador' %}
+                <button class="btnInicio" onclick="location.href='/crear_notificacion'">Registrar notificacion</button>
+                {% endif %}
+            </section>
+            <section>
+                <button class="btnInicio" onclick="location.href='/agregar_gimnasio'">Registrar gimnasio</button>
+                {% if gimnasios %}
+                <button class="btnInicio" onclick="location.href='/ver_gimnasios/todo'">Ver gimnasios</button>
+                {% endif %}
+            </section>
+            {% if gimnasios %}
+            <section>
+                <button class="btnInicio" onclick="location.href='/agregar_alumno'">Registrar alumno</button>
+                <button class="btnInicio" onclick="location.href='/ver_alumnos/todo'">Ver alumnos</button>
+                <button class="btnInicio" onclick="location.href='/buscarAlumno'">Buscar alumno</button>
+            </section>
+            {% endif %}
+            <section>
+                <button class="btnInicio" onclick="location.href='/ver_eventos/todo'">Ver eventos</button>
+                {% if msj == 'Administrador' %}
+                <button class="btnInicio" onclick="location.href='/agregar_evento'">Registrar evento</button>
+                {% endif %}
+            </section>
+            {% if msj == 'Administrador' %}
+            <section>
+                <button class="btnInicio" onclick="location.href='/ver_matriculas/todo'">Ver matriculas</button>
+                <button class="btnInicio" onclick="location.href='/ver_imagenes/todo'">Ver Imagenes</button>
+            </section>
+            {% endif %}
+            <section>
+                <button class="btnInicio">Planilla inscripcion</button>
+                <button class="btnInicio">Planilla Examen</button>
+                <button class="btnInicio" onclick="location.href='/logout'">Salir</button>
+            </section>
+        </nav>
+        {% if notificaciones %}
+        <div class="contenedor_notis" id="notis">
+            {% for idNoti, contenido in notificaciones %}
+            <div class="notificacion" id="noti{{idNoti}}">
+                <button class="btnRedondeado btnNotis" onclick="elimNoti('{{idNoti}}')">X</button>
+                <p>{{contenido}}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="sinNotis" id="notis">
+            <h1>Sin notificaciones</h1>
+        </div>
+        {% endif %}
+    </section>
+    <footer>
+        <p>Base de datos creada por Leonel vallejos</p>
+        <p>Todos los derechos reservados</p>
+        <p>Contacto: leonelvallejos3@gmail.com</p>
+    </footer>
+    <script src="../../static/BaseJS/imgLinks.js"></script>
+    <script src="{{url_for('static', filename='BaseJS/footer.js')}}"></script>
+    <script src="../../static/BaseJS/elimNotis.js"></script>
+</body>
+
+</html>

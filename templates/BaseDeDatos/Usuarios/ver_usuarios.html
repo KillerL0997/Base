@@ -1,0 +1,46 @@
+{% extends 'BaseDeDatos/mostrarTablas.html' %}
+{% block content %}
+<nav class="filtros" id="filtros">
+    <button class="btnFilRedondeado" onclick="location.href='/ver_usuarios/cabeza'">Ver cabezas</button>
+    <button class="btnFilRedondeado" onclick="location.href='/ver_usuarios/instructor'">Ver
+        instructores</button>
+    <button class="btnFilRedondeado" onclick="location.href='/ver_usuarios/usuario'">Ver usuarios</button>
+    <button class="btnFilRedondeado" onclick="location.href='/ver_usuarios/administrador'">Ver
+        Administradores</button>
+    <button class="btnFilRedondeado" onclick="location.href='/ver_usuarios/todo'">Todos los usuarios</button>
+    <button class="btnFilRedondeado" onclick="location.href='/Base'">Regresar</button>
+</nav>
+<table border="1" id="tabla">
+    {% if usuarios %}
+    <thead>
+        <th>Usuario</th>
+        <th>Cargo</th>
+        <th></th>
+    </thead>
+    <tbody>
+        {% for nom,ape,cargo,idUsu in usuarios %}
+        <tr>
+            <td><a onclick="mostrarDato('{{idUsu}}','usu')">{{ape}} {{nom}}</a></td>
+            <td>
+                {% if cargo == 'Administrador'%}
+                <p>Administrador</p>
+                {% elif cargo == 'Cabeza' %}
+                <p>Cabeza de grupo</p>
+                {% else %}
+                <p>Usuario</p>
+                {% endif %}
+            </td>
+            <td><a href="{{url_for('eliminar_usuario', id = idUsu)}}"><img
+                        src="../../../static/CSS/icons8-eliminar-50.png" alt="Eliminar"></a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    {% else %}
+    <thead>
+        <tr>
+            <th colspan="2">No se encontraron datos</th>
+        </tr>
+    </thead>
+    {% endif %}
+</table>
+{% endblock %}

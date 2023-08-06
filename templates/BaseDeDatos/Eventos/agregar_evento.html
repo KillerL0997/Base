@@ -1,0 +1,29 @@
+{% extends 'BaseDeDatos/registrarYeditar.html' %}
+{% block content %}
+<div class="formulario">
+    <form action="" method="post">
+        {{forma.csrf_token}}
+        <label for="fecha_evento">Fecha evento:</label>
+        {{forma.fecha_evento}}
+        <label for="tipo_de_evento">Tipo de evento:</label>
+        {{forma.tipo_de_evento}}
+        <section id="tipo">
+            <label for="tipoOpc">Indique el tipo de actividad:</label>
+            {{forma.tipoOpc}}
+        </section>
+        <label>Lugar: </label>
+        {{formaGim.gimnasio}}
+        <section id="lugar">
+            <label for="lugarOpc">Indique el lugar:</label>
+            {{forma.lugarOpc}}
+        </section>
+        <label>Descripcion de la actividad realizada:</label>
+        {{forma.actRealizada}}
+        <div class="dosBotones">
+            <button class="btnRedondeado" type="submit">Registrar</button>
+            <button class="btnRedondeado" type="button" onclick="location.href='/Base'">Regresar</button>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="/static/BaseJS/agregarEvento.js"></script>
+{% endblock %}

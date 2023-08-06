@@ -1,0 +1,34 @@
+{% extends 'BaseDeDatos/varios.html' %}
+{% block content %}
+<div class="horarios">
+    <nav class="links">
+        <button type="button" class="btnRedondeado" id="Restar" disabled="disabled">Quitar</button>
+        <button type="button" class="btnRedondeado" id="Sumar">Agregar</button>
+        <button type="button" class="btnRedondeado" onclick="location.href='/editar_gimnasio/{{id}}'">Regresar</button>
+    </nav>
+    <form action="" method="post">
+        <label for="horarios_gimnasio">Horarios</label>
+        {% if horarios %}
+        <table border="1">
+            <thead>
+                <th>Eliminar</th>
+                <th>Horario</th>
+                <th>Instructor</th>
+            </thead>
+            <tbody>
+                {% for idHora, desc, instructor in horarios %}
+                <tr>
+                    <td><input type="checkbox" name="checkbox" value="{{idHora}}"></td>
+                    <td>{{desc}}</td>
+                    <td>{{instructor}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        <input type="hidden" name="oculto" value="{{id}}">
+        <button class="btnRedondeado" type="submit">Aceptar</button>
+    </form>
+    <script src="/static/BaseJS/editarYagregarGim.js"></script>
+</div>
+{% endblock %}

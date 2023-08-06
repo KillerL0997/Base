@@ -1,0 +1,61 @@
+{% extends 'BaseDeDatos/mostrarTablas.html' %}
+{% block content %}
+<form action="" method="post" class="formBuscar" id="formFil">
+    <nav class="filtros" id="filtros">
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" id="">
+        <label for="apellido">Apellido:</label>
+        <input type="text" name="apellido" id="">
+        <button type="submit" class="btnFilRedondeado">Aceptar</button>
+        <button type="button" class="btnFilRedondeado" onclick="location.href='/Base'">Regresar</button>
+    </nav>
+</form>
+<div class="mostrarBuscados" id="tabla">
+    <h2>Alumnos habilitados</h2>
+    {% if alumnosHabi%}
+    <table border="1">
+        <thead>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Categoria</th>
+            <th>Gimnasio</th>
+            <th>Instructor</th>
+        </thead>
+        <tbody>
+            {% for nomAlu,apeAlu,cate,gim,inst in alumnosHabi %}
+            <tr>
+                <td>{{nomAlu}}</td>
+                <td>{{apeAlu}}</td>
+                <td>{{cate}}</td>
+                <td>{{gim}}</td>
+                <td>{{inst}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    <h2>Alumnos desabilitados</h2>
+    {% if alumnosDesa %}
+    <table border="1">
+        <thead>
+            <th>Fecha desa</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Localidad</th>
+            <th>Categoria</th>
+        </thead>
+        <tbody>
+            {% for nomAlu,apeAlu,cate,fecha,direc in alumnosDesa %}
+            <tr>
+                <td>{{fecha}}</td>
+                <td>{{nomAlu}}</td>
+                <td>{{apeAlu}}</td>
+                <td>{{direc}}</td>
+                <td>{{cate}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,364 @@
+
+/*MENU Y MENU RESPONSIVE */
+.nav-bar{
+	background: blue;
+	padding:0 9px;
+	display: block;
+	color: white;
+	cursor: pointer;
+	font-size: 1.9em;
+	width: 100%;
+}
+.menu, .submenu{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	z-index: 1;
+}
+.menu{
+	background: #4153AF;
+	width: 100%;
+	margin-left: -100%;
+	transition: all 0.5s;
+	position: absolute;
+}
+.menu__link{
+	display: block;
+	padding: 27px;
+	color: white;
+	font-size: 1.2em;
+	text-decoration: none;
+z-index: 1;
+	position: relative;
+}
+.submenu .menu__link{
+background: #8095FF ;
+	padding-left: 20px;
+	z-index: 1;
+	position: relative;
+}
+
+.submenu{
+	height: 0;
+	overflow: hidden;
+	transition: all 0.3s;
+}
+.mostrar{
+	margin-left: 0;
+}
+.logonav{
+	width: 5%;
+	height:5%;
+	visibility: hidden;
+}
+/*header con titulos y logo*/
+/*header con titulos y logo*/
+
+.img{
+	width: 150px;
+	height: 150px;
+}
+
+.enat{
+	margin: 0% auto;
+height: 200px;
+width: 200px;
+display: block;
+}
+.titulocentral{
+	padding: 1%;
+text-align: center;
+background: linear-gradient(to bottom, #5756E5,#FF4545);
+color: white;
+animation-name: mover;
+animation-duration: 2s;
+}
+@keyframes mover{
+0%{
+	transform: translateX(-40%);
+
+}
+100%{
+	transform: translateX(0%);
+}
+}
+#tituloescuelanacional{
+font-family: 'Poppins', sans-serif;
+    text-align: center;
+    font-size: 30px;
+    color: white;
+}
+.subtitulo{
+font-family: 'Poppins', sans-serif;
+    text-align: center;
+    font-size: 30px;
+    color: white;
+	margin-top: 1%;
+}
+
+.noticias{
+    background: linear-gradient(to left, blue, red);
+    color:white;
+	text-align: center;
+	font-family: 'Poppins';
+    font-size: 25px;
+}
+.fonttitulo{
+	font-family: 'Poppins', sans-serif;
+	text-align: center;
+	font-size: 30px;
+	color: white;
+}
+
+
+/*gimnasios*/
+main{
+	display: flex;
+	flex-wrap: wrap;
+}
+.gims{
+ padding:12px;
+ margin:12px;
+ border-right:inset;
+ border-bottom:inset ;
+ border-color: #CACFD2;
+ width: 50%;
+ height: 600px;
+}
+.gims:hover{
+	box-shadow: 5px 5px 20px rgba(0,0,0,2)
+}
+
+.imggims{
+	    width: 30%;
+    height: 40%;
+    float: right;
+}
+
+.nombregim{
+	font-size: 22px;
+	font-family: 'Open Sans', sans-serif;
+}
+.ubicacion{	
+color: red;
+font-size: 20px;
+		font-family: 'Open Sans', sans-serif;
+	padding: 1%;
+}
+.nomubi{	
+color: black;
+}
+.listas{
+	display: flex;
+	flex-direction: column;
+		list-style: none;
+padding-left: 26px;
+font-size: 14px;
+padding-top: 10px;
+font-family: 'Lato', sans-serif;
+}
+.logos{
+	width: 30px;
+	height: 30px;
+}
+
+.redes{
+	margin-top: 5%;
+display: flex;
+justify-content: center;
+width: 300px;
+height: 60px;
+box-shadow: 0 0 6px rgba(0,0,0,0.582);
+align-items: center;
+}
+.redes .fab{
+margin: 0 15px;
+width: 40px;
+height: 40px;
+text-align: center;
+line-height: 40px;
+background: #000;
+border-radius: 50%;
+color: white;
+cursor: pointer;
+pointer-events: none;
+box-shadow: 0 0 6px rgba(0,0,0,0.3);
+}
+.redes .icono1{
+	background: #C13584;
+}
+.redes .icono2{
+		background: #68F470;
+}
+.redes .icono3{
+		background: #3b5998;
+}
+.redes .icono4{
+	background: #56FFBF;
+}
+
+
+/*pie de pagina*/
+footer{
+	background:white;
+	text-align: center;
+display: flex;
+border-top: #000 2px inset;
+justify-content: space-around;
+}
+
+.font{
+	font-family: arial;
+	font-size: 20px;
+	list-style: none;
+	color: black;
+	text-decoration: none;
+}
+
+a:hover{
+	color: blue;
+}
+.contactanos{
+	text-align: center;
+	font-size: 28px;
+	font-family: monospace;
+}
+
+.logodiv{
+width: 180px;
+	height: 180px;
+}
+.logoescueladiv{
+	  display: flex;
+  justify-content: center;
+  align-items: center;
+margin-right: 15%;
+}
+.logsitf{
+    display: block;
+    margin: 2px;
+}
+.logoitf{
+	list-style: none;
+	margin-left: 40px;
+}
+.itf{
+	width: 100px;
+	height: 100px;
+}
+.copy{
+	font-family: perpetua;
+	font-size: 11px;
+	color: gray;
+}
+@media(max-width: 992px){
+	.listas{
+		font-size: 24px;
+	}
+	.ubicacion{
+		font-size: 28px;
+	}
+	.redes{
+		margin-top: 0%;}
+/*gimnasios*/
+.nombregim{
+	font-size: 32px;
+	font-weight: 600;
+}
+.gims{
+	    display: inline-block;
+    position: static;
+    width: 100%;
+    height: 700px;
+}
+.gims:hover{
+font-size: 24px;
+}
+.logoescueladiv{
+	  display: flex;
+  justify-content: center;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+.logsitf {
+    display: block;
+    margin: 0px;
+}
+.logoescueladiv {
+    margin-left: 1%;
+    margin-right: 1%;
+}
+.copy{
+	font-family: perpetua;
+	font-size: 9px;
+	color: gray;
+}}
+@media(min-width: 1024px){
+	.logonav{
+	width: 5%;
+	height:5%;
+}
+	.nav-bar{
+		display: none;
+	}
+	.menu{
+		margin-left: 0;
+		display: flex;
+		position: static;
+	}
+	.container-submenu{
+		position: relative;
+	}
+	.submenu{
+		position: absolute;
+		top: 60px;
+		width: 156px;
+		overflow: visible;
+		z-index: 1000;
+		opacity: 0;
+		visibility: hidden;
+	}
+	.container-submenu:hover .submenu{
+		opacity: 1;
+		visibility: visible;
+	}
+	.menu__link:hover{
+		background: #444;
+	}
+	.submenu .menu__link:hover{
+		background: #222;
+	}
+}
+@media(min-width: 1024px){
+	.gims{
+		margin: 0;
+	}
+}
+@media (min-width: 993px) and (max-width:1437px){
+	.gims{
+		height: 580px;
+		width: 50%;
+		margin: 0;
+	}
+.logoescueladiv{
+	margin-left: 100px;
+	margin-right: 100px;
+}	
+
+}
+@media(min-width: 1602px){
+	.titulocentral {
+    margin-top: 0;}
+
+}
+@media (min-width: 2560px){
+.titulocentral {
+    margin-top: 0;}
+
+.logoescueladiv {
+   display: flex;
+    justify-content: center;
+    margin-left: 30%;
+    margin-right: 30%;
+}
+}

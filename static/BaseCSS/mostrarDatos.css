@@ -1,0 +1,71 @@
+.imagenFondo{
+    margin: -10% 20% 0 20%;
+    height: 100%;
+    position: absolute;
+    opacity: 0.1;
+    z-index: -1;
+}
+.caja{
+    width: 70%;
+    margin: 10% 15% 0 15%;
+}
+.mostrarDatos{
+    display: flex;
+    flex-direction: row-reverse;
+    background-color: rgb(230 230 231);
+    border: 1px solid black;
+    border-radius: 20px;
+}
+.datosAlu{
+    width: 47%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.datosAlu img{
+    max-width: 300px;
+    max-height: 300px;
+}
+.datos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(230 230 231);
+    border: 1px solid black;
+    border-radius: 20px;
+    text-align: center;
+}
+.datos table{
+    width: 70%;
+    text-align: center;
+}
+.dosBotones{
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+}
+.btnRedondeado{
+    width: 40%;
+}
+@media screen and (max-width: 768px){
+    .caja{
+        width: 100%;
+        margin: 20% 0;
+    }
+    .imagenFondo{
+        margin: 0;
+        height: auto;
+        width: 100%;
+    }
+    .dosBotones, .datosAlu{
+        width: 100%;
+    }
+    .mostrarDatos{
+        flex-direction: column;
+    }
+    .datosAlu img, .datosAlu .btnRedondeado{
+        width: 60%;
+    }
+}

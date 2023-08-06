@@ -1,0 +1,19 @@
+{% extends 'BaseDeDatos/registrarYeditar.html' %}
+{% block content %}
+<div class="formulario">
+    <form action="" method="post">
+        <h2>Crear notificacion</h2>
+        {{forma.csrf_token}}
+        <label for="destino">Entregar a:</label>
+        {{usuarios.usuario}}
+        <label for="asunto">Asunto</label>
+        {{forma.asunto}}
+        <label for="notificacion">Escriba la notificacion para todos los usuarios</label>
+        {{forma.notificacion}}
+        <div class="dosBotones">
+            <button class="btnRedondeado" type="submit">Aceptar</button>
+            <button class="btnRedondeado" type="button" onclick="location.href='/Base'">Regresar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

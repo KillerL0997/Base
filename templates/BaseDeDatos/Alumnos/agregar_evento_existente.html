@@ -1,0 +1,18 @@
+{% extends 'BaseDeDatos/varios.html' %}
+    {% block content %}
+    <div class="contenedor">
+        <form action="" method="post">
+            <h2>Agregar a evento existente</h2>
+            {% for registro in registros %}
+            <div class="agreQuitExaTor">
+                <label for="">{{registro.tipo_de_evento}}: {{registro.fecha_evento}}</label> 
+                <input type="checkbox" name="checkbox" id="checkbox" value="{{registro.id_evento}}">
+            </div>
+            {% endfor %}
+            <div class="dosBotones">
+                <button class="btnRedondeado" type="submit">Aceptar</button>
+                <button class="btnRedondeado" type="button" onclick="location.href='/editar_alumno/{{alumno.id_alumno}}'">Regresar</button>
+            </div>
+        </form>
+    </div>
+    {% endblock %}

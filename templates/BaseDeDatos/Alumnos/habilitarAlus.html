@@ -1,0 +1,41 @@
+{% extends 'BaseDeDatos/varios.html' %}
+{% block content %}
+<div class="contenedor">
+    <form action="" method="post">
+        <h2>Alumnos a habilitar</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th></th>
+                    {% if msj %}
+                    <th></th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% if msj %}
+                {% for alu, gim, usu in listaDatos %}
+                <td>{{alu[0]}} {{alu[1]}}</td>
+                <td>{{gim.gimnasio}}</td>
+                <td>{{usu}}</td>
+                {% endfor %}
+                {% else %}
+                {% for alu, idAlu, gim in listaUsu %}
+                <td>{{alu[0]}} {{alu[1]}}</td>
+                <td>
+                    <input type="hidden" name="seleccion" value="{{idAlu}}">
+                    {{gim.gimnasio}}
+                </td>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+        <div class="dosBotones">
+            <button class="btnRedondeado" type="submit">Aceptar</button>
+            <button class="btnRedondeado" type="button" onclick="location.href='/ver_alumnos/todo'">Regresar</button>
+        </div>
+    </form>
+</div>
+<script src="../../../static/BaseJS/habiAlus.js"></script>
+{% endblock %}

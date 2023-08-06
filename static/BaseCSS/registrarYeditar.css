@@ -1,0 +1,97 @@
+.imagenFondo{
+    margin: -7% 20% 0 20%;
+    height: 100%;
+    position: absolute;
+    opacity: 0.1;
+    z-index: -1;
+}
+.caja{
+    width: 50%; 
+    margin: 7% 25% 3rem 25%;
+    background-color: rgb(235, 237, 239);
+    border-radius: 20px;
+    border: 1px solid black;
+}
+.formulario{
+    width: 100%;
+}
+.formuFlex{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.formulario form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.formulario table, .formuFlex table{
+    width: 90%;
+    text-align: center;
+}
+.dosBotones{
+    width: 70%;
+    display: flex;
+    justify-content: space-around;
+    padding-top: 5px;
+}
+.dosBotones button{
+    width: 45%;
+}
+input, select, textarea{
+    width: 70%;
+}
+#lugar, #tipo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.secRadio{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.sinNotis{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.contMatris{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.datos{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.datosMatri{
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    align-items: center;
+}
+@media screen and (max-width: 768px){
+    .imagenFondo{
+        margin: 30% 0;
+        height: auto;
+        width: 100%;
+    }
+    .caja{
+        width: 100%;
+        margin: 25% 0;
+    }
+    input, select, textarea{
+        width: 85%;
+    }
+    .dosBotones{
+        width: 85%;
+    }
+}

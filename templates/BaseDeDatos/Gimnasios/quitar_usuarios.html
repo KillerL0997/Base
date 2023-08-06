@@ -1,0 +1,27 @@
+{% extends 'BaseDeDatos/varios.html' %}
+{% block content %}
+<div class="agregaUsu">
+    <form action="" method="post">
+        <h2>Quitar usuarios</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Nombre y apellido</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for idUsu, nom, ape in usuarios %}
+                <tr>
+                    <td>{{nom}} {{ape}}</td>
+                    <td><input type="checkbox" name="checkbox" id="checkbox" value="{{idUsu}}"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button class="btnRedondeado" type="submit">Aceptar</button>
+        <button class="btnRedondeado" type="button"
+            onclick="location.href = document.referrer">Regresar</button>
+    </form>
+</div>
+{% endblock %}

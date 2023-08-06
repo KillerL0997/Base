@@ -1,0 +1,33 @@
+{% extends 'BaseDeDatos/varios.html' %}
+{% block content %}
+<form action="" method="post" class="contenedor">
+    {% if opc != "desa" %}
+    <h2>Seleccione un registro para deshabilitar</h2>
+    {% else %}
+    <h2>Seleccione un registro para eliminar</h2>
+    {% endif %}
+    {% for nomGim, checkUsu in listaGims %}
+    <h3>{{nomGim}}</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for id,nom,ape in checkUsu %}
+            <tr>
+                <td><input type="checkbox" name="seleccion" value="{{id}}"></td>
+                <td>{{nom}} {{ape}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endfor %}
+    <div class="dosBotones">
+        <button class="btnRedondeado" type="submit">Aceptar</button>
+        <button class="btnRedondeado" type="button" onclick="location.href='/ver_gimnasios/todo'">Regresar</button>
+    </div>
+</form>
+{% endblock %}

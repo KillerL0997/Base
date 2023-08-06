@@ -1,0 +1,43 @@
+.cajaLogin{
+    width: 70%;
+    margin: 15% 15% 0 15%;
+    text-align: center;
+}
+.cajaLogin form h1{
+    font-size: 1.5em;
+}
+.cajaLogin form label, .cajaLogin form input{
+    display: block;
+}
+.cajaLogin form input{
+    width: 40%;
+    margin: 0 30% 0 30%;
+}
+.imagenFondo{
+    margin: -15% 20% 0 20%;
+    height: 100%;
+    position: absolute;
+    opacity: 0.1;
+    z-index: -1;
+}
+@media screen and (max-width: 768px){
+    .cajaLogin{
+        width: 100%;
+        margin: 15% 0 0 0;
+    }
+    .cajaLogin form h1{
+        font-size: 1em;
+    }
+    .cajaLogin form input{
+        width: 90%;
+        margin: 0 5% 0 5%;
+    }
+    .btnRedondeado{
+        width: 45% !important;
+    }
+    .imagenFondo{
+        margin: 0;
+        height: auto;
+        width: 100%;
+    }
+}

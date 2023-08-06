@@ -1,0 +1,17 @@
+{% extends 'BaseDeDatos/varios.html' %}
+{% block content %}
+<form action="" method="post" class="contenedor">
+    {% if msj != 'nada' %}
+    <p>{{msj}}</p>
+    {% endif %}
+    <label>Contraseña nueva</label>
+    <input type="password" name="contra_1" id="contra_1" class="input">
+    <label>Vuelva a introducir la contraseña</label>
+    <input type="password" name="contra_2" id="contra_2" class="Input">
+    <div class="dosBotones">
+        <button class="btnRedondeado" type="button" onclick="location.href='/Base'">Regresar</button>
+        <button class="btnRedondeado" type="submit">Aceptar</button>
+    </div>
+</form>
+
+{% endblock %}

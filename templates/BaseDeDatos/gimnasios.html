@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>GIMNASIOS ENAT</title>
+	<meta name="description"
+		content="somos una escuela de taekwondo argentina asociada a la ITF. estamos en buenos aires, argentina.">
+	<link rel="icon" href="{{url_for('static',filename='Imagenes/ENAT.PNG')}}">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='CSS/Pagina/normalize.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='CSS/Pagina/gimnasios.css')}}">
+
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,300&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,800&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Lato:ital@1&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,500&display=swap');
+	</style>
+
+</head>
+
+<body>
+	<span class="nav-bar" id="btnmenu"><i class="fas fa-bars"></i></span>
+  <nav class="main-nav">
+    <ul class="menu" id="menu">
+      <li class="menu__item container-submenu">
+        <a class="menu__link submenu-btn" href="#">PLANILLAS </a>
+        <ul class="submenu">
+          <li class="menu__item"> <a class="menu__link"
+              href="https://docs.google.com/forms/d/1K5ZomUqI6f1GoRv2lIFK7I5mdhY0M--J1qgIrI008LA/prefill">PLANILLA DE
+              INSCRIPCION</a> </li>
+          <li class="menu__item" i> <a class="menu__link" href="https://forms.gle/UfWaNT2AnrWb4uug6">PLANILLA DE
+              EXAMEN</a> </li>
+        </ul>
+      </li>
+      <li class="menu__item container-submenu">
+        <a class="menu__link submenu-btn" href="#">NOSOTROS</a>
+        <ul class="submenu">
+<li class="nav_menu_item "> <a class="menu__link nav_link" href="{{url_for('base')}}">INICIO</a>
+	</li>
+          <li class="menu__item"> <a class="menu__link" href="{{url_for('inicio')}}">BASE DE DATOS</a> </li>
+        </ul>
+      </li>
+      <li class="menu_item"> <a class="menu__link" href="#">EQUIPOS</a> </li>
+      <li class="menu_item"> <a class="menu__link" href="{{url_for('teoria')}}"> TEORIA</a> </li>
+    </ul>
+    </li>
+    </ul>
+  </nav>
+
+  <nav class="titulocentral">
+    <h1 id="tituloescuelanacional"> Escuela Nacional De Taekwondo</h1>
+    <div id="carouselId" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner" role="listbox">
+        <div class="carousel-item  active">
+          <div class="">
+            <img src="{{url_for('static',filename='Imagenes/ENAT.png')}}" class=" img enat">
+          </div>
+        </div>
+        <div class="carousel-item ">
+          <div class="">
+            <img src="{{url_for('static',filename='Imagenes/aate.png')}}" class=" img enat">
+          </div>
+        </div>
+      </div>
+    </div>
+    <h1 id="pasionporlaexcelencia" class="subtitulo"> PASION POR LA EXCELENCIA</h1>
+  </nav>
+	{% if carrFechas %}
+	<div id="carouselId" class="carousel slide" data-bs-ride="carousel">
+		<div class="carousel-inner" role="listbox">
+			{% for clase,fecha in carrFechas %}
+			<div class="{{clase}}">
+				<div class="">
+					<h2 class="noticias"> {{fecha}} </h2>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	{% endif %}
+	<main>
+		{% for nomGim,logo,direc,insta,whats,ubi,face,usuarios,horarios in listaGims %}
+		<div class="gims" data-aos="fade-right">
+			<h2 class="nombregim"> {{nomGim}}</h2>
+			<img class="imggims" src="{{url_for('static', filename=logo)}}">
+			<ul class="listas">
+				<p class="ubicacion"><b> UBICACION </b> </p>
+				<p class="nomubi ubicacion">{{direc}}</p>
+			</ul>
+			<ul class="listas"> <b>INSTRUCTOR</b>
+				{% for usu in usuarios%}
+				<li> {{usu}}</li>
+				{% endfor %}
+			</ul>
+			<ul class="listas"> <b>DIAS DE CLASES </b>
+				{% for hora in horarios%}
+				<li>{{hora}}</li>
+				{% endfor %}
+			</ul>
+			{% if insta or whats or ubi or face %}
+			<ul class="redes">
+				{% if insta %}
+				<a href="{{insta}}"> <i class="fab fa-instagram  icono1"> </i> </a>
+				{% endif %}
+				{% if whats %}
+				<a
+					href="https://api.whatsapp.com/send?phone=+54 {{whats}}&text=Hola,quisiera mas informacion de las clases en el instituto huergo."><i
+						class="iconos fab fa-whatsapp icono2"></i></a>
+				{% endif %}
+				{% if ubi %}
+				<a href="{{ubi}}">
+					<ion-icon name="map-outline" class="fab icono4"> </ion-icon>
+				</a>
+				{% endif %}
+				{% if face %}
+				<a href="{{face}}"><i class="fab fa-facebook icono3"></i></a>
+				{% endif %}
+			</ul>
+			{% endif %}
+		</div>
+		{% endfor %}
+	</main>
+	<footer>
+		<div>
+			<ul class="font">
+				<p class="contactanos">contactanos </p>
+					<li> <b><ion-icon name="logo-instagram"></ion-icon> <a class="mediodecontacto"
+								href="https://www.instagram.com/tkdenat/" class="iconos"> instagram </a></b> </li>
+					<li> <ion-icon name="logo-facebook"></ion-icon> <a class="mediodecontacto" href="#" class="iconos">
+							facebook</a> </li>
+					<li> <b> MAIL:</b><a href="mailto:#.com?Subject=Taekwon-Do"> falta gmail de la escuela </a></li>
+					<li class="copy">© Enat-Escuela nacional de taekwondo - lautaro vallejos</li>
+			</ul>
+		</div>
+		<div class="logoescueladiv">
+			<img class="logodiv" src="{{url_for('static',filename='Imagenes/ENAT.png')}}">
+		</div>
+		<div>
+			<ul class="logoitf">
+				<li class="itf"> <img class="itf" src="{{url_for('static',filename='Imagenes/itf (2).png')}}"> </li>
+				<li class="itf"> <img class="itf" src="{{url_for('static',filename='Imagenes/aate.png')}}"> </li>
+			</ul>
+		</div>
+	</footer>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+		crossorigin="anonymous"></script>
+	<script src="https://kit.fontawesome.com/6fc2b5cb5b.js" crossorigin="anonymous"></script>
+	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+	<script>
+		AOS.init({
+			duration: 1000
+		});
+	</script>
+	<script type="text/javascript" src="{{url_for('static',filename='JS/gimnasios.js')}}"></script>
+</body>
+
+</html>

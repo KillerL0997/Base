@@ -1,0 +1,26 @@
+{% extends 'BaseDeDatos/varios.html' %}
+{% block content %}
+<form action="" method="post" class="contenedor">
+    <h2>Habilitar</h2>
+    <table class="tabla" border="1">
+        <thead>
+            <th></th>
+            <th>Nombre</th>
+            <th>Instructor</th>
+        </thead>
+        <tbody>
+            {% for i in range(cant) %}
+            <tr>
+                <td><input type="checkbox" name="checkbox" id="" value="{{listaids[i]}}"></td>
+                <td>{{listaGims[i]}}</td>
+                <td>{{listaNoms.usuario}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="dosBotones">
+        <button class="btnRedondeado" type="submit">Aceptar</button>
+        <button class="btnRedondeado" type="button" onclick="location.href='/ver_gimnasios/desa'">Regresar</button>
+    </div>
+</form>
+{% endblock %}

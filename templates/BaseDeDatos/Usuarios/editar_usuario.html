@@ -1,0 +1,43 @@
+{% extends 'BaseDeDatos/registrarYeditar.html' %}
+{% block content %}
+<div class="formulario">
+  <form action="" method="post">
+    {{forma.csrf_token}}
+    <label for="nombre_usuario">Nombre del usuario</label>
+    {{forma.nombre_usuario(size = 30)}}
+    <label for="apellido_usuario">Apellido del usuario</label>
+    {{forma.apellido_usuario(size = 30)}}
+    <label for="documento_usuario">Documento del usuario</label>
+    {{forma.documento_usuario}}
+    <label for="categoria">Categoria:</label>
+    {{forma.categoria}}
+    <label id="Nombre_cabeza" for="Nombre_cabeza">Nombre de la cabeza de grupo</label>
+    <select name="cabeza" id="cabeza">
+      {% for idUsu, nomUsu, apeUsu in cabezas %}
+      <option value="{{idUsu}}">{{nomUsu}} {{apeUsu}}</option>
+      {% endfor %}
+    </select>
+    <label id="porInstructor" for="porInstructor">Instructor</label>
+    <select name="instructor" id="instructor">
+      {% for idUsu, nomUsu, apeUsu in usuarios %}
+      <option value="{{idUsu}}">{{nomUsu}} {{apeUsu}}</option>
+      {% endfor %}
+    </select>
+    {% if usuario %}
+      <label for="cargo_usuario">Cargo del usuario</label>
+      {{forma.cargo_usuario}}
+    {% endif %}
+    <label for="email_usuario">Email del usuario</label>
+    {{forma.email_usuario}}
+    <div class="dosBotones">
+      <button class="btnRedondeado" type="submit">Guardar cambios</button>
+      {% if msj == 'inicio' %}
+      <button class="btnRedondeado" type="button" onclick="location.href='/Base'">Regresar</button>
+      {% else %}
+      <button class="btnRedondeado" type="button" onclick="location.href='/ver_usuarios/todo'">Regresar</button>
+      {% endif %}
+    </div>
+  </form>
+</div>
+<script type="text/javascript" src="/static/BaseJS/editarYagregar.js"></script>
+{% endblock %}

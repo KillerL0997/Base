@@ -1,0 +1,526 @@
+*{
+    margin: 0%;
+    padding: 0%;
+    word-break: break-word;
+    font-size: 1.1rem;
+}
+html,body{
+    height: 100%;
+    position: relative;
+}
+.btnRedondeado, .btnInicio, .btnFilRedondeado{
+    border-radius: 20px;
+}
+.body_formu{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.imgFondo{
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100%;
+    position: absolute;
+    opacity: 0.1;
+    margin: 0 20% 0 20%;
+    z-index: -1;
+}
+h1{
+    text-align: center;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+button{
+    height: 2rem;
+    font-size: .8rem;
+    font-weight: bold;
+    width: 100%;
+    background-color: transparent;
+    border: 3px solid #214677;
+    margin-bottom: 1px;
+    border-bottom: none;
+}
+button:hover{
+    background-color: #225EAB;
+    color: whitesmoke;
+}
+#botonCambio{
+    border-bottom: none;
+    background-color: transparent;
+    border-color: #214677;
+    border-width: 3px;
+    margin-bottom: 1px;
+}
+#botonCambio:hover{
+    background-color: #225EAB;
+    color: whitesmoke;
+}
+input, select, label{
+    width: 100%;
+}
+.contenedor{
+    margin-top: 10%;
+    width: 60%;
+    text-align: center;
+}
+.contenedor h1{
+    font-size: 1.5em;
+    display: flex;
+    justify-content: space-around;
+}
+.contenedor form table, .contenedor table{
+    width: 70%;
+    margin-left: 15%;
+}
+h1 img{
+    width: 2em;
+    height: 2em;
+}
+.formulario{
+    width: 100%;
+}
+.formulario label{
+    display: block;
+    margin-left: 25%;
+    width: 50%;
+    text-align: center;
+}
+.formulario input{
+    width: 50%;
+    margin-left: auto;
+}
+#horariosGimnasio,#usuarios{
+    width: 40%;
+    margin: 0 2.5% 0 2.5%;
+}
+.unBoton{
+    width: 40%;
+    margin: 0 25% 0 25%;
+}
+.dosBotones{
+    width: 60%;
+    margin: 1em auto 0 auto;
+}
+.dosBotones button{
+    width: 49%;
+}
+header h1,p{
+    text-align: center;
+}
+.links, .filtros{
+    display: block;
+    width: 15%;
+    float: left;
+    margin: 1em;
+}
+.filtrosCol{
+    margin: 0 0 .5rem 0;
+}
+.filtrosFil button, .filtrosFil input, .filtrosFil select,
+.filtrosCol button, .filtrosCol input, .filtrosCol select{
+    width: 100%;
+}
+#boton40{
+    width: 40%;
+}
+.links ul, .filtros ul{
+    list-style: none;
+}
+.links ul li #primero, .filtros ul li #primero{
+    background-color: whitesmoke;
+    display: none;
+}
+.links ul li #primero:hover, .filtros ul li #primero:hover{
+    background-color: #225EAB;
+    color: whitesmoke;
+}
+.links .submenu, .filtros .submenu{
+    display: block;
+}
+.botonLinks{
+    display: none;
+}
+.marcador input{
+    width: 10%;
+}
+.inicio_base{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.sinNotis{
+    width: 70%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.contenedor_notis{
+    width: 60%;
+    margin-right: 10%;
+    font-size: 1.5rem;
+}
+.notificacion{
+    display: block;
+    text-align: center;
+    background-color: #03A9F4;
+    margin-top: 15px;
+    border-radius: 15px;
+}
+.notificacion h4{
+    text-decoration: underline;
+}
+.tablaListado{
+    width: 70%;
+    margin-right: 5%;
+    float: right;
+}
+.tabla{
+    width: 70%;
+    margin: 5% 15% 0 auto;
+    float: right;
+    text-align: center;
+}
+.tabla h1, h2{
+    text-align: center;
+}
+.tabla table, .tabla form table ,.tablaListado table, .tablaListado form table{
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5%;
+}
+.tablaListado p{
+    display: inline;
+}
+.mostrarDatos{
+    width: 70%;
+    margin: 5% auto 0 auto;
+    background-color: rgb(230 230 231);
+    text-align: center;
+}
+.mostrarDatos table{
+    width: 100%;
+}
+.mostrarDatos table button{
+    width: 80%;
+}
+.formularios{
+    width: 60%;
+    margin-top: 5%;
+    background-color: rgb(235, 237, 239);
+    text-align: center;
+    border-radius: 20px;
+    border: 1px solid black;
+}
+.formularios label{
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+.formularios select{
+    display: inline;
+}
+.formularios select,.formularios input{
+    width: 50%;
+    height: 1.5rem;
+    font-size: inherit;
+}
+.formularioFlex{
+    display: flex;
+    justify-content: space-around;
+}
+textarea{
+    width: 70%;
+    height: 70px;
+}
+.imagenes{
+    width: 70%;
+    margin: 0 10% 0 20%;
+}
+.imagen{
+    width: 22%;
+    display: inline-block;
+    margin: 5% 10% 5% auto;
+}
+.imagen img{
+    width: 100%;
+    height: 100%;
+}
+.imagen input{
+    margin: 0;
+}
+.elimNotis{
+    width: 70%;
+    margin-top: 5%;
+    background-color: rgb(235, 237, 239);
+    text-align: center;
+    border-radius: 20px;
+    border: 1px solid black;
+}
+.elimNotis table{
+    width: 80%;
+    text-align: center;
+    margin: 0 10% 0 10%;
+}
+td img{
+    width: 30px;
+}
+.agreQuitExaTor{
+    display: flex;
+    align-items: center;
+    margin-top: .5rem;
+}
+.agreQuitExaTor input{
+    height: 1rem;
+}
+.buscarAlumFlex{
+    display: flex;
+    justify-content: space-between;
+}
+.mostrarBuscados{
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.mostrarBuscados table{
+    width: 80%;
+}
+.sin_libre{
+    background-color: crimson;
+}
+.datosAlumno{
+    width: 48%;
+}
+.datosAlumno img{
+    height: 300px;
+}
+.mostrarDatosAlumno{
+    width: 70%;
+    margin: 5% auto 0 auto;
+    background-color: rgb(230 230 231);
+    text-align: center;
+    display: flex;
+    flex-direction: row-reverse;
+}
+.botonMostrar{
+    width: 20%;
+    margin: 0 40% 0 40%;
+}
+footer{
+    background-color: #225EAB;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    margin-top: 10%;
+}
+footer p{
+    display: inline-block;
+    margin-left: 7%;
+}
+
+@media screen and (max-width: 768px) {
+    .imgFondo{
+        width: 100%;
+        height: auto;
+        margin: 25% 0 0 0;
+    }
+    .inicio_base{
+        display: block;
+    }
+    .btnInicio, .btnFilRedondeado{
+        border-radius: 0%;
+    }
+    .sinNotis{
+        width: 100%;
+        margin-top: 40%;
+    }
+    .botonLinks{
+        display: block;
+        width: 100%;
+        height: 50px;
+    }
+    .botonLinks img{
+        height: 100%;
+    }
+    .body_formu{
+        width: 100%;
+    }
+    .contenedor{
+        width: 100%;
+    }
+    .contenedor h1{
+        font-size: 1rem;
+    }
+    .dosBotones{
+        width: 100%;
+    }
+    .links{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        float: none;
+        margin: 0;
+        width: 40%;
+        position: absolute;
+        left: -40%;
+    }
+    .links button, .links input, .links select{
+        width: 100%;
+    }
+    .links form{
+        width: 100%;
+    }
+    .links ul{
+        list-style: none;
+    }
+    .filtros ul{
+        list-style: none;
+        width: 25%;
+    }
+    .links ul li button, .filtros ul li button{
+        display: block;
+        text-decoration: none;
+        transition: all 500ms ease;
+    }
+    .links .submenu{
+        display: none;
+    }
+    .filtros .submenu{
+        display: none;
+        position: absolute;
+        width: 25%;
+    }
+    .links ul li .botonInicio + ul{
+        position: absolute;
+        left: calc(100% - 1px);
+        top: 0;
+        width: 100%;
+    }
+    .links ul li #primero, .filtros ul li #primero{
+        display: block;
+        height: 2.5rem;
+    }
+    .links #primero img{
+        height: 50%;
+    }
+    .filtros{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 0 0 5% 0;
+        float: none;
+    }
+    .filtrosFil{
+        display: flex;
+        width: 100%;
+        margin: 0 0 .5rem 0;
+        float: none;
+    }
+    .filtrosFil button{
+        width: 100%;
+        height: 3rem;
+        margin-left: -3px;
+    }
+    .filtrosFil input, .filtrosFil select, .filtrosFil p{
+        width: 47%;
+    }
+    .filtrosCol{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        float: none;
+    }
+    .filtrosCol form{
+        width: 100%;
+    }
+    .filtrosCol form select, .filtrosCol form button{
+        width: 49%;
+        height: 2rem;
+        margin-left: 0;
+    }
+    .filtrosCol button{
+        width: 100% !important;
+    }
+    .formulario input{
+        width: 90%;
+    }
+    .contenedor_notis{
+        width: 100%;
+        margin: 5% 0 5% 0;
+    }
+    .formularios{
+        width: 100%;
+    }
+    .formularios input, .formularios select{
+        width: 90%;
+    }
+    .tablaListado{
+        width: 100%;
+        float: none;
+        margin: 0;
+    }
+    .elimNotis{
+        width: 100%;
+    }
+    .elimNotis table{
+        width: 100%;
+        margin: 0;
+    }
+    .tabla{
+        width: 100%;
+        margin: 5% 0 0 0;
+    }
+    .imagenes{
+        width: 90%;
+        margin: 0 5% 0 5%;
+    }
+    .mostrarDatos{
+        width: 100%;
+    }
+    .buscarAlumFlex{
+        display: flex;
+        flex-direction: column;
+    }
+    .mostrarBuscados{
+        width: max-content;
+    }
+    .mostrarBuscados table{
+        width: 100%;
+    }
+    #botonCambio{
+        margin-bottom: -2px;
+        border: 3px solid #214677;
+        background-color: whitesmoke;
+    }
+    #botonCambio:hover{
+        background-color: #225EAB;
+        color: whitesmoke;
+    }
+    .celdaCentro{
+        width: 60%;
+    }
+    footer p{
+        display: block;
+        text-align: center;
+        margin-left: 0;
+    }
+    .tablaListado table{
+        width: max-content;
+    }
+    .mostrarDatosAlumno{
+        display: block;
+    }
+    .datosAlumno{
+        width: 100%;
+    }
+    .datosAlumno img{
+        width: 80%;
+    }
+    .botonMostrar{
+        width: 50%;
+        margin: 0 25% 0 25%;
+    }
+}

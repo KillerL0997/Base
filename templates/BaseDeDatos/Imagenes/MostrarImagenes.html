@@ -1,0 +1,65 @@
+{% extends 'BaseDeDatos/mostrarTablas.html' %}
+{% block content %}
+<form action="" method="post" class="contFotos">
+    <nav class="filtros" id="filtros">
+        <button class="btnFilRedondeado" type="button" onclick="location.href='/subir_imagenes/Examen'">Subir fotos
+            examen</button>
+        <button class="btnFilRedondeado" type="button" onclick="location.href='/subir_imagenes/Aexamen'">Agregar fotos a
+            examen</button>
+        <button class="btnFilRedondeado" type="button" onclick="location.href='/ver_imagenes/Examen'">Ver fotos de
+            examen</button>
+        <button class="btnFilRedondeado" type="button" onclick="location.href='/subir_imagenes/Torneo'">Subir fotos
+            torneo</button>
+        <button class="btnFilRedondeado" type="button" onclick="location.href='/subir_imagenes/Atorneo'">Agregar fotos a
+            torneo</button>
+        <button class="btnFilRedondeado" type="button" onclick="location.href='/ver_imagenes/Torneo'">Ver fotos de
+            torneo</button>
+        <button class="btnFilRedondeado" type="button" onclick="location.href='/subir_imagenes/Otros_eventos'">Subir
+            fotos actividad</button>
+        <button class="btnFilRedondeado" type="button" onclick="location.href='/subir_imagenes/AOtros_eventos'">Agregar
+            fotos a actividad</button>
+        <button class="btnFilRedondeado" type="button" onclick="location.href='/ver_imagenes/Otros_eventos'">Ver fotos
+            de la ultima actividad</button>
+        <button class="btnFilRedondeado" type="button" onclick="location.href='/ver_imagenes/todo'">Ver
+            todo</button>
+        <button class="btnFilRedondeado" type="submit">Eliminar seleccionados</button>
+        <button class="btnFilRedondeado" type="button" onclick="location.href='/Base'">Regresar</button>
+    </nav>
+    <div class="contImagenes" id="tabla">
+        {% if fotoExa %}
+        <h1>Fotos del ultimo examen</h1>
+        <div class="imagenes">
+            {% for i in fotoExa %}
+            <div class="imagen">
+                <img src="{{url_for('static', filename = i.direccion)}}" alt="">
+                <input type="checkbox" name="checkboxImagen" value="{{i.id_imagen}}">
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% if fotoTor %}
+        <h1>Fotos del ultimo torneo</h1>
+        <div class="imagenes">
+            {% for i in fotoTor %}
+            <div class="imagen">
+                <img src="{{url_for('static', filename = i.direccion)}}" alt="">
+                <input type="checkbox" name="checkboxImagen" value="{{i.id_imagen}}">
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% if fotoAct %}
+        <h1>Fotos de la ultima actividad</h1>
+        <div class="imagenes">
+            {% for i in fotoAct %}
+            <div class="imagen">
+                <img src="{{url_for('static', filename = i.direccion)}}" alt="">
+                <input type="checkbox" name="checkboxImagen" value="{{i.id_imagen}}">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</form>
+</div>
+{% endblock %}
