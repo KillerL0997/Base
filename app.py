@@ -1250,6 +1250,7 @@ def editar_alumno(id):
     if request.method == 'POST' and alumnoForma.validate_on_submit():
         alumnoForma.populate_obj(alumno)
         alumno.aluNomApe()
+        alumno.libreta = request.form.getlist("libre")[0]
         if (usu := usuario_gimnasio.gimnasio.data) != "Nada":
             alumno.id_UsuGim = usu
         if request.form.get("opcionFoto") == "Si":

@@ -4,6 +4,9 @@
     word-break: break-word;
     font-size: 1.1rem;
 }
+body, html{
+    height: 100%;
+}
 .btnRedondeado, .btnFilRedondeado{
     border-radius: 20px;
     height: 2rem;

@@ -22,7 +22,7 @@
             {% for examen in examenes %}
             <tr>
                 {% if msj == 'Administrador'%}
-                <td><a onclick="mostrarDato('{{examen.id_evento}}','eve')">{{examen.fecha_evento.year}}/{{examen.fecha_evento.month}}/{{examen.fecha_evento.day}}</a></td>
+                <td><a onclick="mostrarDato('{{examen.id_evento}}','eve')">{{examen.fecha_evento.day}}/{{examen.fecha_evento.month}}/{{examen.fecha_evento.year}}</a></td>
                 <td><a href="{{url_for('eliminar_evento', id = examen.id_evento)}}"><img
                             src="../../../static/CSS/icons8-eliminar-50.png" alt="Eliminar"></a></td>
                 {% else %}
@@ -40,7 +40,7 @@
             {% for torneo in torneos %}
             <tr>
                 {% if msj == 'Administrador'%}
-                <td><a onclick="mostrarDato('{{torneo.id_evento}}','eve')">{{torneo.fecha_evento.year}}/{{torneo.fecha_evento.month}}/{{torneo.fecha_evento.day}}</a></td>
+                <td><a onclick="mostrarDato('{{torneo.id_evento}}','eve')">{{torneo.fecha_evento.day}}/{{torneo.fecha_evento.month}}/{{torneo.fecha_evento.year}}</a></td>
                 <td><a href="{{url_for('eliminar_evento', id = torneo.id_evento)}}"><img
                             src="../../../static/CSS/icons8-eliminar-50.png" alt="Eliminar"></a></td>
                 {% else %}
@@ -59,7 +59,7 @@
             {% for otro in otros %}
             <tr>
                 {% if msj == 'Administrador'%}
-                <td><a onclick="mostrarDato('{{otro.id_evento}}','eve')">{{otro.fecha_evento.year}}/{{otro.fecha_evento.month}}/{{otro.fecha_evento.day}}</a></td>
+                <td><a onclick="mostrarDato('{{otro.id_evento}}','eve')">{{otro.fecha_evento.day}}/{{otro.fecha_evento.month}}/{{otro.fecha_evento.year}}</a></td>
                 <td><a href="{{url_for('eliminar_evento', id = otro.id_evento)}}"><img
                             src="../../../static/CSS/icons8-eliminar-50.png" alt="Eliminar"></a></td>
                 {% else %}
