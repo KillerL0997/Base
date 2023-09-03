@@ -2,16 +2,14 @@
 {% block content %}
 <nav class="filtros" id="filtros">
     {% if msj == 'Administrador' and opc == "todo" %}
-    <form action="" method="post" class="filtrosCol">
         <p>Usuario</p>
         {{usuarios.usuario}}
-        <button class="btnFilRedondeado" type="submit">Aceptar</button>
-    </form>
+        <button class="btnFilRedondeado" onclick="verGimnasio('habilitado')">Aceptar</button>
     {% endif %}
     {% if opc == "todo" %}
     <button class="btnFilRedondeado" onclick="llenar('Gims','DesaGims','{{opc}}','{{msj}}')">Deshabilitar
         gimnasios</button>
-    <button class="btnFilRedondeado" type="button" onclick="location.href='/ver_gimnasios/desa'">Ver
+    <button class="btnFilRedondeado" type="button" onclick="verGimnasio('deshabilitado')">Ver
         deshabilitados</button>
     {% else %}
     <button class="btnFilRedondeado" onclick="llenar('Gims','HabiGims','','')">Habilitar gimnasios</button>
@@ -19,7 +17,6 @@
     <button class="btnFilRedondeado" type="button" onclick="location.href='/ver_gimnasios/todo'">Ver
         habilitados</button>
     {% endif %}
-    <button class="btnFilRedondeado" type="button" onclick="location.href='/ver_gimnasios/todo'">Ver todo</button>
     <button class="btnFilRedondeado" type="button" onclick="location.href='/Base'">Regresar</button>
 </nav>
 {% if gimnasios %}
@@ -34,9 +31,9 @@
         <tr>
             <td><input type="checkbox" name="checkbox" value="{{idGim}}"></td>
             {% if opc == 'todo' %}
-            <td><a onclick="mostrarDato('{{idGim}}','gim')">{{nom}}</a></td>
+                <td><a onclick="mostrarDato('{{idGim}}','gim')">{{nom}}</a></td>
             {% else %}
-            <td>{{nom}}</td>
+                <td>{{nom}}</td>
             {% endif %}
             <td>{{dire}}</td>
         </tr>

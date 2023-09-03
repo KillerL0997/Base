@@ -11,29 +11,29 @@ let direcciones = [];
 
 if (lugar) {
   lugar.onchange = function () {
-    nuevo = lugar.value;
+    nuevo = (lugar.value) ? lugar.value : "Nada";
     fetch("/cambioUsuario/" + nuevo).then(function (response) {
-      response.json().then(function (data) {
-        let opcHTML = "";
-        opcHTML += '<option value= "Nada"></option>';
-        for (let i of data.lista) {
-          opcHTML +=
-            '<option value="' +
-            i.id +
-            '">' +
-            i.Nombre +
-            " " +
-            i.Apellido +
-            "</option>";
-        }
-        usu.innerHTML = opcHTML;
+        response.json().then(function (data) {
+          let opcHTML = "";
+          opcHTML += '<option value= ""></option>';
+          for (let i of data.lista) {
+            opcHTML +=
+              '<option value="' +
+              i.id +
+              '">' +
+              i.Nombre +
+              " " +
+              i.Apellido +
+              "</option>";
+          }
+          usu.innerHTML = opcHTML;
+        });
       });
-    });
   };
 }
 
-function mostrarDato(id,tipo,opc){
-  switch(tipo){
+function mostrarDato(id, tipo, opc) {
+  switch (tipo) {
     case "usu":
       mostrarUsu(id);
       footerCaja(263);
@@ -43,7 +43,7 @@ function mostrarDato(id,tipo,opc){
       footerCaja(777);
       break;
     case "alu":
-      mostrarAlu(id,opc);
+      mostrarAlu(id, opc);
       footerCaja(671);
       break;
     case "eve":
@@ -71,14 +71,14 @@ function mostrarAlu(idAlu, tipoUsu) {
       let imagen = document.createElement("img");
       imagen.src = data.foto.slice(5, data.foto.lenght);
       extra.insertAdjacentElement("beforeend", imagen);
-      mostrar.innerHTML += crearBotones(eventos, "Alumno", idAlu, estados);
+      mostrar.innerHTML += crearBotones(eventos, "Alumno", idAlu, estados, tipoUsu);
       if (tipoUsu == 'Administrador') {
         mostrar.innerHTML += "<div class='dosBotones'><button class='btnRedondeado'"
           + "onclick= location.href='/editar_alumno/" + idAlu + "'>Editar</button>" +
           "<button class='btnRedondeado' onclick=aluMatris(" + idAlu + ",'" + tipoUsu + "')>Matriculas</button></div>";
       } else {
         mostrar.innerHTML += "<button class='btnRedondeado' style='width: 60%;'" +
-          " onclick=location.href = '/editar_alumno/" + idAlu + "'>Editar</button>";
+          " onclick=location.href ='/editar_alumno/" + idAlu + "'>Editar</button>";
       }
       caja.style.display = "flex";
       mostrar.style.display = "block";
@@ -94,17 +94,17 @@ function aluMatris(idAlu, tipoUsu) {
         + "</p><h3>AATEE</h3><p>" + data.fAatee
         + "</p><h3>Enat</h3><p>" + data.fEnat
         + "</p><div class= 'tresBotones'><button class='btnRedondeado' onclick= matrisAlu("
-        + idAlu + ",'FETRA')>Fetra</button><button class='btnRedondeado' onclick= matrisAlu("
-        + idAlu + ",'AATEE')>AATEE</button><button class='btnRedondeado' onclick= matrisAlu("
-        + idAlu + ",'ENAT')>Enat</button></div><div class='dosBotones'>" +
+        + idAlu + ",'FETRA','" + tipoUsu +"')>Fetra</button><button class='btnRedondeado' onclick= matrisAlu("
+        + idAlu + ",'AATEE','" + tipoUsu +"')>AATEE</button><button class='btnRedondeado' onclick= matrisAlu("
+        + idAlu + ",'ENAT','" + tipoUsu +"')>Enat</button></div><div class='dosBotones'>" +
         "<button class='btnRedondeado' onclick=modiMatris(" + idAlu + ",'todo','agregar')>" +
         "Agregar</button><button class='btnRedondeado' onclick = mostrarAlu("
-        + idAlu + ",'" + tipoUsu +"')>Regresar</button></div>";
+        + idAlu + ",'" + tipoUsu + "')>Regresar</button></div>";
     });
   });
 }
 
-function matrisAlu(idAlu, tipo) {
+function matrisAlu(idAlu, tipo, tipoUsu) {
   fetch("/matrisAlu/" + idAlu + "/" + tipo).then(function (response) {
     response.json().then(function (data) {
       let text = "<h3>Fechas de matriculas " + tipo + "</h3>";
@@ -114,7 +114,7 @@ function matrisAlu(idAlu, tipo) {
       text += "<div class='dosBotones'><button class='btnRedondeado' onclick=modiMatris("
         + idAlu + ",'" + tipo + "','editar')>Editar</button><button class='btnRedondeado' onclick=modiMatris("
         + idAlu + ",'" + tipo + "','eliminar')>Eliminar</button></div><button class='btnRedondeado' style='width: 60%;' onclick=aluMatris("
-        + idAlu + ")>Regresar</button>";
+        + idAlu + ",'" + tipoUsu + "')>Regresar</button>";
       mostrar.innerHTML = text;
 
     });
@@ -125,13 +125,13 @@ function modiMatris(idAlu, tipo, modo) {
   location.href = "/modiMatris/" + idAlu + "/" + tipo + "/" + modo;
 }
 
-function eventosAlu(idAlu, tipo, estado) {
+function eventosAlu(idAlu, tipo, estado, tipoUsu) {
   fetch("/eventosAlu/" + idAlu + "/" + tipo).then(function (response) {
     response.json().then(function (data) {
       fechas = data.fechas;
       lugares = data.lugares;
       mostrar.innerHTML = mostrarEventos(0, 10, fechas.length, tipo)
-        + crearBotones(eventos, tipo, idAlu, estado);
+        + crearBotones(eventos, tipo, idAlu, estado, tipoUsu);
     });
   });
 }
@@ -156,16 +156,16 @@ function mostrarEventos(ini, lim, top, tipo) {
   return text;
 }
 
-function crearBotones(lista, filtro, idAlu, desa) {
+function crearBotones(lista, filtro, idAlu, desa, tipoUsu) {
   let text = "<div class='tresBotones'>";
   for (let pos in lista) {
     if (lista[pos] != filtro) {
       if (lista[pos] == "Alumno") {
         text += "<button class='btnRedondeado' onclick = mostrarAlu("
-          + idAlu + ")";
+          + idAlu + ",'" + tipoUsu + "')";
       } else {
         text += "<button class='btnRedondeado' onclick = eventosAlu("
-          + idAlu + ",'" + lista[pos] + "',[" + desa + "])";
+          + idAlu + ",'" + lista[pos] + "',[" + desa + "],'" + tipoUsu + "')";
       }
       if (!desa[pos]) {
         text += " disabled";
@@ -301,7 +301,7 @@ function cerrarDatos() {
 
 function footerCaja(tam) {
   let pie = document.getElementsByTagName("footer")[0];
-  if(tam == 0){
+  if (tam == 0) {
     let contenido = document.getElementById("contenido");
     if (contenido.clientHeight + pie.clientHeight >= window.screen.height) {
       pie.style.position = "relative";
@@ -310,7 +310,7 @@ function footerCaja(tam) {
       pie.style.position = "fixed";
     }
   } else {
-    if (tam + 23 >= window.screen.height){
+    if (tam + 23 >= window.screen.height) {
       pie.style.position = "inherit";
       pie.style.marginTop = ((tam + 23) - pie.clientHeight - document.getElementById("contenido").clientHeight) + "px";
     } else {

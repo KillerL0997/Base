@@ -2,15 +2,16 @@
 # $env:FLASK_DEBUG = "1"
 # flask run
 
-# Limpiar codigo y plantillas
-# Cambiar la tabla alumno para que no almacene el ultimo examen ni la ultima matricula
 # Eliminar los "POST" de los "Ver"
+# No usar "Decodificar"
+# No usar "Usuario_Gimnasio", "Gimnasio_Usuario", "DatoForm"
 
 from datetime import date, datetime, timedelta
 from flask import Flask, jsonify, redirect, render_template, request, session, url_for, send_from_directory
 from flask_migrate import Migrate
 from database import db
 from sqlalchemy import or_, insert, update, delete, select, create_engine, func
+from sqlalchemy.orm import aliased
 from flask_uploads import UploadSet, IMAGES, configure_uploads
 from models import horarioGim, Imagen, Notificaciones, Usuario, Gimnasio, Alumno, Eventos, Matriculas, aluEven, usuGim, usuNoti
 from forms import AlumnoForm, DatoForm, ExamenForm, Gimnasio_Usuario, GimnasioForm, NotificacionForm, Usuario_Gimnasio, UsuarioForm
@@ -43,7 +44,7 @@ photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
 
 motor = create_engine(FULL_URL_DB, echo=True, pool_timeout=0.5, pool_recycle=299,
-                      pool_size=20, pool_pre_ping= True)
+                      pool_size=20, pool_pre_ping=True)
 
 
 ESPERA = 1
@@ -145,7 +146,7 @@ def llenarCarrucelSel(lista):
 def listaEventosId(tipo):
     even = Eventos.query.filter(
         Eventos.tipo_de_evento == tipo, Eventos.fecha_evento < datetime.now().date()
-        ).order_by(Eventos.fecha_evento.desc()).with_entities(Eventos.id_evento).first()
+    ).order_by(Eventos.fecha_evento.desc()).with_entities(Eventos.id_evento).first()
     return even if even else ()
 
 
@@ -217,7 +218,7 @@ def inicio():
         Notificaciones.id_notificacion, Notificaciones.notificacion
     ).filter(Notificaciones.id_notificacion.in_(
         select(usuNoti.id_Notificacion).filter(
-        usuNoti.id_Usuario == session["id"]
+            usuNoti.id_Usuario == session["id"]
         )
     )).order_by(Notificaciones.id_notificacion.desc()))).fetchall()
     gimnasios = False
@@ -229,6 +230,7 @@ def inicio():
             gimnasios = True
     return render_template("BaseDeDatos/Inicio_base.html", msj=session["Cargo"],
                            notificaciones=notificaciones, usuario=session["id"], gimnasios=gimnasios)
+
 
 @app.route("/contra/<int:id>")
 def contra(id):
@@ -373,12 +375,15 @@ def eliminar_usuario(id):
     with motor.connect() as con:
         con.execute(delete(usuNoti).filter(usuNoti.id_Usuario == id))
         con.execute(delete(Notificaciones).filter(Notificaciones.id_notificacion.notin_(
-            usuNoti.query.with_entities(usuNoti.id_Notificacion).group_by(usuNoti.id_Notificacion)
-            )))
+            usuNoti.query.with_entities(
+                usuNoti.id_Notificacion).group_by(usuNoti.id_Notificacion)
+        )))
         desaGims(usuGim.query.filter(usuGim.id_usuario ==
                  id).with_entities(usuGim.id_UsuGim))
-        con.execute(update(Usuario).filter(Usuario.id_cabeza == id).values(id_cabeza = None))
-        con.execute(update(Usuario).filter(Usuario.instructor == id).values(instructor = None))
+        con.execute(update(Usuario).filter(
+            Usuario.id_cabeza == id).values(id_cabeza=None))
+        con.execute(update(Usuario).filter(
+            Usuario.instructor == id).values(instructor=None))
         con.execute(delete(Usuario).filter(Usuario.id_usuario == id))
     return redirect(url_for("ver_usuarios", opc='todo'))
 
@@ -426,14 +431,14 @@ def mostrarUsu(idUsu):
             Usuario.apellido_usuario, Usuario.nombre_usuario
         ).filter(
             Usuario.id_usuario == (select(Usuario.instructor).filter(
-            Usuario.id_usuario == idUsu
+                Usuario.id_usuario == idUsu
             ))
         )).fetchone()
         cabeza = con.execute(select(
             Usuario.apellido_usuario, Usuario.nombre_usuario
         ).filter(
             Usuario.id_usuario == (select(Usuario.id_cabeza).filter(
-            Usuario.id_usuario == idUsu
+                Usuario.id_usuario == idUsu
             ))
         )).fetchone()
         gimnasio = select(
@@ -442,12 +447,12 @@ def mostrarUsu(idUsu):
         if session["Cargo"] == "Cabeza":
             gimnasio = gimnasio.filter(
                 Gimnasio.id_gimnasio.in_(select(usuGim.id_gimnasio).filter(
-                usuGim.id_cabeza == idUsu
+                    usuGim.id_cabeza == idUsu
                 ).group_by(usuGim.id_gimnasio)))
         else:
             gimnasio = gimnasio.filter(
                 Gimnasio.id_gimnasio.in_(select(usuGim.id_gimnasio).filter(
-                usuGim.id_usuario == idUsu
+                    usuGim.id_usuario == idUsu
                 )))
         gimnasio = con.execute(gimnasio).fetchall()
     dirGims = []
@@ -461,7 +466,8 @@ def mostrarUsu(idUsu):
         'cabeza': f'{cabeza.apellido_usuario} {cabeza.nombre_usuario}' if cabeza else "Sin cabeza de grupo",
         'nomGims': nomGims if nomGims else None,
         'dirGims': dirGims if dirGims else None
-        })
+    })
+
 
 @app.route("/contraUsu/<int:idUsu>")
 def contraUsu(idUsu):
@@ -478,40 +484,60 @@ def ver_usuarios(opc):
     if tiempoSesion():
         return redirect(url_for("logout"))
     usuarios = []
-    if opc == 'todo':
-        usuarios = Usuario.query.with_entities(
-            Usuario.nombre_usuario, Usuario.apellido_usuario,
-            Usuario.cargo_usuario, Usuario.id_usuario
-        ).all()
-    elif opc == 'cabeza':
-        usuarios = Usuario.query.filter(
-            Usuario.cargo_usuario == "Cabeza"
-        ).with_entities(
-            Usuario.nombre_usuario, Usuario.apellido_usuario,
-            Usuario.cargo_usuario, Usuario.id_usuario
-        ).all()
-    elif opc == 'instructor':
-        usuarios = Usuario.query.filter(or_(Usuario.cargo_usuario == "Cabeza",
-                                            Usuario.cargo_usuario == "Usuario")
-                                        ).with_entities(
-            Usuario.nombre_usuario, Usuario.apellido_usuario,
-            Usuario.cargo_usuario, Usuario.id_usuario
-        ).all()
-    elif opc == 'usuario':
-        usuarios = Usuario.query.filter(
-            Usuario.cargo_usuario == "Usuario"
-        ).with_entities(
-            Usuario.nombre_usuario, Usuario.apellido_usuario,
-            Usuario.cargo_usuario, Usuario.id_usuario
-        ).all()
-    elif opc == 'administrador':
-        usuarios = Usuario.query.filter(
-            Usuario.cargo_usuario == "Administrador"
-        ).with_entities(
-            Usuario.nombre_usuario, Usuario.apellido_usuario,
-            Usuario.cargo_usuario, Usuario.id_usuario
-        ).all()
+    with motor.connect() as con:
+        if opc == 'todo':
+            usuarios = con.execute(select(
+                Usuario.nombre_usuario, Usuario.apellido_usuario,
+                Usuario.cargo_usuario, Usuario.id_usuario
+            )).all()
     return render_template("BaseDeDatos/Usuarios/ver_usuarios.html", usuarios=usuarios)
+
+
+@app.route("/filtroUsuario/<string:cargo>/<string:instru>")
+def filtroUsuario(cargo, instru):
+    resu = []
+    noms = []
+    apes = []
+    cargos = []
+    ids = []
+    with motor.connect() as con:
+        if instru != 'No':
+            resu = con.execute(select(
+                Usuario.nombre_usuario, Usuario.apellido_usuario,
+                Usuario.cargo_usuario, Usuario.id_usuario
+            ).filter(
+                Usuario.id_usuario.in_(
+                    select(usuGim.id_usuario).group_by(usuGim.id_usuario)
+                ))).fetchall()
+        else:
+            if cargo == 'Todo':
+                resu = con.execute(select(
+                    Usuario.nombre_usuario, Usuario.apellido_usuario,
+                    Usuario.cargo_usuario, Usuario.id_usuario
+                )).all()
+            elif cargo == 'Administrador':
+                resu = con.execute(select(
+                    Usuario.nombre_usuario, Usuario.apellido_usuario,
+                    Usuario.cargo_usuario, Usuario.id_usuario
+                ).filter(Usuario.cargo_usuario == 'Administrador')).all()
+            elif cargo == 'Cabeza':
+                resu = con.execute(select(
+                    Usuario.nombre_usuario, Usuario.apellido_usuario,
+                    Usuario.cargo_usuario, Usuario.id_usuario
+                ).filter(Usuario.cargo_usuario == 'Cabeza')).all()
+            else:
+                resu = con.execute(select(
+                    Usuario.nombre_usuario, Usuario.apellido_usuario,
+                    Usuario.cargo_usuario, Usuario.id_usuario
+                ).filter(Usuario.cargo_usuario == 'Usuario')).all()
+    for nom, ape, car, cod in resu:
+        noms.append(nom)
+        apes.append(ape)
+        cargos.append(car)
+        ids.append(cod)
+    return jsonify({
+        'noms': noms, 'apes': apes, 'cargos': cargos, 'ids': ids
+    })
 
 
 @app.route("/cambiar_contraseña/<string:msj>", methods={'GET', 'POST'})
@@ -630,6 +656,7 @@ def agregar_evento():
     return render_template("BaseDeDatos/Eventos/agregar_evento.html", forma=eventoForma,
                            formaGim=registro_gimnasio)
 
+
 @app.route("/mostrarEven/<int:idEven>")
 def mostrarEven(idEven):
     with motor.connect() as con:
@@ -638,7 +665,7 @@ def mostrarEven(idEven):
         )).fetchone()
         alusEven = select(
             Alumno.apellido_alumno, Alumno.nombre_alumno
-            ).filter(
+        ).filter(
             Eventos.id_evento == idEven, Eventos.id_evento == aluEven.id_evento,
             aluEven.id_alumno == Alumno.id_alumno
         )
@@ -665,43 +692,57 @@ def mostrarEven(idEven):
 def ver_eventos(opc):
     if tiempoSesion():
         return redirect(url_for("logout"))
-    examenes = []
-    torneos = []
-    otros = []
-    if opc == "examen":
-        examenes = Eventos.query.filter_by(tipo_de_evento='Examen').all()
-    elif opc == "torneos":
-        torneos = Eventos.query.filter_by(tipo_de_evento='Torneo').all()
-    elif opc == "otros":
-        otros = Eventos.query.filter_by(tipo_de_evento="Otros eventos").all()
-    else:
-        otros = Eventos.query.filter_by(tipo_de_evento="Otros eventos").all()
-        examenes = Eventos.query.filter_by(tipo_de_evento='Examen').all()
-        torneos = Eventos.query.filter_by(tipo_de_evento='Torneo').all()
-    if request.method == 'POST':
-        fDesde = request.form.get('fDesde') if request.form.get(
-            'fDesde') else date.min
-        fHasta = request.form.get('fHasta') if request.form.get(
-            'fHasta') else date.max
-        if fDesde or fHasta:
-            if opc == "examen":
-                examenes = filtarFechasEvento(fDesde, fHasta, "Examen")
-            elif opc == "torneos":
-                torneos = filtarFechasEvento(fDesde, fHasta, "Torneos")
-            elif opc == "otros":
-                otros = filtarFechasEvento(fDesde, fHasta, "Otros eventos")
-            else:
-                otros = filtarFechasEvento(fDesde, fHasta, "Otros eventos")
-                torneos = filtarFechasEvento(fDesde, fHasta, "Torneo")
-                examenes = filtarFechasEvento(fDesde, fHasta, "Examen")
-    return render_template("BaseDeDatos/Eventos/ver_eventos.html", examenes=examenes,
-                           torneos=torneos, otros=otros, msj=session["Cargo"], opc=opc)
+    evento = motor.connect().execute(select(
+        Eventos.id_evento, Eventos.fecha_evento
+    ).filter(
+        Eventos.tipo_de_evento == "Examen"
+    )).all()
+    return render_template("BaseDeDatos/Eventos/ver_eventos.html", evento=evento,
+                           msj=session["Cargo"], tipo="Examen")
 
 
-def filtarFechasEvento(fDesde, fHasta, tipo):
-    return Eventos.query.filter(
-        Eventos.fecha_evento >= fDesde, Eventos.fecha_evento <= fHasta, Eventos.tipo_de_evento == tipo
-    ).all()
+@app.route("/filtroEvento/<string:fDesde>/<string:fHasta>/<string:tipo>")
+def filtroEvento(fDesde, fHasta, tipo):
+    if tipo == 'Otros':
+        tipo = "Otros eventos"
+    resu = []
+    ids = []
+    fechas = []
+    with motor.connect() as con:
+        if fDesde != "_" and fHasta != "_":
+            resu = con.execute(select(
+                Eventos.id_evento, Eventos.fecha_evento
+            ).filter(
+                Eventos.tipo_de_evento == tipo,
+                Eventos.fecha_evento.between(
+                    strAdate(fDesde), strAdate(fHasta)
+                ))).all()
+        elif fDesde != "_":
+            resu = con.execute(select(
+                Eventos.id_evento, Eventos.fecha_evento
+            ).filter(
+                Eventos.tipo_de_evento == tipo,
+                Eventos.fecha_evento >= strAdate(fDesde)
+            )).all()
+        elif fHasta != "_":
+            resu = con.execute(select(
+                Eventos.id_evento, Eventos.fecha_evento
+            ).filter(
+                Eventos.tipo_de_evento == tipo,
+                Eventos.fecha_evento <= strAdate(fHasta)
+            )).all()
+        else:
+            resu = con.execute(select(
+                Eventos.id_evento, Eventos.fecha_evento
+            ).filter(
+                Eventos.tipo_de_evento == tipo
+            )).all()
+    for con, fec in resu:
+        ids.append(con)
+        fechas.append(f'{fec.day}/{fec.month}/{fec.year}')
+    return jsonify({
+        'ids': ids, 'fechas': fechas
+    })
 
 # Fin de las funciones de eventos
 
@@ -748,10 +789,10 @@ def agregar_usuarios(id):
     usuarios = Usuario.query
     usuarios = usuarios.filter(
         Usuario.cargo_usuario != "Administrador"
-        ) if session["Cargo"] == "Administrador" else usuarios.filter(or_(
+    ) if session["Cargo"] == "Administrador" else usuarios.filter(or_(
         Usuario.id_cabeza == session["id"],
         Usuario.id_usuario == session["id"]
-        ))
+    ))
     usuarios = usuarios.with_entities(
         Usuario.id_usuario, Usuario.nombre_usuario, Usuario.apellido_usuario
     ).all()
@@ -895,6 +936,7 @@ def agregar_gimnasio():
     return render_template("BaseDeDatos/Gimnasios/agregar_gimnasio.html",
                            forma=gimnasioForm, usuarioForma=registro_usuarios)
 
+
 @app.route("/mostrarGim/<int:idGim>")
 def mostrarGim(idGim):
     with motor.connect() as con:
@@ -920,7 +962,7 @@ def mostrarGim(idGim):
         listAlus = listAlus.filter(Alumno.id_UsuGim == usuGim.id_UsuGim).order_by(
             Alumno.apellido_alumno, Alumno.nombre_alumno
         )
-        listAlus =con.execute(listAlus).fetchall()
+        listAlus = con.execute(listAlus).fetchall()
     usuarios = [usuApe + " " + usuNom for usuApe, usuNom in usuGims]
     alumnos = [aluApe + " " + aluNom for aluApe, aluNom in listAlus]
     return jsonify({
@@ -974,7 +1016,7 @@ def ver_gimnasios(opc):
     if session["Cargo"] == "Administrador" or session["Cargo"] == "Cabeza":
         msj = "Administrador"
     usuarios = Gimnasio_Usuario()
-    usuarios.usuario.choices.append((("Nada"), ("")))
+    usuarios.usuario.choices.append(((0), ("")))
     usuario = []
     if session["Cargo"] == "Administrador":
         usuario = Usuario.query.filter(or_(
@@ -991,53 +1033,44 @@ def ver_gimnasios(opc):
         )
         for idUsu, nom, ape in usuario:
             usuarios.usuario.choices.append((f'{idUsu}', f'{nom} {ape}'))
-    gimnasios = []
-    if request.method != 'POST':
-        if opc == 'todo':
-            gimnasios = filtroGims(True, session["id"], False)
-        else:
-            gimnasios = filtroGims(False, None, False)
-    else:
-        if opc == 'todo':
-            if usuarios.usuario.data != "Nada":
-                gimnasios = filtroGims(True, usuarios.usuario.data, True)
-            else:
-                gimnasios = filtroGims(True, session["id"], False)
-        else:
-            gimnasios = filtroGims(False, None, False)
+    gimnasios = motor.connect().execute(select(
+        Gimnasio.id_gimnasio, Gimnasio.nombre_gimnasio, Gimnasio.direccion_gimnasio
+    ).filter(Gimnasio.habilitado == True)).all()
     return render_template("BaseDeDatos/Gimnasios/ver_gimnasios.html", gimnasios=gimnasios,
                            usuarios=usuarios, msj=msj, opc=opc)
 
 
-def filtroGims(habi, idUsu, filtrar):
-    registro = []
-    if not habi:
-        registro = Gimnasio.query.filter(Gimnasio.habilitado == False).with_entities(
-            Gimnasio.id_gimnasio
-        )
-        return idNomDireGim(registro, habi)
-    elif filtrar:
-        registro = usuGim.query.filter(usuGim.id_usuario == idUsu)
-    else:
-        if session["Cargo"] == 'Administrador':
-            registro = usuGim.query.group_by(usuGim.id_gimnasio)
-        elif session["Cargo"] == "Cabeza":
-            registro = usuGim.query.filter(usuGim.id_cabeza == idUsu).group_by(
-                usuGim.id_gimnasio
-            )
+@app.route("/filtroGim/<int:idInstru>/<string:modo>")
+def filtroGim(idInstru, modo):
+    ids = []
+    noms = []
+    direc = []
+    resu = []
+    with motor.connect() as con:
+        if modo == 'habilitado':
+            if idInstru == 0:
+                resu = con.execute(select(
+                    Gimnasio.id_gimnasio, Gimnasio.nombre_gimnasio, Gimnasio.direccion_gimnasio
+                ).filter(Gimnasio.habilitado == True)).all()
+            else:
+                resu = motor.connect().execute(select(
+                    Gimnasio.id_gimnasio, Gimnasio.nombre_gimnasio, Gimnasio.direccion_gimnasio
+                ).filter(
+                    Gimnasio.id_gimnasio.in_(
+                        select(usuGim.id_gimnasio).filter(
+                            usuGim.id_usuario == idInstru)
+                    ))).all()
         else:
-            registro = usuGim.query.filter(usuGim.id_usuario == idUsu)
-    return idNomDireGim(registro.with_entities(usuGim.id_gimnasio), habi)
-
-
-def idNomDireGim(regis, habi):
-    regis = Gimnasio.query.filter(
-        Gimnasio.id_gimnasio.in_(regis),
-        Gimnasio.habilitado == habi
-    ).with_entities(
-        Gimnasio.id_gimnasio, Gimnasio.nombre_gimnasio, Gimnasio.direccion_gimnasio
-    ).all()
-    return [(idGim, nom, dire) for idGim, nom, dire in regis]
+            resu = con.execute(select(
+                Gimnasio.id_gimnasio, Gimnasio.nombre_gimnasio, Gimnasio.direccion_gimnasio
+            ).filter(Gimnasio.habilitado == False)).all()
+        for con, nom, dire in resu:
+            ids.append(con)
+            noms.append(nom)
+            direc.append(dire)
+    return jsonify({
+        'ids': ids, 'noms': noms, 'direc': direc
+    })
 
 
 @app.route("/habiGims/<string:ids>/<string:tams>", methods={'GET', 'POST'})
@@ -1104,7 +1137,8 @@ def elimGim(ids, tams):
     motor.connect().execute(delete(Gimnasio).filter(
         Gimnasio.id_gimnasio.in_(listaIds)
     ))
-    return redirect(url_for("ver_gimnasios", opc="desa"))
+    motor.connect().commit()
+    return redirect(url_for("ver_gimnasios"))
 
 
 @app.route("/desaGim/<string:ids>/<string:tams>")
@@ -1124,7 +1158,7 @@ def instructores(id):
         usugim = usugim.filter(usuGim.id_usuario == session["id"])
     usugim = usugim.with_entities(usuGim.id_usuario, usuGim.id_UsuGim).all()
     listaUsu = []
-    for idUsu,_ in usugim:
+    for idUsu, _ in usugim:
         usu = Usuario.query.get(idUsu)
         objTemp = {}
         objTemp["nya"] = f'{usu.nombre_usuario} {usu.apellido_usuario}'
@@ -1168,14 +1202,15 @@ def quitar_evento_existente(id):
         if request.form.getlist("checkbox"):
             evenPas = cantEventos(id)
             motor.connect().execute(delete(aluEven).filter(
-                aluEven.id_alumno == id, aluEven.id_evento.in_(request.form.getlist("checkbox"))
-                ))
+                aluEven.id_alumno == id, aluEven.id_evento.in_(
+                    request.form.getlist("checkbox"))
+            ))
             evenAct = cantEventos(id)
             if evenPas != evenAct:
                 motor.connect().execute(update(Alumno).filter(Alumno.id_alumno == id).values(
-                    graduacion_alumno=cambiarCategoria((Alumno.query.get(id)).graduacion_alumno, evenAct - evenPas),
-                    fecha_Exa_Desa=ultExa(id)
-                    ))
+                    graduacion_alumno=cambiarCategoria(
+                        (Alumno.query.get(id)).graduacion_alumno, evenAct - evenPas)
+                ))
         return redirect(url_for('ver_alumnos', opc="todo"))
     return render_template("BaseDeDatos/Alumnos/quitar_evento_existente.html", registros=registroEventosAlum, alumno=Alumno.query.get(id))
 
@@ -1186,8 +1221,8 @@ def agregar_evento_existente(id):
         return redirect(url_for("logout"))
     eventosAlu = Eventos.query.filter(
         Eventos.id_evento.notin_(aluEven.query.filter(
-        aluEven.id_alumno == id).with_entities(aluEven.id_evento))
-        ).all()
+            aluEven.id_alumno == id).with_entities(aluEven.id_evento))
+    ).all()
     if request.method == 'POST':
         evenPas = cantEventos(id)
         for i in request.form.getlist("checkbox"):
@@ -1200,19 +1235,22 @@ def agregar_evento_existente(id):
             motor.connect().execute(update(Alumno).filter(
                 Alumno.id_alumno == id
             ).values(
-                fecha_Exa_Desa=ultExa(id),
-                graduacion_alumno=cambiarCategoria((Alumno.query.get(id)).graduacion_alumno, evenAct - evenPas)
+                graduacion_alumno=cambiarCategoria(
+                    (Alumno.query.get(id)).graduacion_alumno, evenAct - evenPas)
             ))
-        return redirect(url_for('ver_alumnos', opc="todo"))
+        return redirect(url_for('ver_alumnos', opc="habilitado"))
     return render_template("BaseDeDatos/Alumnos/agregar_evento_existente.html",
                            registros=eventosAlu, alumno=Alumno.query.get(id))
+
 
 def cantEventos(id):
     return ((motor.connect().execute(select(func.count(Eventos.tipo_de_evento)).filter(
         Eventos.tipo_de_evento == "Examen", Eventos.id_evento.in_(
-            aluEven.query.filter(aluEven.id_alumno == id).with_entities(aluEven.id_evento)
-            )
-        ))).fetchone())[0]
+            aluEven.query.filter(aluEven.id_alumno ==
+                                 id).with_entities(aluEven.id_evento)
+        )
+    ))).fetchone())[0]
+
 
 @app.route("/editar_alumno/<int:id>", methods={'GET', 'POST'})
 def editar_alumno(id):
@@ -1250,7 +1288,6 @@ def editar_alumno(id):
     if request.method == 'POST' and alumnoForma.validate_on_submit():
         alumnoForma.populate_obj(alumno)
         alumno.aluNomApe()
-        alumno.libreta = request.form.getlist("libre")[0]
         if (usu := usuario_gimnasio.gimnasio.data) != "Nada":
             alumno.id_UsuGim = usu
         if request.form.get("opcionFoto") == "Si":
@@ -1265,7 +1302,7 @@ def editar_alumno(id):
                 url.unlink()
                 alumno.foto = "/Base/static/Imagenes/sin_foto.png"
         db.session.commit()
-        return redirect(url_for('ver_alumnos', opc='todo'))
+        return redirect(url_for('ver_alumnos', opc='habilitado'))
     registro = aluEven.query.filter_by(id_alumno=id).first()
     return render_template("BaseDeDatos/Alumnos/editar_alumno.html", forma=alumnoForma,
                            gimnasios=usuario_gimnasio, registro=registro, id=id)
@@ -1285,46 +1322,47 @@ def fotoNuevaAlu(alumno):
 def mostrarAlu(idAlu):
     with motor.connect() as con:
         alu = con.execute(select(
-                    Alumno.nombre_alumno, Alumno.apellido_alumno, Alumno.nacionalidad_alumno,
-                    Alumno.documento_alumno, Alumno.telefono_alumno, Alumno.graduacion_alumno,
-                    Alumno.observaciones_alumno, Alumno.email_alumno, Alumno.localidad_alumno,
-                    Alumno.fecha_nacimiento_alumno, Alumno.foto, Alumno.id_UsuGim
-                    ).filter(Alumno.id_alumno == idAlu)).fetchone()
+            Alumno.nombre_alumno, Alumno.apellido_alumno, Alumno.nacionalidad_alumno,
+            Alumno.documento_alumno, Alumno.telefono_alumno, Alumno.graduacion_alumno,
+            Alumno.observaciones_alumno, Alumno.email_alumno, Alumno.localidad_alumno,
+            Alumno.fecha_nacimiento_alumno, Alumno.foto, Alumno.id_UsuGim
+        ).filter(Alumno.id_alumno == idAlu)).fetchone()
         idUsuGim = con.execute(select(
-                    usuGim.id_usuario, usuGim.id_gimnasio, usuGim.id_cabeza
-                    ).filter(usuGim.id_UsuGim == alu.id_UsuGim)).fetchone()
+            usuGim.id_usuario, usuGim.id_gimnasio, usuGim.id_cabeza
+        ).filter(usuGim.id_UsuGim == alu.id_UsuGim)).fetchone()
         usu = con.execute(select(
-                    Usuario.nombre_usuario, Usuario.apellido_usuario
-                    ).filter(Usuario.id_usuario == idUsuGim.id_usuario)).fetchone()
+            Usuario.nombre_usuario, Usuario.apellido_usuario
+        ).filter(Usuario.id_usuario == idUsuGim.id_usuario)).fetchone()
         cabeza = con.execute(select(
-                    Usuario.nombre_usuario, Usuario.apellido_usuario
-                    ).filter(Usuario.id_usuario == idUsuGim.id_cabeza)).fetchone()
+            Usuario.nombre_usuario, Usuario.apellido_usuario
+        ).filter(Usuario.id_usuario == idUsuGim.id_cabeza)).fetchone()
         gim = con.execute(select(Gimnasio.nombre_gimnasio
-                    ).filter(Gimnasio.id_gimnasio == idUsuGim.id_gimnasio)).fetchone()
+                                 ).filter(Gimnasio.id_gimnasio == idUsuGim.id_gimnasio)).fetchone()
         botExa = filtarEventosAlu(idAlu, "Examen", False)
         botTor = filtarEventosAlu(idAlu, "Torneo", False)
         botEve = filtarEventosAlu(idAlu, "Otros eventos", False)
     return jsonify({
-            'lista': [
-                alu.apellido_alumno + " " + alu.nombre_alumno,
-                alu.nacionalidad_alumno, str(alu.documento_alumno),
-                str(alu.telefono_alumno), alu.graduacion_alumno,
-                alu.observaciones_alumno, alu.email_alumno,
-                alu.localidad_alumno,
-                f'{alu.fecha_nacimiento_alumno.day}/{alu.fecha_nacimiento_alumno.month}/{alu.fecha_nacimiento_alumno.year}',
-                usu.apellido_usuario + " " + usu.nombre_usuario,
-                cabeza.apellido_usuario + " " + cabeza.nombre_usuario,
-                gim.nombre_gimnasio
-                ], 'foto': alu.foto,
-            'mensajes': [
-                "Nombre: ", "Nacionalidad: ", "Documento: ",
-                "Telefono: ", "Categoria: ", "Observaciones: ",
-                "Correo: ", "Localidad: ", "Fecha de nacimiento: ",
-                "Instructor: ", "Cabeza de grupo: ", "Lugar de practica: "
-            ],
-            'botones': [botExa, botTor, botEve],
-            'matris': session["Cargo"] == "Administrador"
-        })
+        'lista': [
+            alu.apellido_alumno + " " + alu.nombre_alumno,
+            alu.nacionalidad_alumno, str(alu.documento_alumno),
+            str(alu.telefono_alumno), alu.graduacion_alumno,
+            alu.observaciones_alumno, alu.email_alumno,
+            alu.localidad_alumno,
+            f'{alu.fecha_nacimiento_alumno.day}/{alu.fecha_nacimiento_alumno.month}/{alu.fecha_nacimiento_alumno.year}',
+            usu.apellido_usuario + " " + usu.nombre_usuario,
+            cabeza.apellido_usuario + " " + cabeza.nombre_usuario,
+            gim.nombre_gimnasio
+        ], 'foto': alu.foto,
+        'mensajes': [
+            "Nombre: ", "Nacionalidad: ", "Documento: ",
+            "Telefono: ", "Categoria: ", "Observaciones: ",
+            "Correo: ", "Localidad: ", "Fecha de nacimiento: ",
+            "Instructor: ", "Cabeza de grupo: ", "Lugar de practica: "
+        ],
+        'botones': [botExa, botTor, botEve],
+        'matris': session["Cargo"] == "Administrador"
+    })
+
 
 @app.route("/aluMatris/<int:idAlu>")
 def aluMatris(idAlu):
@@ -1347,25 +1385,29 @@ def aluMatris(idAlu):
         'fEnat': f'{enat.fecha.day}/{enat.fecha.month}/{enat.fecha.year}' if enat else "Sin registro"
     })
 
+
 @app.route("/matrisAlu/<int:idAlu>/<string:tipo>")
 def matrisAlu(idAlu, tipo):
     matris = motor.connect().execute(select(Matriculas.fecha).filter(
         Matriculas.id_Alumno == idAlu, Matriculas.tipo == tipo
     )).fetchall()
-    matris = [f'{fMatri[0].day}/{fMatri[0].month}/{fMatri[0].year}' for fMatri in matris]
+    matris = [
+        f'{fMatri[0].day}/{fMatri[0].month}/{fMatri[0].year}' for fMatri in matris]
     return jsonify({
         'matris': matris
     })
 
+
 @app.route("/modiMatris/<int:idAlu>/<string:tipo>/<string:modo>")
-def modiMatris(idAlu,tipo,modo):
+def modiMatris(idAlu, tipo, modo):
     matris = motor.connect().execute(select(
         Matriculas.id_matricula, Matriculas.fecha, Matriculas.tipo
-        ).filter(
+    ).filter(
         Matriculas.id_Alumno == idAlu, Matriculas.tipo == tipo
-        )).fetchall()
+    )).fetchall()
     return render_template("/BaseDeDatos/Alumnos/modiMatris.html",
-                           matris = matris, modo = modo, idAlu = idAlu)
+                           matris=matris, modo=modo, idAlu=idAlu)
+
 
 @app.route("/agregaMatris/<string:fechas>/<string:tipo>/<int:idAlu>")
 def agregaMatris(fechas, tipo, idAlu):
@@ -1374,18 +1416,22 @@ def agregaMatris(fechas, tipo, idAlu):
         for elem in listafechas:
             if elem <= date.today() and not con.execute(
                 select(Matriculas.id_matricula).filter(
-                Matriculas.id_Alumno == idAlu, Matriculas.fecha == elem,
-                Matriculas.tipo == tipo
+                    Matriculas.id_Alumno == idAlu, Matriculas.fecha == elem,
+                    Matriculas.tipo == tipo
                 )
             ).fetchone():
                 con.execute(insert(Matriculas).values(
-                    id_Alumno = idAlu, fecha = elem, tipo = tipo
+                    id_Alumno=idAlu, fecha=elem, tipo=tipo
                 ))
                 con.commit()
     return jsonify()
 
+
 def strAdate(lista):
-    return [date(int(elem[0:4]),int(elem[5:7]),int(elem[8:])) for elem in lista]
+    if type(lista) == str:
+        return date(int(lista[0:4]), int(lista[5:7]), int(lista[8:]))
+    return [date(int(elem[0:4]), int(elem[5:7]), int(elem[8:])) for elem in lista]
+
 
 @app.route("/editaMatris/<string:ids>/<string:fechas>/<string:tipo>/<int:idAlu>")
 def editaMatris(ids, fechas, tipo, idAlu):
@@ -1400,10 +1446,11 @@ def editaMatris(ids, fechas, tipo, idAlu):
                 con.execute(update(Matriculas).filter(
                     Matriculas.id_matricula == idMatri
                 ).values(
-                    fecha = fechaMatri
+                    fecha=fechaMatri
                 ))
                 con.commit()
     return jsonify()
+
 
 @app.route("/elimMatris/<string:ids>")
 def elimMatris(ids):
@@ -1415,11 +1462,13 @@ def elimMatris(ids):
         con.commit()
     return jsonify()
 
+
 def strAint(lista):
     return [int(elem) for elem in lista]
-        
+
+
 @app.route("/eventosAlu/<int:idAlu>/<string:tipo>")
-def eventosAlu(idAlu,tipo):
+def eventosAlu(idAlu, tipo):
     fechas = []
     lugares = []
     eventos = filtarEventosAlu(idAlu, tipo, True)
@@ -1428,12 +1477,13 @@ def eventosAlu(idAlu,tipo):
         lugares.append(lugOpc if lugOpc else lug)
     return jsonify({'fechas': fechas, 'lugares': lugares})
 
-def filtarEventosAlu(idAlu,tipo, multi):
+
+def filtarEventosAlu(idAlu, tipo, multi):
     resu = motor.connect().execute(select(
         Eventos.fecha_evento, Eventos.lugar_evento, Eventos.lugarOpc).filter(
         Eventos.tipo_de_evento == tipo, Eventos.id_evento.in_(
-        select(aluEven.id_evento).filter(
-        aluEven.id_alumno == idAlu)))).fetchall()
+            select(aluEven.id_evento).filter(
+                aluEven.id_alumno == idAlu)))).fetchall()
     if resu and multi:
         return resu
     elif resu and not multi:
@@ -1517,13 +1567,12 @@ def agregar_alumno():
 def ver_alumnos(opc):
     if tiempoSesion():
         return redirect(url_for("logout"))
-    alumnos = []
     msj = ""
     if session["Cargo"] == "Administrador":
         msj = "Administrador"
     elif session["Cargo"] == "Cabeza":
-        msj = "Cabeza"        
-    modo = True if opc == "todo" or opc == "habilitado" else False
+        msj = "Cabeza"
+    modo = True if opc == "habilitado" else False
     libre = True if session["Cargo"] == "Administrador" else False
     form = AlumnoForm()
     opciones = Gimnasio_Usuario()
@@ -1541,12 +1590,13 @@ def ver_alumnos(opc):
                 Gimnasio.habilitado == True
             )
         else:
-            regis = regis.filter(or_(usuGim.id_cabeza == session["id"],usuGim.id_usuario == session["id"]))
+            regis = regis.filter(
+                or_(usuGim.id_cabeza == session["id"], usuGim.id_usuario == session["id"]))
             gim = gim.filter(
                 Gimnasio.id_gimnasio.in_(
-                usuGim.query.filter(usuGim.id_cabeza == session["id"]).with_entities(
-                usuGim.id_gimnasio
-                ).group_by(usuGim.id_gimnasio)
+                    usuGim.query.filter(usuGim.id_cabeza == session["id"]).with_entities(
+                        usuGim.id_gimnasio
+                    ).group_by(usuGim.id_gimnasio)
                 )
             )
         regis = Usuario.query.filter(
@@ -1571,90 +1621,202 @@ def ver_alumnos(opc):
         gim = gim.filter(
             Gimnasio.id_gimnasio.in_(regis)
         )
-
     for idGim, nomGim in gim.with_entities(Gimnasio.id_gimnasio, Gimnasio.nombre_gimnasio).all():
         gimnasios.gimnasio.choices.append(((f'{idGim}'), (f'{nomGim}')))
-    if request.method != 'POST':
-        if opc == 'todo' or opc == 'habilitado':
-            regis = []
-            if session["Cargo"] == 'Administrador':
-                alumnos = Alumno.query.filter(
-                    Alumno.habilitado == True
+    resu = []
+    if modo:
+        alu = aliased(Alumno)
+        if session["Cargo"] == "Administrador":
+            alu = db.session.query(
+                alu.id_alumno.label(
+                    "aluIdAlu"), alu.apellido_alumno, alu.nombre_alumno,
+                alu.graduacion_alumno, alu.libreta
+            )
+            alu = (alu.filter(Alumno.habilitado == True)).subquery()
+            matri = aliased(Matriculas)
+            tipos = ["AATEE", "FETRA", "ENAT"]
+            for tipo in tipos:
+                alu = juntaMatri(tipo, "_", alu)
+        elif session["Cargo"] == "Cabeza":
+            alu = db.session.query(
+                alu.id_alumno.label(
+                    "aluIdAlu"), alu.apellido_alumno, alu.nombre_alumno,
+                alu.graduacion_alumno, alu.libreta
+            ).filter(
+                alu.id_UsuGim.in_(
+                    select(usuGim.id_UsuGim).filter(
+                        usuGim.id_cabeza == session["id"])
                 )
-            elif session["Cargo"] == "Cabeza":
-                alumnos = Alumno.query.filter(
-                    Alumno.id_UsuGim.in_(
-                        usuGim.query.filter(
-                            usuGim.id_cabeza == session["id"]
-                        ).with_entities(usuGim.id_UsuGim)
-                    ))
-            else:
-                alumnos = Alumno.query.filter(
-                    Alumno.id_UsuGim.in_(
-                        usuGim.query.filter(
-                            usuGim.id_usuario == session["id"]
-                        ).with_entities(usuGim.id_UsuGim)
-                    ))
-                lista = [session["id"]]
-                listaIds = []
-                while lista != listaIds:
-                    listaIds = lista
-                    usu = Usuario.query.filter(
-                        Usuario.id_usuario.in_(lista)
-                    ).with_entities(Usuario.id_usuario, Usuario.id_cabeza).all()
-                    for idUsu, _ in usu:
-                        lista = [idUsu]
+            ).order_by(alu.apellido_alumno, alu.nombre_alumno).subquery()
         else:
-            alumnos = Alumno.query.filter(
-                Alumno.habilitado == False
-            )
-        alumnos = alumnos.order_by(
-            Alumno.apellido_alumno, Alumno.nombre_alumno
-        ).with_entities(
-            Alumno.id_alumno, Alumno.fecha_Exa_Desa,
-            Alumno.libreta, Alumno.apellido_alumno,
-            Alumno.nombre_alumno, Alumno.graduacion_alumno
-        ).all()
+            alu = db.session.query(
+                alu.id_alumno.label(
+                    "aluIdAlu"), alu.apellido_alumno, alu.nombre_alumno,
+                alu.graduacion_alumno, alu.libreta
+            ).filter(
+                alu.id_UsuGim.in_(
+                    select(usuGim.id_UsuGim).filter(
+                        usuGim.id_usuario == session["id"])
+                )
+            ).order_by(alu.apellido_alumno, alu.nombre_alumno).subquery()
+        eve = aliased(aluEven)
+        eve = db.session.query(
+            eve.id_alumno.label("eveIdAlu"), Eventos.fecha_evento.label("fEve")
+        ).filter(
+            Eventos.id_evento == eve.id_evento, Eventos.tipo_de_evento == "Examen"
+        ).subquery(name='eve')
+        resu = db.session.query(alu, func.max(eve.c.fEve)).select_from(alu).join(
+            eve, alu.c.aluIdAlu == eve.c.eveIdAlu, isouter=True
+        ).group_by(alu).all()
     else:
-        regis = []
-        alus = Alumno.query.filter(Alumno.habilitado.is_(modo))
-        if (nom := request.form.get("Nombre")):
-            alus = alus.filter(
-                Alumno.nombre_alumno.like(f'%{nom.capitalize()}%'))
-        if (ape := request.form.get("Apellido")):
-            alus = alus.filter(
-                Alumno.apellido_alumno.like(f'%{ape.capitalize()}%'))
-        if (cate := opciones.usuario.data):
-            alus = alus.filter(Alumno.graduacion_alumno.like(cate))
-        if modo:
-            regis = usuGim.query
-            if (fUsu := usuarios.dato.data) and fUsu != "Nada":
-                regis = regis.filter(usuGim.id_usuario == fUsu)
-            if (gim := gimnasios.gimnasio.data) and gim != "Nada":
-                regis = regis.filter(usuGim.id_gimnasio == gim)
-            regis = regis.with_entities(usuGim.id_UsuGim)
-        final = []
-        if regis and alus:
-            final = alus.filter(
-                Alumno.id_UsuGim.in_(regis)
-            )
-        elif alus:
-            final = alus
-        elif regis:
-            final = Alumno.query.filter(
-                Alumno.id_UsuGim.in_(regis),
-                Alumno.habilitado.is_(modo)
-            )
-        alumnos = final.order_by(
-            Alumno.apellido_alumno, Alumno.nombre_alumno
-        ).with_entities(
-            Alumno.id_alumno, Alumno.fecha_Exa_Desa,
-            Alumno.libreta, Alumno.apellido_alumno,
+        resu = db.session.query(
+            Alumno.id_alumno,  Alumno.fecha_Desa, Alumno.apellido_alumno,
             Alumno.nombre_alumno, Alumno.graduacion_alumno
-        ).all()
-    return render_template("BaseDeDatos/Alumnos/ver_alumnos.html", alumnos=alumnos, gimnasios=gimnasios,
+        ).filter(Alumno.habilitado == False).all()
+    return render_template("BaseDeDatos/Alumnos/ver_alumnos.html", alumnos=resu, gimnasios=gimnasios,
                            usuarios=usuarios, msj=msj, modo=modo, opc=opc, opciones=opciones,
                            libre=libre)
+
+
+@app.route("/filtroAlumno/<string:nom>/<string:ape>/<string:cate>/<int:gim>/<int:instru>/<string:fAatee>/<string:fEnat>/<string:fFetra>")
+def filtroAlumno(nom, ape, cate, gim, instru, fAatee, fEnat, fFetra):
+    alu = db.session.query(
+        Alumno.id_alumno.label(
+            "aluIdAlu"), Alumno.apellido_alumno, Alumno.nombre_alumno,
+        Alumno.graduacion_alumno, Alumno.libreta
+    )
+    if nom != "_":
+        alu = alu.filter(or_(
+            Alumno.nombre_alumno.like(f'%{nom.capitalize()}%'),
+            Alumno.nombre_alumno.like(f'%{nom}%')
+        ))
+    if ape != "_":
+        alu = alu.filter(or_(
+            Alumno.apellido_alumno.like(f'%{ape.capitalize()}%'),
+            Alumno.apellido_alumno.like(f'%{ape}%')
+        ))
+    if cate != "_":
+        alu = alu.filter(Alumno.graduacion_alumno.like(f'{cate}'))
+    if gim != 0 or instru != 0:
+        inter = select(usuGim.id_UsuGim)
+        if gim != 0:
+            inter = inter.filter(usuGim.id_gimnasio == gim)
+        if instru != 0:
+            inter = inter.filter(usuGim.id_usuario == instru)
+        alu = alu.filter(Alumno.id_UsuGim.in_(inter))
+    if session["Cargo"] == "Administrador":
+        alu = (alu.filter(Alumno.habilitado == True).order_by(
+            Alumno.apellido_alumno, Alumno.nombre_alumno
+        )).subquery()
+        alu = juntaMatri("AATEE", strAdate(fAatee)
+                         if fAatee != "_" else "_", alu)
+        alu = juntaMatri("FETRA", strAdate(fFetra)
+                         if fFetra != "_" else "_", alu)
+        alu = juntaMatri("ENAT", strAdate(fEnat) if fEnat != "_" else "_", alu)
+    elif session["Cargo"] == "Cabeza":
+        alu = (alu.filter(
+            Alumno.habilitado == True, Alumno.id_UsuGim.in_(
+                select(usuGim.id_UsuGim).filter(
+                    usuGim.id_cabeza == session["id"])
+            )).order_by(
+            Alumno.apellido_alumno, Alumno.nombre_alumno
+        )).subquery()
+    else:
+        alu = (alu.filter(
+            Alumno.habilitado == True, Alumno.id_UsuGim.in_(
+                select(usuGim.id_UsuGim).filter(
+                    usuGim.id_usuario == session["id"])
+            )).order_by(
+            Alumno.apellido_alumno, Alumno.nombre_alumno
+        )).subquery()
+    eve = aliased(aluEven)
+    eve = db.session.query(
+        eve.id_alumno.label("eveIdAlu"), Eventos.fecha_evento.label("fEve")
+    ).filter(
+        Eventos.id_evento == eve.id_evento, Eventos.tipo_de_evento == "Examen"
+    ).subquery(name='eve')
+    alu = db.session.query(alu, func.max(eve.c.fEve)).select_from(alu).join(
+        eve, alu.c.aluIdAlu == eve.c.eveIdAlu, isouter=True
+    ).group_by(alu).all()
+    ids = []
+    apes = []
+    noms = []
+    cates = []
+    libres = []
+    uExas = []
+    if session["Cargo"] == "Administrador":
+        fAatees = []
+        fFetras = []
+        fEnats = []
+        for idAlu, ape, nom, cate, libre, fAatee, fFetra, fEnat, uExa in alu:
+            if ape:
+                ids.append(idAlu)
+                apes.append(ape)
+                noms.append(nom)
+                cates.append(cate)
+                libres.append(libre)
+                fAatees.append(
+                    f'{fAatee.day}/{fAatee.month}/{fAatee.year}' if fAatee else "//")
+                fFetras.append(
+                    f'{fFetra.day}/{fFetra.month}/{fFetra.year}' if fFetra else "//")
+                fEnats.append(
+                    f'{fEnat.day}/{fEnat.month}/{fEnat.year}' if fEnat else "//")
+                uExas.append(
+                    f'{uExa.day}/{uExa.month}/{uExa.year}' if uExa else "//")
+        return jsonify({
+            'ids': ids, 'apes': apes, 'noms': noms, 'cates': cates, 'libres': libres,
+            'fAatees': fAatees, 'fFetras': fFetras, 'fEnats': fEnats, 'uExas': uExas
+        })
+    else:
+        for idAlu, ape, nom, cate, libre, uExa in alu:
+            if ape:
+                ids.append(idAlu)
+                apes.append(ape)
+                noms.append(nom)
+                cates.append(cate)
+                libres.append(libre)
+                uExas.append(
+                    f'{uExa.day}/{uExa.month}/{uExa.year}' if uExa else "//")
+        return jsonify({
+            'ids': ids, 'apes': apes, 'noms': noms, 'cates': cates, 'libres': libres,
+            'uExas': uExas
+        })
+
+
+def juntaMatri(tipo, fecha, alu):
+    matri = aliased(Matriculas)
+    if fecha != "_":
+        matri = db.session.query(matri.id_Alumno.label("idAlu"), matri.fecha.label('mFec')).filter(
+            matri.tipo == tipo, matri.fecha >= fecha, matri.fecha != None
+        ).subquery()
+        return db.session.query(alu, func.max(matri.c.mFec)).select_from(alu).join(
+            matri, matri.c.idAlu == alu.c.aluIdAlu
+        ).group_by(alu).subquery()
+    matri = db.session.query(matri.id_Alumno.label("idAlu"), matri.fecha.label('mFec')).filter(
+        matri.tipo == tipo
+    ).subquery()
+    return db.session.query(alu, func.max(matri.c.mFec)).select_from(alu).join(
+        matri, alu.c.aluIdAlu == matri.c.idAlu, isouter=True
+    ).group_by(alu).subquery()
+
+
+@app.route("/asignarMatris/<string:tipo>/<string:ids>")
+def asignarMatris(tipo, ids):
+    ids = ids.split("n")
+    with motor.connect() as con:
+        for idAlu in ids:
+            if not con.execute(select(1).filter(
+                Matriculas.fecha == date.today(),
+                Matriculas.id_Alumno == idAlu,
+                Matriculas.tipo == tipo
+            )).all():
+                con.execute(insert(Matriculas).values(
+                    id_Alumno=idAlu,
+                    tipo=tipo,
+                    fecha=date.today()
+                ))
+                con.commit()
+    return jsonify({})
 
 
 @app.route("/libretas/<string:ids>/<string:tams>")
@@ -1666,7 +1828,7 @@ def libretas(ids, tams):
     ).values(
         libreta=""
     ))
-    return redirect(url_for("ver_alumnos", opc="todo"))
+    return redirect(url_for("ver_alumnos", opc="habilitado"))
 
 
 @app.route("/habiAlums/<string:ids>/<string:tams>", methods={'GET', 'POST'})
@@ -1691,21 +1853,22 @@ def habiAlums(ids, tams):
                 usuario = Usuario.query.get(idUsu)
                 dirNueva = f'Base/static/Imagenes/{(Gimnasio.query.get(idGim).nombre_gimnasio).replace(" ","")}/{usuario.nombre_usuario}_{usuario.apellido_usuario}'
                 dirAlum = ""
-                if alum.foto != "Base/static/Imagenes/sin_foto.png":
+                if alum.foto != "/Base/static/Imagenes/sin_foto.png":
                     dirAlum = dirNueva + "/" + \
                         alum.foto[alum.foto.rfind("/") + 1:]
                     shutil.move(alum.foto[1:], dirAlum)
                 else:
                     dirAlum = alum.foto
-                motor.connect().execute(update(Alumno).filter(
-                    Alumno.id_alumno == idAlu
-                ).values(
-                    habilitado=True,
-                    id_UsuGim=regi.id_UsuGim,
-                    fecha_Exa_Desa=ultExa(idAlu),
-                    foto="/" + dirAlum
-                ))
-        return redirect(url_for("ver_alumnos", opc="todo"))
+                with motor.connect() as con:
+                    con.execute(update(Alumno).filter(
+                        Alumno.id_alumno == idAlu
+                    ).values(
+                        habilitado=True,
+                        id_UsuGim=regi.id_UsuGim,
+                        foto=dirAlum
+                    ))
+                    con.commit()
+        return redirect(url_for("ver_alumnos", opc="habilitado"))
     listaAlums = []
     listaGims = []
     msj = True if session["Cargo"] == "Administrador" or session["Cargo"] == "Cabeza" else False
@@ -1769,6 +1932,7 @@ def elimAlus(ids, tams):
         con.execute(delete(Alumno).filter(
             Alumno.id_alumno.in_(listaAlus)
         ))
+        # con.commit()
     return redirect(url_for("ver_alumnos", opc="deshabilitado"))
 
 
@@ -1791,40 +1955,26 @@ def sumarAevento(ids, tams, evento):
     ).first()
     if eventoReci:
         listaIds = decodificar(ids, tams)
-        regis = aluEven.query.filter(
-            aluEven.id_alumno.notin_(
+        with motor.begin() as con:
+            listaIds = con.execute(select(
+                Alumno.id_alumno, Alumno.graduacion_alumno
+            ).filter(Alumno.id_alumno.notin_(
                 select(aluEven.id_alumno).filter(
-                    aluEven.id_evento == eventoReci.id_evento
-                ).group_by(aluEven.id_alumno)
-            ), aluEven.id_alumno.in_(listaIds)
-        ).group_by(aluEven.id_alumno).with_entities(aluEven.id_alumno).all()
-        alus = Alumno.query
-        if not regis:
-            alus = alus.filter(Alumno.id_alumno.in_(listaIds))
-        else:
-            alus = alus.filter(Alumno.id_alumno.in_(regis))
-        if evento == "Examen":
-            alus = alus.filter(
-                or_(Alumno.fecha_Exa_Desa < eventoReci.fecha_evento,
-                    Alumno.fecha_Exa_Desa == None)
-            )
-        alus = alus.with_entities(
-            Alumno.id_alumno, Alumno.graduacion_alumno).all()
-        with motor.connect() as con:
-            for idAlu, _ in alus:
+                aluEven.id_evento == eventoReci.id_evento
+                )), Alumno.id_alumno.in_(listaIds)
+            )).all()
+            for idAlu, _ in listaIds:
                 con.execute(insert(aluEven).values(
                     id_alumno=idAlu,
                     id_evento=eventoReci.id_evento
                 ))
             if evento == "Examen":
-                for idAlu, cate in alus:
+                for idAlu, cate in listaIds:
                     con.execute(update(Alumno).filter(
                         Alumno.id_alumno == idAlu
                     ).values(
                         graduacion_alumno=cambiarCategoria(cate, 1),
-                        fecha_Exa_Desa=eventoReci.fecha_evento
                     ))
-            con.commit()
     return redirect(url_for("ver_alumnos", opc="habilitado"))
 
 
@@ -1866,14 +2016,18 @@ def buscarAlumno():
     if request.method == 'POST':
         alum = Alumno.query
         if (nom := request.form.get("nombre")):
-            alum = alum.filter(
-                Alumno.nombre_alumno.like(f'%{nom.capitalize()}%'))
+            alum = alum.filter(or_(
+                Alumno.nombre_alumno.like(f'%{nom.capitalize()}%'),
+                Alumno.nombre_alumno.like(f'%{nom}%')
+            ))
         if (ape := request.form.get("apellido")):
-            alum = alum.filter(
-                Alumno.apellido_alumno.like(f'%{ape.capitalize()}%'))
+            alum = alum.filter(or_(
+                Alumno.apellido_alumno.like(f'%{ape.capitalize()}%'),
+                Alumno.apellido_alumno.like(f'%{ape}%')
+            ))
         alum = alum.with_entities(
             Alumno.nombre_alumno, Alumno.apellido_alumno,
-            Alumno.graduacion_alumno, Alumno.fecha_Exa_Desa,
+            Alumno.graduacion_alumno, Alumno.fecha_Desa,
             Alumno.localidad_alumno, Alumno.id_UsuGim,
             Alumno.habilitado
         ).all()
@@ -1896,182 +2050,6 @@ def buscarAlumno():
                            alumnosHabi=alumnosHabi, alumnosDesa=alumnosDesa)
 
 # Fin de funciones de alumnos
-
-# Matriculas
-
-
-@app.route("/ver_matriculas/<string:opc>", methods={'GET', 'POST'})
-def ver_matriculas(opc):
-    if tiempoSesion():
-        return redirect(url_for("logout"))
-    usuarios = DatoForm()
-    usuarios.dato.choices.append(('Nada', ''))
-    usu = Usuario.query.filter(
-        Usuario.id_usuario.in_(usuGim.query.group_by(
-            usuGim.id_usuario
-        ).with_entities(usuGim.id_usuario))
-    ).with_entities(
-        Usuario.id_usuario, Usuario.nombre_usuario, Usuario.apellido_usuario
-    ).all()
-    for idUsu, nomUsu, apeUsu in usu:
-        usuarios.dato.choices.append((f'{idUsu}', f'{nomUsu} {apeUsu}'))
-    alumnos = Alumno.query.filter(
-        Alumno.habilitado == True
-    ).order_by(
-        Alumno.apellido_alumno, Alumno.nombre_alumno
-    ).all()
-    if request.method == 'POST':
-        alumnos = []
-        registros = []
-        if usuarios.dato.data != 'Nada':
-            registros = usuGim.query.filter(
-                usuGim.id_usuario == usuarios.dato.data
-            ).with_entities(usuGim.id_UsuGim)
-        alus = Alumno.query
-        if (nom := request.form.get("Nombre")):
-            alus = alus.filter(
-                Alumno.nombre_alumno.like(f'%{nom.capitalize()}%'))
-        if (ape := request.form.get("Apellido")):
-            Alumno.apellido_alumno.like(f'%{ape.capitalize()}%')
-        if registros and alus:
-            alumnos = alus.filter(Alumno.id_UsuGim.in_(registros))
-        elif alus:
-            alumnos = alus
-        elif registros:
-            alumnos = Alumno.query.filter(Alumno.id_UsuGim.in_(registros))
-        else:
-            alumnos = Alumno.query.filter(Alumno.habilitado == True)
-        alumnos = alumnos.order_by(
-            Alumno.apellido_alumno, Alumno.nombre_alumno
-        ).all()
-    return render_template("BaseDeDatos/Matriculas/ver_matriculas.html", usuarios=usuarios,
-                           alumnos=alumnos, opc=opc)
-
-
-@app.route("/crear/<string:opc>/<string:ids>/<string:tams>")
-def crear(opc, ids, tams):
-    if tiempoSesion():
-        return redirect(url_for("logout"))
-    listaIds = decodificar(ids, tams)
-    fMatri = date.today()
-    alus = select(Alumno.id_alumno).filter(Alumno.id_alumno.in_(listaIds))
-    if opc == "AATEE":
-        alus = alus.filter(or_(Alumno.fecha_Aatee == None, Alumno.fecha_Aatee != fMatri))
-    elif opc == "FETRA":
-        alus = alus.filter(or_(Alumno.fecha_Fetra == None, Alumno.fecha_Fetra != fMatri))
-    else:
-        alus = alus.filter(or_(Alumno.fecha_Enat == None, Alumno.fecha_Enat != fMatri))
-    with motor.connect() as con:
-        alus = (con.execute(alus)).fetchall()
-        if len(alus) == 1:
-            alus = alus[0]
-        if alus:
-            if opc == "AATEE":
-                con.execute(update(Alumno).filter(Alumno.id_alumno.in_(alus)
-                                                     ).values(fecha_Aatee=fMatri))
-            elif opc == "FETRA":
-                con.execute(update(Alumno).filter(Alumno.id_alumno.in_(alus)
-                                                      ).values(fecha_Fetra=fMatri))
-            else:
-                con.execute(update(Alumno).filter(Alumno.id_alumno.in_(alus)
-                                                     ).values(fecha_Enat=fMatri))
-            for idAlu in listaIds:
-                armarMatricula(fMatri, opc, idAlu)
-                con.execute(update(Alumno).filter(Alumno.id_alumno == idAlu).values(
-                    fecha_Aatee=ultMatri(idAlu, "AATEE"), fecha_Enat=ultMatri(idAlu, "ENAT"),
-                    fecha_Fetra=ultMatri(idAlu, "FETRA")
-                ))
-    return redirect(url_for("ver_matriculas", opc="todo"))
-
-
-def armarMatricula(fecha, tipoMatri, id):
-    motor.connect().execute(insert(Matriculas).values(
-        tipo=tipoMatri,
-        id_Alumno=id,
-        fecha=fecha
-    ))
-
-
-@app.route("/Detalles_matriculas/<int:id>")
-def Detalles_matriculas(id):
-    if tiempoSesion():
-        return redirect(url_for("logout"))
-    return render_template("/BaseDeDatos/Matriculas/Detalles_matriculas.html",
-                           matri_AATEE=Matriculas.query.filter_by(
-                               tipo="AATEE", id_Alumno=id).all(),
-                           matri_ENAT=Matriculas.query.filter_by(
-                               tipo="ENAT", id_Alumno=id).all(),
-                           matri_FETRA=Matriculas.query.filter_by(tipo="FETRA", id_Alumno=id).all())
-
-
-@app.route("/Editar_matriculas/<int:id>/<string:modo>", methods={'GET', 'POST'})
-def Editar_matriculas(id, modo):
-    if tiempoSesion():
-        return redirect(url_for("logout"))
-    matri_AATEE = Matriculas.query.filter(
-        Matriculas.tipo == "AATEE", Matriculas.id_Alumno == id
-    ).with_entities(
-        Matriculas.id_matricula, Matriculas.fecha
-    ).all()
-    matri_ENAT = Matriculas.query.filter(
-        Matriculas.tipo == "ENAT", Matriculas.id_Alumno == id
-    ).with_entities(
-        Matriculas.id_matricula, Matriculas.fecha
-    ).all()
-    matri_FETRA = Matriculas.query.filter(
-        Matriculas.tipo == "FETRA", Matriculas.id_Alumno == id
-    ).with_entities(
-        Matriculas.id_matricula, Matriculas.fecha
-    ).all()
-    if request.method == 'POST':
-        if modo == 'editar':
-            modiMatris(request.form.getlist("fecha_AATEE"),
-                       request.form.getlist("checkbox_AATEE"))
-            modiMatris(request.form.getlist("fecha_ENAT"),
-                       request.form.getlist("checkbox_ENAT"))
-            modiMatris(request.form.getlist("fecha_FETRA"),
-                       request.form.getlist("checkbox_FETRA"))
-        else:
-            if (seleccion := request.form.getlist("checkbox_FETRA")):
-                borrarMatricula(seleccion)
-            if (seleccion := request.form.getlist("checkbox_ENAT")):
-                borrarMatricula(seleccion)
-            if (seleccion := request.form.getlist("checkbox_AATEE")):
-                borrarMatricula(seleccion)
-        motor.connect().execute(update(Alumno).filter(Alumno.id_alumno == id).values(
-            fecha_Aatee=ultMatri(id, "AATEE"), fecha_Enat=ultMatri(id, "ENAT"),
-            fecha_Fetra=ultMatri(id, "FETRA")
-        ))
-        return redirect(url_for("ver_matriculas", opc="todo"))
-    return render_template("/BaseDeDatos/Matriculas/Editar_matriculas.html",
-                           matri_AATEE=matri_AATEE, matri_ENAT=matri_ENAT,
-                           matri_FETRA=matri_FETRA, id=id, modo=modo)
-
-
-def modiMatris(fechas, ids):
-    for idMatri, fMatri in zip(ids, fechas):
-        if idMatri and fMatri:
-            motor.connect().execute(update(Matriculas).filter(
-                Matriculas.id_matricula == idMatri).values(fecha=fMatri))
-
-
-@app.route("/agregarMatriculas/<int:id>", methods={'GET', 'POST'})
-def agregarMatriculas(id):
-    if tiempoSesion():
-        return redirect(url_for("logout"))
-    if request.method == 'POST':
-        for i in request.form.getlist("MatriAATEE"):
-            armarMatricula(i, 'AATEE', id)
-        for i in request.form.getlist("MatriENAT"):
-            armarMatricula(i, 'ENAT', id)
-        for i in request.form.getlist("MatriFetra"):
-            armarMatricula(i, 'FETRA', id)
-        motor.connect().execute(update(Alumno).filter(Alumno.id_alumno == id).values(
-            fecha_Aatee=ultMatri(id, "AATEE"), fecha_Enat=ultMatri(id, "ENAT"),
-            fecha_Fetra=ultMatri(id, "FETRA")
-        ))
-        return redirect(url_for("ver_matriculas", opc='todo'))
-    return render_template("/BaseDeDatos/Matriculas/AgregarMatriculas.html", id=id)
 
 # Imagenes
 
@@ -2148,9 +2126,10 @@ def armarUsuGim(usu, gim, cabeza):
 def ultExa(alum):
     evento = (motor.connect().execute(select(Eventos.fecha_evento).filter(
         Eventos.tipo_de_evento == "Examen", Eventos.id_evento.in_(
-            aluEven.query.filter(aluEven.id_alumno == alum).with_entities(aluEven.id_evento)
-            )).order_by(Eventos.fecha_evento.desc()).limit(1)
-            )).fetchone()
+            aluEven.query.filter(aluEven.id_alumno ==
+                                 alum).with_entities(aluEven.id_evento)
+        )).order_by(Eventos.fecha_evento.desc()).limit(1)
+    )).fetchone()
     if evento:
         return evento.fecha_evento
     else:
@@ -2166,7 +2145,7 @@ def borrarMatricula(seleccion):
 def ultMatri(id, tipoMatri):
     matriAlum = (motor.connect().execute(select(Matriculas.fecha).filter(
         Matriculas.tipo == tipoMatri, Matriculas.id_Alumno == id
-        ).order_by(Matriculas.fecha.desc()).limit(1))).fetchone()
+    ).order_by(Matriculas.fecha.desc()).limit(1))).fetchone()
     if matriAlum:
         return matriAlum.fecha
     else:
@@ -2200,15 +2179,16 @@ def desaAlums(listAlus, fechaDesa):
         for id, _ in Alumno.query.filter(
             Alumno.id_alumno.in_(listAlus),
             Alumno.foto != "/Base/static/Imagenes/sin_foto.png"
-            ).with_entities(Alumno.id_alumno,Alumno.libreta).all():
-            (Alumno.query.get(id)).cambiarFoto("Base/static/Imagenes/Deshabilitados")
+        ).with_entities(Alumno.id_alumno, Alumno.libreta).all():
+            (Alumno.query.get(id)).cambiarFoto(
+                "Base/static/Imagenes/Deshabilitados")
             db.session.commit()
         con.execute(update(Alumno).filter(Alumno.id_alumno.in_(listAlus)).values(
             habilitado=False,
-            fecha_Exa_Desa=fechaDesa,
+            fecha_Desa=fechaDesa,
             id_UsuGim=None
         ))
-        con.commit()
+        # con.commit()
 
 
 def desaGims(lista):
@@ -2220,8 +2200,8 @@ def desaGims(lista):
             listaAlus = []
             for id, _ in Alumno.query.filter(Alumno.id_UsuGim == idUsuGim).with_entities(
                 Alumno.id_alumno, Alumno.libreta
-                ).all():
-                    listaAlus.append(id)
+            ).all():
+                listaAlus.append(id)
             desaAlums(listaAlus, datetime.now().date())
             con.execute(delete(horarioGim).filter(
                 horarioGim.id_UsuGim == idUsuGim
@@ -2230,8 +2210,10 @@ def desaGims(lista):
                 usuGim.id_UsuGim == idUsuGim
             ))
             usu = Usuario.query.get(idUsu)
-            os.rmdir(f'Base/static/Imagenes/{(Gimnasio.query.get(idgim)).nombre_gimnasio.replace(" ","")}/{usu.nombre_usuario}_{usu.apellido_usuario}')
+            os.rmdir(
+                f'Base/static/Imagenes/{(Gimnasio.query.get(idgim)).nombre_gimnasio.replace(" ","")}/{usu.nombre_usuario}_{usu.apellido_usuario}')
         con.execute(update(Gimnasio).filter(Gimnasio.id_gimnasio.notin_(
-            usuGim.query.with_entities(usuGim.id_gimnasio).group_by(usuGim.id_gimnasio)
-            )).values(habilitado = False))
+            usuGim.query.with_entities(
+                usuGim.id_gimnasio).group_by(usuGim.id_gimnasio)
+        )).values(habilitado=False))
         con.commit()

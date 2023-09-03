@@ -1,13 +1,13 @@
 {% extends 'BaseDeDatos/mostrarTablas.html' %}
 {% block content %}
 <nav class="filtros" id="filtros">
-    <button class="btnFilRedondeado" onclick="location.href='/ver_usuarios/cabeza'">Ver cabezas</button>
-    <button class="btnFilRedondeado" onclick="location.href='/ver_usuarios/instructor'">Ver
+    <button class="btnFilRedondeado" onclick="verUsuarios('Cabeza','No')">Ver cabezas</button>
+    <button class="btnFilRedondeado" onclick="verUsuarios('Usuarios','Si')">Ver
         instructores</button>
-    <button class="btnFilRedondeado" onclick="location.href='/ver_usuarios/usuario'">Ver usuarios</button>
-    <button class="btnFilRedondeado" onclick="location.href='/ver_usuarios/administrador'">Ver
+    <button class="btnFilRedondeado" onclick="verUsuarios('Usuarios','No')">Ver usuarios</button>
+    <button class="btnFilRedondeado" onclick="verUsuarios('Administrador','No')">Ver
         Administradores</button>
-    <button class="btnFilRedondeado" onclick="location.href='/ver_usuarios/todo'">Todos los usuarios</button>
+    <button class="btnFilRedondeado" onclick="verUsuarios('Todo','No')">Todos los usuarios</button>
     <button class="btnFilRedondeado" onclick="location.href='/Base'">Regresar</button>
 </nav>
 <table border="1" id="tabla">
@@ -21,15 +21,7 @@
         {% for nom,ape,cargo,idUsu in usuarios %}
         <tr>
             <td><a onclick="mostrarDato('{{idUsu}}','usu')">{{ape}} {{nom}}</a></td>
-            <td>
-                {% if cargo == 'Administrador'%}
-                <p>Administrador</p>
-                {% elif cargo == 'Cabeza' %}
-                <p>Cabeza de grupo</p>
-                {% else %}
-                <p>Usuario</p>
-                {% endif %}
-            </td>
+            <td>{{cargo}}</td>
             <td><a href="{{url_for('eliminar_usuario', id = idUsu)}}"><img
                         src="../../../static/CSS/icons8-eliminar-50.png" alt="Eliminar"></a></td>
         </tr>

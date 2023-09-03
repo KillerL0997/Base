@@ -2,35 +2,46 @@
 {% block content %}
 
 <nav class="filtros" id="filtros">
-    <form action="" method="post">
-        <p>Nombre</p>
-        <input type="text" name="Nombre" id="Nombre">
-        <p>Apellido</p>
-        <input type="text" name="Apellido" id="Apellido">
-        <p>Categoria</p>
-        {{opciones.usuario}}
-        {% if opc == 'todo' or opc == 'habilitado' %}
-        <p>Gimnasio</p>
-        {{gimnasios.gimnasio}}
-        {% endif %}
-        {% if (msj == 'Administrador' or msj == 'Cabeza') and opc != 'deshabilitado' %}
-        <p>Instructor</p>
-        {{usuarios.dato}}
-        {% endif %}
-        <button class="btnFilRedondeado" type="submit">Aceptar</button>
-    </form>
+    <p>Nombre</p>
+    <input type="text" name="Nombre" id="Nombre">
+    <p>Apellido</p>
+    <input type="text" name="Apellido" id="Apellido">
+    <p>Categoria</p>
+    {{opciones.usuario}}
+    {% if opc == 'todo' or opc == 'habilitado' %}
+    <p>Gimnasio</p>
+    {{gimnasios.gimnasio}}
+    {% endif %}
+    {% if (msj == 'Administrador' or msj == 'Cabeza') and opc != 'deshabilitado' %}
+    <p>Instructor</p>
+    {{usuarios.dato}}
+    {% endif %}
+    {% if msj == 'Administrador' %}
+    <p>AATEE</p>
+    <input type="date" name="" id="fAatee">
+    <p>Enat</p>
+    <input type="date" name="" id="fEnat">
+    <p>Fetra</p>
+    <input type="date" name="" id="fFetra">
+    {% endif %}
+    <br><br>
+    <button class="btnFilRedondeado" onclick="verAlumnos('{{msj}}')">Aceptar</button>
     {% if modo %}
     <button class="btnFilRedondeado" onclick="llenar('Alumnos','Desa','','')">Deshabilitar alumnos</button>
     <button class="btnFilRedondeado" onclick="llenar('Alumnos','Examen','','')">Alumnos a examen</button>
     <button class="btnFilRedondeado" onclick="llenar('Alumnos','Torneo','','')">Alumnos a torneo</button>
     {% if libre %}
     <button class="btnFilRedondeado" onclick="llenar('Alumnos','libre','','')">Asignar libretas alumnos</button>
-    {% endif%}
+    {% endif %}
+    {% if msj == 'Administrador' %}
+    <button class="btnFilRedondeado" onclick="asignarMatris('AATEE')">Matricula AATEE</button>
+    <button class="btnFilRedondeado" onclick="asignarMatris('FETRA')">Matricula FETRA</button>
+    <button class="btnFilRedondeado" onclick="asignarMatris('ENAT')">Matricula ENAT</button>
+    {% endif %}
     {% else %}
     <button class="btnFilRedondeado" onclick="llenar('Alumnos','Habi','','')">Habilitar alumnos</button>
     <button class="btnFilRedondeado" onclick="llenar('Alumnos','Elim','','')">Eliminar alumnos</button>
     {% endif %}
-    <button class="btnFilRedondeado" type="button" onclick="location.href='/ver_alumnos/todo'">Ver todo</button>
     {% if modo %}
     <button class="btnFilRedondeado" type="button" onclick="location.href='/ver_alumnos/deshabilitado'">Ver
         deshabilitados</button>
@@ -40,37 +51,89 @@
     {% endif %}
     <button class="btnFilRedondeado" type="button" onclick="location.href='/Base'">Regresar</button>
 </nav>
-{% if alumnos %}
 <table border="1" id="tabla">
-    <thead>
-        <tr>
-            <th></th>
-            {% if modo %}
-            <th>Ult. Examen</th>
+    {% if modo %}
+        {% if alumnos %}
+            {% if msj == 'Administrador' %}
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Ult. examen</th>
+                        <th>Nombre y apellido</th>
+                        <th>Categoria</th>
+                        <th>AATEE</th>
+                        <th>Fetra</th>
+                        <th>Enat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for idAlu, ape, nom, cate, libre, fAatee, fFetra, fEnat, uExa in alumnos %}
+                    <tr>
+                        <td><input type="checkbox" name="checkbox" value="{{idAlu}}"></td>
+                        <td>{{uExa.day}}/{{uExa.month}}/{{uExa.year}}</td>
+                        <td class="{{libre}}"><a onclick="mostrarDato('{{idAlu}}','alu','{{msj}}')">{{ape}} {{nom}}</a></td>
+                        <td>{{cate}}</td>
+                        <td>{{fAatee.day}}/{{fAatee.month}}/{{fAatee.year}}</td>
+                        <td>{{fFetra.day}}/{{fFetra.month}}/{{fFetra.year}}</td>
+                        <td>{{fEnat.day}}/{{fEnat.month}}/{{fEnat.year}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             {% else %}
-            <th>Desa. en</th>
-            {% endif %}
-            <th>Apellido y Nombre</th>
-            <th>Categoria</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for idAlu, fecha, libre, ape, nom, grad in alumnos %}
-        <tr>
-            <td><input type="checkbox" name="checkbox" value="{{idAlu}}"></td>
-            <td>{{fecha.year}}/{{fecha.month}}/{{fecha.day}}</td>
-            {% if modo %}
-            <td class="{{libre}}"><a onclick="mostrarDato('{{idAlu}}','alu','{{msj}}')">{{ape}} {{nom}}</a></td>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Ult. examen</th>
+                        <th>Apellido y Nombre</th>
+                        <th>Categoria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for idAlu, ape, nom, cate, libre, uExa in alumnos %}
+                    <tr>
+                        <td><input type="checkbox" name="checkbox" value="{{idAlu}}"></td>
+                        <td>{{uExa.day}}/{{uExa.month}}/{{uExa.year}}</td>
+                        <td class="{{libre}}"><a onclick="mostrarDato('{{idAlu}}','alu','{{msj}}')">{{ape}} {{nom}}</a></td>
+                        <td>{{cate}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                {% endif %}
             {% else %}
-            <td class="{{libre}}">{{ape}} {{nom}}</td>
+                {% if msj == 'Administrador' %}
+                <thead>
+                    <tr>
+                        <th colspan="7">Sin Resultados</th>
+                    </tr>
+                </thead>
+            {% else %}
+                <thead>
+                    <tr>
+                        <th colspan="4">Sin Resultados</th>
+                    </tr>
+                </thead>
             {% endif %}
-            <td>{{grad}}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
+        {% endif %}
+    {% else %}
+        <thead>
+            <tr>
+                <th></th>
+                <th>Deshabilitad@</th>
+                <th>Apellido y Nombre</th>
+                <th>Categoria</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for idAlu, fDesa, ape, nom, cate in alumnos %}
+            <tr>
+                <td><input type="checkbox" name="checkbox" value="{{idAlu}}"></td>
+                <td>{{fDesa}}</td>
+                <td>{{ape}} {{nom}}</td>
+                <td>{{cate}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% endif %}
 </table>
-{% else %}
-<h2>Sin alumnos registrados</h2>
-{% endif %}
 <script type="text/javascript" src="/static/BaseJS/llenarYrecargar.js"></script>
 {% endblock %}

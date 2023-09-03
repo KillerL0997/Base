@@ -44,7 +44,7 @@
             {% if gimnasios %}
             <section>
                 <button class="btnInicio" onclick="location.href='/agregar_alumno'">Registrar alumno</button>
-                <button class="btnInicio" onclick="location.href='/ver_alumnos/todo'">Ver alumnos</button>
+                <button class="btnInicio" onclick="location.href='/ver_alumnos/habilitado'">Ver alumnos</button>
                 <button class="btnInicio" onclick="location.href='/buscarAlumno'">Buscar alumno</button>
             </section>
             {% endif %}
@@ -56,7 +56,6 @@
             </section>
             {% if msj == 'Administrador' %}
             <section>
-                <button class="btnInicio" onclick="location.href='/ver_matriculas/todo'">Ver matriculas</button>
                 <button class="btnInicio" onclick="location.href='/ver_imagenes/todo'">Ver Imagenes</button>
             </section>
             {% endif %}
